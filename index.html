@@ -1243,6 +1243,7 @@
     </style>
 </head>
 <body>
+    <!-- Loading Overlay, Top Bar, Header -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="loader"></div>
@@ -1263,7 +1264,6 @@
             </div>
         </div>
     </div>
-
     <header class="header">
         <div class="header-content">
             <div class="header-title">
@@ -1370,15 +1370,15 @@
                     <div class="alert alert-warning" id="dashboardAlert">
                         <span class="alert-icon">⚠️</span>
                         <div>
-                            <strong id="dashboardAlertTitle">Round 1 In Progress</strong><br>
-                            <span id="dashboardAlertDetail">Next deadline: Final Position Paper - 17:00 CEST</span>
+                            <strong id="dashboardAlertTitle">Round 2 In Progress</strong> 
+                            <span id="dashboardAlertDetail">Next deadline: Amendment Proposals - 12:00 CEST</span>
                         </div>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card warning">
                             <div class="stat-label">Current Round Activity</div>
-                            <div class="stat-value" id="currentRoundActivity">Round 1</div>
-                            <div class="stat-detail" id="currentRoundActivityDetail">Crisis ongoing - Update position</div>
+                            <div class="stat-value" id="currentRoundActivity">Round 2</div> 
+                            <div class="stat-detail" id="currentRoundActivityDetail">Strategic Negotiation & Drafting</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-label">Active Delegation</div>
@@ -1387,126 +1387,108 @@
                         </div>
                         <div class="stat-card danger">
                             <div class="stat-label">Next Deadline (CEST)</div>
-                            <div class="stat-value" id="nextDeadlineTimeDisplay">17:00</div>
-                            <div class="stat-detail" id="nextDeadlineTask">Final Position Paper</div>
+                            <div class="stat-value" id="nextDeadlineTimeDisplay">12:00</div> 
+                            <div class="stat-detail" id="nextDeadlineTask">Amendment Proposals</div>
                         </div>
-                        <div class="stat-card success">
+                        <div class="stat-card success"> 
                             <div class="stat-label">Round 1 Docs Submitted</div>
-                            <div class="stat-value" id="docsSubmittedR1">0/2</div>
-                            <div class="stat-detail" id="docsSubmittedR1Detail">Preliminary Position Pending</div>
+                            <div class="stat-value" id="docsSubmittedR1">2/2</div>
+                            <div class="stat-detail" id="docsSubmittedR1Detail">All R1 Docs Submitted ✓</div>
                         </div>
                     </div>
+                    
                     <div class="round-section">
                         <div class="round-header">
                             <div class="round-title">
                                 <span class="round-number">1</span>
-                                Current Status: Information Management & Positioning
+                                Round 1: Information Management & Positioning
                             </div>
-                            <span class="status-indicator urgent" id="dashboardRound1StatusIndicator">⚡ URGENT CRISIS</span>
+                            <span class="status-indicator completed" id="dashboardRound1StatusIndicator">Completed</span>
+                        </div>
+                        <p style="text-align: center; padding: 10px 0;"><i>Round 1 (May 23rd) has concluded. Details of activities are available in the "Round 1" tab or "Schedule" tab.</i></p>
+                    </div>
+
+                     <div class="round-section">
+                        <div class="round-header">
+                            <div class="round-title">
+                                <span class="round-number">2</span>
+                                Current Status: Round 2 - Strategic Negotiation & Drafting
+                            </div>
+                            <span class="status-indicator active" id="dashboardRound2StatusIndicator">⚡ ACTIVE</span>
                         </div>
                         <div class="timeline">
-                            <div class="timeline-item completed" data-activity-id="opening-ceremony">
+                             <div class="timeline-item completed" data-activity-id="dashboard-r2-consult">
                                 <div class="time-label">
-                                    14:00 - 14:20 CEST
+                                    09:10 - 09:30 CEST (May 24)
                                     <span class="status-indicator completed">Completed</span>
                                     <div class="activity-status-editor">
-                                        <label for="status-opening-ceremony">Status:</label>
-                                        <select id="status-opening-ceremony" onchange="updateActivityStatus('opening-ceremony', this.value)">
+                                        <label for="status-dashboard-r2-consult">Status:</label>
+                                        <select id="status-dashboard-r2-consult" onchange="updateActivityStatus('sched-r2-consult', this.value)">
                                             <option value="upcoming">Upcoming</option>
                                             <option value="active">In Progress</option>
                                             <option value="completed" selected>Completed</option>
                                         </select>
                                     </div>
                                 </div>
-                                <h4>Official Opening Ceremony</h4>
-                                <p>Maltese Presidency's speech outlining vision and objectives.</p>
+                                <h4>Consultation of R1 Position Papers</h4>
+                                <p>Teams analyzed final position papers from Round 1.
+                                    <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Papers</a>
+                                </p>
                             </div>
-                            <div class="timeline-item completed" data-activity-id="technical-dossier">
+                            <div class="timeline-item active" data-activity-id="dashboard-r2-draftdec"> <!-- Currently 09:30, this is active -->
                                 <div class="time-label">
-                                    14:20 - 14:45 CEST
-                                    <span class="status-indicator completed">Completed</span>
-                                    <div class="activity-status-editor">
-                                        <label for="status-technical-dossier">Status:</label>
-                                        <select id="status-technical-dossier" onchange="updateActivityStatus('technical-dossier', this.value)">
-                                            <option value="upcoming">Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed" selected>Completed</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <h4>Analysis of Technical Dossier</h4>
-                                <p>Teams received and analyzed the full technical dossier.</p>
-                            </div>
-                             <div class="timeline-item completed" id="timeline-preliminary-paper" data-activity-id="preliminary-paper">
-                                <div class="time-label">
-                                    14:45 - 15:15 CEST
-                                    <span class="status-indicator completed">Completed</span>
-                                     <div class="activity-status-editor">
-                                        <label for="status-preliminary-paper">Status:</label>
-                                        <select id="status-preliminary-paper" onchange="updateActivityStatus('preliminary-paper', this.value)">
-                                            <option value="upcoming">Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed" selected>Completed</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <h4>Drafting Preliminary Position Papers</h4>
-                                <p>Deliverable: Preliminary Position Paper submitted.</p>
-                            </div>
-                            <div class="timeline-item completed" data-activity-id="informal-exchanges">
-                                <div class="time-label">
-                                   15:15 - 15:45 CEST
-                                    <span class="status-indicator completed">Completed</span>
-                                    <div class="activity-status-editor">
-                                        <label for="status-informal-exchanges">Status:</label>
-                                        <select id="status-informal-exchanges" onchange="updateActivityStatus('informal-exchanges', this.value)">
-                                            <option value="upcoming">Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed" selected>Completed</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <h4>First Informal Exchanges & Coalition Mapping</h4>
-                                <p>Exploratory talks to identify alliances and common interests.</p>
-                            </div>
-                            <div class="timeline-item active" data-activity-id="crisis-reassessment"> <!-- Merged crisis and reassessment conceptually -->
-                                <div class="time-label">
-                                    15:45 CEST - Now
+                                    09:30 - 09:45 CEST (May 24)
                                     <span class="status-indicator active">In Progress</span>
-                                    <div class="activity-status-editor">
-                                        <label for="status-crisis-reassessment">Status:</label>
-                                        <select id="status-crisis-reassessment" onchange="updateActivityStatus('crisis-reassessment', this.value)">
+                                     <div class="activity-status-editor">
+                                        <label for="status-dashboard-r2-draftdec">Status:</label>
+                                        <select id="status-dashboard-r2-draftdec" onchange="updateActivityStatus('sched-r2-draftdec', this.value)">
                                             <option value="upcoming">Upcoming</option>
                                             <option value="active" selected>In Progress</option>
                                             <option value="completed">Completed</option>
                                         </select>
                                     </div>
                                 </div>
-                                <h4>⚡ CRISIS: Breaking News & Reassessment</h4>
-                                <p>Media alert revealing sensitive information. Teams reassessing positions and coordinating with allies.</p>
-                                <div class="alert alert-danger" style="margin-top: 15px;">
-                                    <span class="alert-icon">🚨</span>
-                                    <div>
-                                        <strong>Action Required:</strong> Review crisis report and update position.
-                                        <br><a href="#" onclick="viewDocument('Crisis Report (Example)', 'https://drive.google.com/file/d/1rI26h83uob50MOgKlhKZy6Iv7Rff6z1J/preview', 'https://drive.google.com/uc?export=download&id=1rI26h83uob50MOgKlhKZy6Iv7Rff6z1J')" style="color: inherit; text-decoration: underline; font-weight: bold;">View Crisis Report →</a>
-                                    </div>
-                                </div>
+                                <h4>Communication of Draft Declaration</h4>
+                                <p>Presidency communicates a proposed Draft Declaration of Principles. Teams assess internally.
+                                    <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Draft Declaration of Principles.pdf', 'https://drive.google.com/file/d/1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT/preview', 'https://drive.google.com/uc?export=download&id=1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT')">📄 View Draft Declaration</a>
+                                </p>
                             </div>
-                            <div class="timeline-item upcoming" id="timeline-final-paper" data-activity-id="final-paper-submission">
+                             <div class="timeline-item upcoming" data-activity-id="dashboard-r2-negostart">
                                 <div class="time-label">
-                                    16:50 - 17:00 CEST
+                                    09:45 - 10:00 CEST (May 24)
                                     <span class="status-indicator upcoming">Upcoming</span>
                                     <div class="activity-status-editor">
-                                        <label for="status-final-paper-submission">Status:</label>
-                                        <select id="status-final-paper-submission" onchange="updateActivityStatus('final-paper-submission', this.value)">
+                                        <label for="status-dashboard-r2-negostart">Status:</label>
+                                        <select id="status-dashboard-r2-negostart" onchange="updateActivityStatus('sched-r2-negostart', this.value)">
                                             <option value="upcoming" selected>Upcoming</option>
                                             <option value="active">In Progress</option>
                                             <option value="completed">Completed</option>
                                         </select>
                                     </div>
                                 </div>
-                                <h4>Submission of Final Position Papers</h4>
-                                <p>Deliverable: Final Updated Position Paper. Deadline: 17:00 CEST</p>
+                                <h4>Negotiation Starts: Prioritization of Issues</h4>
+                                <p>Teams evaluate Draft Declaration and identify critical issues for amendment.</p>
+                            </div>
+                            <div class="timeline-item upcoming" data-activity-id="dashboard-r2-amendsubmit">
+                                <div class="time-label">
+                                    11:00 - 12:00 CEST (May 24)
+                                    <span class="status-indicator upcoming">Upcoming Deadline</span>
+                                    <div class="activity-status-editor">
+                                        <label for="status-dashboard-r2-amendsubmit">Status:</label>
+                                        <select id="status-dashboard-r2-amendsubmit" onchange="updateActivityStatus('sched-r2-amendsubmit', this.value)">
+                                            <option value="upcoming" selected>Upcoming</option>
+                                            <option value="active">In Progress</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h4>Submission of Amendment Proposals</h4>
+                                <p>Deliverable: Final Amendment Proposals (PDF) on Google Drive <strong>by 12:00.</strong>
+                                     <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Amendments instructions.pdf', 'https://drive.google.com/file/d/13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ/preview', 'https://drive.google.com/uc?export=download&id=13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ')">📄 View Amendment Instructions</a>
+                                </p>
+                                <div id="amendmentProposalsUploadStatus_dashboard" class="deliverable-section" style="padding: 15px; margin-top:10px;">
+                                    <!-- Status will be rendered here for the dashboard copy of this item -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1572,6 +1554,14 @@
                         </ul>
                         <p class="reference">📄 Full Document: <a href="#" onclick="viewDocument('OPENING SPEECH R1.pdf', 'https://drive.google.com/file/d/1tZLYs8NmShzHNv-Sz8miZvIw1lgS2ktO/preview', 'https://drive.google.com/uc?export=download&id=1tZLYs8NmShzHNv-Sz8miZvIw1lgS2ktO'); return false;">OPENING SPEECH R1.pdf</a></p>
                     </div>
+                    <div class="key-takeaway-box">
+                        <h4><span class="icon" style="font-size: 1.5rem;">📄</span>Round 1 Reflections: Merged Position Papers</h4>
+                        <ul>
+                            <li>The <span class="highlight-important">MERGED Final position papers from R1.pdf</span> provides a consolidated view of all delegations' final stances after the initial round and crisis event.</li>
+                            <li>This document is critical for understanding the evolving negotiation landscape, identifying potential alliances, points of contention, and areas for compromise heading into Round 2.</li>
+                        </ul>
+                        <p class="reference">📄 Full Document: <a href="#" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x'); return false;">MERGED Final position papers from R1.pdf</a></p>
+                    </div>
 
                     <div class="delegation-card" style="border-left: 5px solid var(--accent-color);">
                         <h3 style="color: var(--accent-color); margin-bottom: 15px;">Disrupted Geopolitical Context</h3>
@@ -1629,55 +1619,51 @@
                     <div class="alert alert-info">
                         <span class="alert-icon">🕐</span>
                         <div>
-                            All times are CEST (Central European Summer Time), Geneva. Submission deadlines are <strong>strict</strong>. Activity statuses can be manually updated below.
+                            All times are CEST (Central European Summer Time), Geneva. Simulation Date: May 24, 2025 (current). Submission deadlines are <strong>strict</strong>. Activity statuses can be manually updated below.
                         </div>
                     </div>
 
-                    <h3 style="color: var(--primary-color); margin-bottom:15px;">Friday, May 23rd: Pre-Rounds and Round 1</h3>
+                    <h3 style="color: var(--primary-color); margin-bottom:15px;">Friday, May 23rd: Pre-Rounds and Round 1 (Concluded)</h3>
                     <div class="timeline">
-                        <div class="timeline-item completed" data-activity-id="sched-inauguration">
-                            <div class="time-label">09:00 - 12:00 CEST <span class="status-indicator completed">Completed</span>
+                        <div class="timeline-item" data-activity-id="sched-inauguration">
+                            <div class="time-label">09:00 - 12:00 CEST <span class="status-indicator"></span>
                                 <div class="activity-status-editor">
-                                    <select onchange="updateActivityStatus('sched-inauguration', this.value)">
-                                        <option value="upcoming">Upcoming</option>
-                                        <option value="active">In Progress</option>
-                                        <option value="completed" selected>Completed</option>
-                                    </select>
+                                    <label for="status-sched-inauguration">Status:</label>
+                                    <select id="status-sched-inauguration" onchange="updateActivityStatus('sched-inauguration', this.value)"></select>
                                 </div>
                             </div>
                             <h4>Inauguration Session (Webex)</h4>
-                            <p>Expert panels and keynote speeches. Open to public. Broadcast via Webex.
+                            <p>Expert panels and keynote speeches.
                                 <br><a href="https://iheid.webex.com/wbxmjs/joinservice/sites/iheid/meeting/download/84de194976164c04b3326777ed502726?siteurl=iheid&MTID=m708917ce4e4caa689369f0379be4dd43" target="_blank" class="btn btn-sm btn-primary" style="margin-top:5px;">🔗 Join Webex Session</a>
                             </p>
                         </div>
-                        <div class="timeline-item active" data-activity-id="sched-round1">
-                            <div class="time-label">13:00 - 17:00 CEST <span class="status-indicator active">Round 1 In Progress</span>
+                        <div class="timeline-item" data-activity-id="sched-round1">
+                            <div class="time-label">13:00 - 17:00 CEST <span class="status-indicator"></span>
                                 <div class="activity-status-editor">
-                                    <select onchange="updateActivityStatus('sched-round1', this.value)">
-                                        <option value="upcoming">Upcoming</option>
-                                        <option value="active" selected>In Progress</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
+                                     <label for="status-sched-round1">Status:</label>
+                                    <select id="status-sched-round1" onchange="updateActivityStatus('sched-round1', this.value)"></select>
                                 </div>
                             </div>
                             <h4>ROUND 1: Information Management and Positioning (Zoom)</h4>
                              <p><a href="https://us06web.zoom.us/j/82148672315#success" target="_blank" class="btn btn-sm btn-primary" style="margin-top:5px;">🔗 Join Zoom Simulation</a></p>
                             <div class="round-section" style="margin-top:15px; background-color: white;">
-                                <div class="timeline-item completed" data-activity-id="sched-r1-opening">
-                                    <div class="time-label">14:00 - 14:20 <span class="status-indicator completed">Completed</span>
+                                <div class="timeline-item" data-activity-id="sched-r1-opening">
+                                    <div class="time-label">14:00 - 14:20 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                            <select onchange="updateActivityStatus('sched-r1-opening', this.value)"><option value="completed" selected>Completed</option></select>
+                                            <label for="status-sched-r1-opening">Status:</label>
+                                            <select id="status-sched-r1-opening" onchange="updateActivityStatus('sched-r1-opening', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.1.1 Official Opening Ceremony (Zoom Plenary)</h5>
-                                    <p>Maltese Presidency's speech. Text distributed via Google Drive.
+                                    <p>Maltese Presidency's speech.
                                         <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('OPENING SPEECH R1.pdf', 'https://drive.google.com/file/d/1tZLYs8NmShzHNv-Sz8miZvIw1lgS2ktO/preview', 'https://drive.google.com/uc?export=download&id=1tZLYs8NmShzHNv-Sz8miZvIw1lgS2ktO')">📄 View Speech</a>
                                     </p>
                                 </div>
-                                <div class="timeline-item completed" data-activity-id="sched-r1-dossier">
-                                    <div class="time-label">14:20 - 14:45 <span class="status-indicator completed">Completed</span>
+                                <div class="timeline-item" data-activity-id="sched-r1-dossier">
+                                    <div class="time-label">14:20 - 14:45 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-dossier', this.value)"><option value="completed" selected>Completed</option></select>
+                                            <label for="status-sched-r1-dossier">Status:</label>
+                                           <select id="status-sched-r1-dossier" onchange="updateActivityStatus('sched-r1-dossier', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.1.2 Analysis of Technical Dossier (Delegation Rooms)</h5>
@@ -1685,29 +1671,34 @@
                                         <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('TECHNICAL FILE.pdf', 'https://drive.google.com/file/d/1cdi3F_rttb1gSyrY47Pp7du8PzRN9NfN/preview', 'https://drive.google.com/uc?export=download&id=1cdi3F_rttb1gSyrY47Pp7du8PzRN9NfN')">📄 View Technical File</a>
                                     </p>
                                 </div>
-                                <div class="timeline-item completed" id="schedule-preliminary-paper-submission" data-activity-id="sched-r1-prelimdraft">
-                                    <div class="time-label">14:45 - 15:15 <span class="status-indicator completed">Completed</span>
+                                <div class="timeline-item" id="schedule-preliminary-paper-submission" data-activity-id="sched-r1-prelimdraft">
+                                    <div class="time-label">14:45 - 15:15 <span class="status-indicator"></span>
                                          <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-prelimdraft', this.value)"><option value="completed" selected>Completed</option></select>
+                                            <label for="status-sched-r1-prelimdraft">Status:</label>
+                                           <select id="status-sched-r1-prelimdraft" onchange="updateActivityStatus('sched-r1-prelimdraft', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.1.3 Drafting Preliminary Position Papers (Individual)</h5>
                                     <p><strong>Deliverable:</strong> Preliminary Position Paper (PDF) uploaded to Google Drive <strong>BEFORE 15:15.</strong></p>
-                                    <div id="preliminaryPositionUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;"></div>
+                                    <div id="preliminaryPositionUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;">
+                                        <div class="deliverable-header"><span class="deliverable-title">Preliminary Position Paper</span><span class="deliverable-status"></span></div>
+                                    </div>
                                 </div>
-                                <div class="timeline-item completed" data-activity-id="sched-r1-informal">
-                                    <div class="time-label">15:15 - 15:45 <span class="status-indicator completed">Completed</span>
+                                <div class="timeline-item" data-activity-id="sched-r1-informal">
+                                    <div class="time-label">15:15 - 15:45 <span class="status-indicator"></span>
                                          <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-informal', this.value)"><option value="completed" selected>Completed</option></select>
+                                            <label for="status-sched-r1-informal">Status:</label>
+                                           <select id="status-sched-r1-informal" onchange="updateActivityStatus('sched-r1-informal', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.1.4 First Informal Exchanges and Coalition Mapping</h5>
                                     <p>Informal breakout rooms open. Explore alliances, common interests. No binding deals yet.</p>
                                 </div>
-                                <div class="timeline-item active" data-activity-id="sched-r1-crisis">
-                                    <div class="time-label">15:45 <span class="status-indicator active">Crisis Ongoing</span>
+                                <div class="timeline-item" data-activity-id="sched-r1-crisis">
+                                    <div class="time-label">15:45 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-crisis', this.value)"><option value="active" selected>In Progress</option></select>
+                                            <label for="status-sched-r1-crisis">Status:</label>
+                                           <select id="status-sched-r1-crisis" onchange="updateActivityStatus('sched-r1-crisis', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.2.1 Crisis</h5>
@@ -1715,124 +1706,129 @@
                                         <br><a href="https://drive.google.com/file/d/1rI26h83uob50MOgKlhKZy6Iv7Rff6z1J/preview" target="_blank" class="btn btn-sm btn-danger" style="margin-top:5px;">📄 Download Crisis Report</a>
                                     </p>
                                 </div>
-                                 <div class="timeline-item active" data-activity-id="sched-r1-reassess">
-                                    <div class="time-label">16:00 - 16:20 <span class="status-indicator active">In Progress</span>
+                                 <div class="timeline-item" data-activity-id="sched-r1-reassess">
+                                    <div class="time-label">16:00 - 16:20 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-reassess', this.value)"><option value="active" selected>In Progress</option></select>
+                                            <label for="status-sched-r1-reassess">Status:</label>
+                                           <select id="status-sched-r1-reassess" onchange="updateActivityStatus('sched-r1-reassess', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.2.2 Reassessment with allies</h5>
                                     <p>Allies urgently reassess positions. Discussion in breakout rooms.</p>
                                 </div>
-                                <div class="timeline-item active" data-activity-id="sched-r1-presidencycall">
-                                    <div class="time-label">16:20 - 16:50 <span class="status-indicator active">In Progress</span>
+                                <div class="timeline-item" data-activity-id="sched-r1-presidencycall">
+                                    <div class="time-label">16:20 - 16:50 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-presidencycall', this.value)"><option value="active" selected>In Progress</option></select>
+                                            <label for="status-sched-r1-presidencycall">Status:</label>
+                                           <select id="status-sched-r1-presidencycall" onchange="updateActivityStatus('sched-r1-presidencycall', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.2.3 Presidency Intervention: Call for Structured Dialogue</h5>
                                     <p>Maltese Presidency intervenes, urging delegations to submit a formal response by end of Round 1.</p>
                                 </div>
-                                <div class="timeline-item upcoming" id="schedule-final-paper-submission" data-activity-id="sched-r1-finalsubmit">
-                                    <div class="time-label">16:50 - 17:00 <span class="status-indicator upcoming">Upcoming Deadline</span>
+                                <div class="timeline-item" id="schedule-final-paper-submission" data-activity-id="sched-r1-finalsubmit">
+                                    <div class="time-label">16:50 - 17:00 <span class="status-indicator"></span>
                                         <div class="activity-status-editor">
-                                           <select onchange="updateActivityStatus('sched-r1-finalsubmit', this.value)"><option value="upcoming" selected>Upcoming</option></select>
+                                            <label for="status-sched-r1-finalsubmit">Status:</label>
+                                           <select id="status-sched-r1-finalsubmit" onchange="updateActivityStatus('sched-r1-finalsubmit', this.value)"></select>
                                         </div>
                                     </div>
                                     <h5>1.2.4 Delivery of Final Position Papers</h5>
                                     <p><strong>Deliverable:</strong> Final Updated Position Paper (PDF) on Google Drive <strong>by 17:00.</strong></p>
-                                     <div id="finalPositionUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;"></div>
+                                     <div id="finalPositionUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;">
+                                        <div class="deliverable-header"><span class="deliverable-title">Final Position Paper</span><span class="deliverable-status"></span></div>
+                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h3 style="color: var(--primary-color); margin: 25px 0 15px;">Saturday, May 24th: Rounds 2 & 3, Closing</h3>
+                    <h3 style="color: var(--primary-color); margin: 25px 0 15px;">Saturday, May 24th: Rounds 2 & 3, Closing (Current Day)</h3>
                     <div class="timeline">
-                        <div class="timeline-item upcoming" data-activity-id="sched-round2">
-                            <div class="time-label">09:00 - 12:00 CEST <span class="status-indicator upcoming">Upcoming Round</span>
+                        <div class="timeline-item" data-activity-id="sched-round2">
+                            <div class="time-label">09:00 - 12:00 CEST <span class="status-indicator"></span>
                                 <div class="activity-status-editor">
-                                    <select onchange="updateActivityStatus('sched-round2', this.value)">
-                                        <option value="upcoming" selected>Upcoming</option>
-                                        <option value="active">In Progress</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
+                                    <label for="status-sched-round2">Status:</label>
+                                    <select id="status-sched-round2" onchange="updateActivityStatus('sched-round2', this.value)"></select>
                                 </div>
                             </div>
                             <h4>ROUND 2: Strategic Negotiation and Drafting (Zoom)</h4>
                              <p><a href="https://us06web.zoom.us/j/82148672315#success" target="_blank" class="btn btn-sm btn-primary" style="margin-top:5px;">🔗 Join Zoom Simulation</a></p>
                             <div class="round-section" style="margin-top:15px; background-color: white;">
-                                <div class="timeline-item upcoming" data-activity-id="sched-r2-consult">
-                                    <div class="time-label">09:10 - 09:30<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r2-consult', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" data-activity-id="sched-r2-consult">
+                                    <div class="time-label">09:10 - 09:30<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r2-consult">Status:</label><select id="status-sched-r2-consult" onchange="updateActivityStatus('sched-r2-consult', this.value)"></select></div></div>
                                     <h5>2.1.1 Consultation of Position Papers of Potential Targets</h5>
-                                    <p>Teams analyze Final Position Papers from Round 1. No debate; focus on mapping strategies.</p>
+                                    <p>Teams analyze Final Position Papers from Round 1. No debate; focus on mapping strategies.
+                                        <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Papers</a>
+                                    </p>
                                 </div>
-                                <div class="timeline-item upcoming" data-activity-id="sched-r2-draftdec">
-                                    <div class="time-label">09:30 - 09:45<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r2-draftdec', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" data-activity-id="sched-r2-draftdec">
+                                    <div class="time-label">09:30 - 09:45<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r2-draftdec">Status:</label><select id="status-sched-r2-draftdec" onchange="updateActivityStatus('sched-r2-draftdec', this.value)"></select></div></div>
                                     <h5>2.1.2 Communication of a proposed Draft Declaration of Principle by the Presidency</h5>
-                                    <p>Teams receive Draft Declaration (Fundamental Principles NON-negotiable, Operational Principles YES negotiable). Internal assessment.</p>
+                                    <p>Teams receive Draft Declaration (Fundamental Principles NON-negotiable, Operational Principles YES negotiable). Internal assessment.
+                                         <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Draft Declaration of Principles.pdf', 'https://drive.google.com/file/d/1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT/preview', 'https://drive.google.com/uc?export=download&id=1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT')">📄 View Draft Declaration</a>
+                                    </p>
                                 </div>
-                                 <div class="timeline-item upcoming" data-activity-id="sched-r2-negostart">
-                                    <div class="time-label">09:45 - 10:00<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r2-negostart', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                 <div class="timeline-item" data-activity-id="sched-r2-negostart">
+                                    <div class="time-label">09:45 - 10:00<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r2-negostart">Status:</label><select id="status-sched-r2-negostart" onchange="updateActivityStatus('sched-r2-negostart', this.value)"></select></div></div>
                                     <h5>2.2.1 Negotiation Starts: Prioritization of Issues</h5>
                                     <p>Teams evaluate Draft Declaration, identify critical issues, and rank priorities internally.</p>
                                 </div>
-                                <div class="timeline-item upcoming" data-activity-id="sched-r2-directnego">
-                                    <div class="time-label">10:00 - 11:00<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r2-directnego', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" data-activity-id="sched-r2-directnego">
+                                    <div class="time-label">10:00 - 11:00<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r2-directnego">Status:</label><select id="status-sched-r2-directnego" onchange="updateActivityStatus('sched-r2-directnego', this.value)"></select></div></div>
                                     <h5>2.2.2 Direct Negotiations Between Delegations</h5>
                                     <p>Teams engage in direct negotiations in breakout rooms. Focus: What to amend? What to support jointly?</p>
                                 </div>
-                                <div class="timeline-item upcoming" id="schedule-amendment-submission" data-activity-id="sched-r2-amendsubmit">
-                                    <div class="time-label">11:00 - 12:00 <span class="status-indicator upcoming">Upcoming Deadline</span><div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r2-amendsubmit', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" id="schedule-amendment-submission" data-activity-id="sched-r2-amendsubmit">
+                                    <div class="time-label">11:00 - 12:00 <span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r2-amendsubmit">Status:</label><select id="status-sched-r2-amendsubmit" onchange="updateActivityStatus('sched-r2-amendsubmit', this.value)"></select></div></div>
                                     <h5>2.3.1 Drafting of Amendment Proposals / 2.3.2 Submission</h5>
                                     <p>Teams (alone or jointly) draft concrete amendment proposals.
                                        <br><strong>Deliverable:</strong> Final Amendment Proposals (PDF) on Google Drive <strong>by 12:00.</strong>
+                                       <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Amendments instructions.pdf', 'https://drive.google.com/file/d/13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ/preview', 'https://drive.google.com/uc?export=download&id=13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ')">📄 View Amendment Instructions</a>
                                     </p>
-                                    <div id="amendmentUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;"></div>
+                                    <div id="amendmentUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;">
+                                        <div class="deliverable-header"><span class="deliverable-title">Amendment Proposals</span><span class="deliverable-status"></span></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="timeline-item upcoming" data-activity-id="sched-round3">
-                            <div class="time-label">13:00 - 16:00 CEST <span class="status-indicator upcoming">Upcoming Round</span>
+                        <div class="timeline-item" data-activity-id="sched-round3">
+                            <div class="time-label">13:00 - 16:00 CEST <span class="status-indicator"></span>
                                 <div class="activity-status-editor">
-                                    <select onchange="updateActivityStatus('sched-round3', this.value)">
-                                        <option value="upcoming" selected>Upcoming</option>
-                                        <option value="active">In Progress</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
+                                    <label for="status-sched-round3">Status:</label>
+                                    <select id="status-sched-round3" onchange="updateActivityStatus('sched-round3', this.value)"></select>
                                 </div>
                             </div>
                             <h4>ROUND 3: Public Communication (Zoom)</h4>
                              <p><a href="https://us06web.zoom.us/j/82148672315#success" target="_blank" class="btn btn-sm btn-primary" style="margin-top:5px;">🔗 Join Zoom Simulation</a></p>
                             <div class="round-section" style="margin-top:15px; background-color: white;">
-                                <div class="timeline-item upcoming" data-activity-id="sched-r3-finaldec">
-                                    <div class="time-label">13:00 - 13:30<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r3-finaldec', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" data-activity-id="sched-r3-finaldec">
+                                    <div class="time-label">13:00 - 13:30<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r3-finaldec">Status:</label><select id="status-sched-r3-finaldec" onchange="updateActivityStatus('sched-r3-finaldec', this.value)"></select></div></div>
                                     <h5>3.1 Publication of the Final Declaration of Principles</h5>
                                     <p>Presidency publishes the Final Declaration. Teams review and note priorities addressed.</p>
                                 </div>
-                                <div class="timeline-item upcoming" id="schedule-statement-submission" data-activity-id="sched-r3-statementsubmit">
-                                    <div class="time-label">13:30 - 14:00 <span class="status-indicator upcoming">Upcoming Deadline</span><div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r3-statementsubmit', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" id="schedule-statement-submission" data-activity-id="sched-r3-statementsubmit">
+                                    <div class="time-label">13:30 - 14:00 <span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r3-statementsubmit">Status:</label><select id="status-sched-r3-statementsubmit" onchange="updateActivityStatus('sched-r3-statementsubmit', this.value)"></select></div></div>
                                     <h5>3.2.1 Preparation of Official Delegation Statements / 3.2.2 Submission</h5>
                                     <p>Each delegation prepares a written official statement and a 5-min press speech.
                                        <br><strong>Deliverable:</strong> Final Written Statement (PDF) on Google Drive <strong>by 14:00.</strong>
                                     </p>
-                                     <div id="writtenStatementUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;"></div>
+                                     <div id="writtenStatementUploadStatus_schedule" class="deliverable-section" style="padding: 15px; margin-top:10px;">
+                                        <div class="deliverable-header"><span class="deliverable-title">Final Written Statement</span><span class="deliverable-status"></span></div>
+                                     </div>
                                 </div>
-                                <div class="timeline-item upcoming" data-activity-id="sched-r3-pressconf">
-                                    <div class="time-label">14:00 - 16:00<div class="activity-status-editor"><select onchange="updateActivityStatus('sched-r3-pressconf', this.value)"><option value="upcoming" selected>Upcoming</option></select></div></div>
+                                <div class="timeline-item" data-activity-id="sched-r3-pressconf">
+                                    <div class="time-label">14:00 - 16:00<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r3-pressconf">Status:</label><select id="status-sched-r3-pressconf" onchange="updateActivityStatus('sched-r3-pressconf', this.value)"></select></div></div>
                                     <h5>3.3.1 Press Conference and Q&A</h5>
                                     <p>Each team delivers its 5-min press speech live. Journalists (organizers/selected participants) pose questions.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="timeline-item upcoming" data-activity-id="sched-closing">
-                            <div class="time-label">16:30 - 17:00 CEST <span class="status-indicator upcoming">Upcoming</span>
+                        <div class="timeline-item" data-activity-id="sched-closing">
+                            <div class="time-label">16:30 - 17:00 CEST <span class="status-indicator"></span>
                                 <div class="activity-status-editor">
-                                    <select onchange="updateActivityStatus('sched-closing', this.value)">
-                                        <option value="upcoming" selected>Upcoming</option>
-                                        <option value="active">In Progress</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
+                                    <label for="status-sched-closing">Status:</label>
+                                    <select id="status-sched-closing" onchange="updateActivityStatus('sched-closing', this.value)"></select>
                                 </div>
                             </div>
                             <h4>Closing Ceremony and Awards (Webex)</h4>
@@ -2114,16 +2110,15 @@
                 <!-- Round 1 Tab -->
                 <div id="round1" class="tab-content">
                     <div class="content-header">
-                        <h2 class="content-title">Round 1: Information Management & Positioning</h2>
+                        <h2 class="content-title">Round 1: Information Management & Positioning (Concluded)</h2>
                     </div>
-                    <div class="alert alert-warning">
-                        <span class="alert-icon">⚡</span>
+                     <div class="alert alert-success"> 
+                        <span class="alert-icon">✅</span>
                         <div>
-                            <strong>Round 1 is currently IN PROGRESS. Crisis ongoing.</strong><br>
-                            Focus on re-evaluating positions and preparing the Final Position Paper.
+                            <strong>Round 1 (May 23rd) has concluded.</strong><br>
+                            This tab provides a record of activities, deliverables, and AI prompts used during this round.
                         </div>
                     </div>
-
                     <div class="round-section">
                         <div class="round-header">
                             <div class="round-title"><span class="round-number">1.1</span>Launch and Initial Positioning (14:00 - 15:45)</div>
@@ -2160,7 +2155,7 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Preliminary Position Paper</span>
                                 <span class="deliverable-status" id="preliminaryPositionStatus_R1">
-                                    <span class="status-dot pending"></span> Pending
+                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="preliminaryPositionUploadArea_R1">
@@ -2227,7 +2222,7 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Updated Position Paper</span>
                                  <span class="deliverable-status" id="finalPositionStatus_R1">
-                                    <span class="status-dot pending"></span> Pending - Deadline 17:00
+                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="finalPositionUploadArea_R1">
@@ -2253,39 +2248,43 @@
                     <div class="content-header">
                         <h2 class="content-title">Round 2: Strategic Negotiation & Drafting</h2>
                     </div>
-                    <div class="alert alert-info">
-                        <span class="alert-icon">📋</span>
+                     <div class="alert alert-info">
+                        <span class="alert-icon">ℹ️</span>
                         <div>
-                            <strong>Upcoming Round</strong><br>
-                            Saturday, May 24th, 09:00 - 12:00 CEST
+                            <strong>Round 2 (May 24th, 09:00 - 12:00 CEST). Active now.</strong><br>
+                            Focus on analyzing the Draft Declaration and preparing amendments.
                         </div>
                     </div>
-
                     <div class="round-section">
                         <div class="round-header">
                             <div class="round-title"><span class="round-number">2.1</span>Reading Position Papers & Draft Declaration (09:10 - 09:45)</div>
                         </div>
                         <h4>2.1.1 Consultation of Position Papers of Potential Targets (09:10 - 09:30)</h4>
-                        <p>Teams analyze the Final Position Papers from Round 1 (downloaded from Google Drive) to identify potential allies and areas for compromise. No debate occurs at this stage; the focus is on mapping others’ strategies, red lines, and possible engagement targets.</p>
+                        <p>Teams analyze the Final Position Papers from Round 1 (downloaded from Google Drive) to identify potential allies and areas for compromise. No debate occurs at this stage; the focus is on mapping others’ strategies, red lines, and possible engagement targets.
+                             <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px
+							 onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Position Papers</a>
+                        </p>
                         <div class="ai-assistant-box">
                             <h5>🤖 AI Prompts for Analyzing Positions:</h5>
                             <div class="ai-prompt" data-gpt-type="Network Strategist">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Upload to the AI Assistant the Final Position Papers of 3-4 key delegations (allies, potential allies, and key opponents).
-2. Prompt: "Analyze these position papers in relation to [Tunisia/Senegal]'s Final Position Paper. Identify: a) Strongest allies and on which specific points. b) Delegations with potential for compromise and on what issues. c) Key opposing delegations and their main points of contention with us. Use 'Island of Agreements', 'Iceberg', and 'CSS' analysis where appropriate. (Reference 'Instructions for Stakeholder Analysis.pdf' & 'Instructions For Icebergs and CSS_New.pdf')"
-3. Prompt: "Based on this analysis, suggest a network strategy for [Tunisia/Senegal]. Which delegations should we prioritize engaging with, and what should be our primary objective with each (e.g., reinforce alliance, seek compromise, neutralize opposition)?"</span>
+                                <span>1. Upload to the AI Assistant the Final Position Papers of 3-4 key delegations (allies, potential allies, and key opponents) from the "MERGED Final position papers from R1.pdf".
+2. Prompt: "Analyze these selected position papers in relation to [Tunisia/Senegal]'s Final Position Paper (also in the merged document). Identify: a) Strongest allies and on which specific points. b) Delegations with potential for compromise and on what issues. c) Key opposing delegations and their main points of contention with us. Use 'Island of Agreements', 'Iceberg', and 'CSS' analysis where appropriate. (Reference 'Instructions for Stakeholder Analysis.pdf' & 'Instructions For Icebergs and CSS_New.pdf')"
+3. Prompt: "Based on this analysis, suggest a network strategy for [Tunisia/Senegal] for Round 2. Which delegations should we prioritize engaging with, and what should be our primary objective with each (e.g., reinforce alliance, seek compromise, neutralize opposition)? Which of their red lines are most critical to acknowledge?"</span>
                             </div>
                         </div>
 
                         <h4>2.1.2 Communication of a proposed Draft Declaration of Principle by the Presidency (09:30 - 09:45)</h4>
-                        <p>Each team receives a Draft Declaration of Principles (Fundamental Principles – NON-negotiable; Operational Principles – open to negotiation). Teams assess alignment with their interests. (Document would be available on Google Drive)</p>
+                        <p>Each team receives a Draft Declaration of Principles (Fundamental Principles – NON-negotiable; Operational Principles – open to negotiation). Teams assess alignment with their interests.
+                            <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Draft Declaration of Principles.pdf', 'https://drive.google.com/file/d/1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT/preview', 'https://drive.google.com/uc?export=download&id=1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT')">📄 View Draft Declaration</a>
+                        </p>
                         <div class="ai-assistant-box">
                             <h5>🤖 AI Prompts for Draft Declaration Analysis:</h5>
                             <div class="ai-prompt" data-gpt-type="Network Strategist">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Upload the Presidency's Draft Declaration of Principles.
-2. Prompt: "Analyze this Draft Declaration from [Tunisia/Senegal]'s perspective. Which operational principles align with our interests and Final Position Paper? Which ones conflict with our red lines or objectives? Identify specific clauses that require amendment."
-3. Prompt: "For the conflicting operational principles, propose initial amendment language that would make them acceptable to [Tunisia/Senegal], while still being potentially palatable to a wider group. Consider our network strategy."</span>
+                                <span>1. Upload the Presidency's "Draft Declaration of Principles.pdf".
+2. Prompt: "Analyze this Draft Declaration from [Tunisia/Senegal]'s perspective. Which operational principles align with our interests and Final Position Paper? Which ones conflict with our red lines or objectives? Identify specific clauses that require amendment, referencing our mandate."
+3. Prompt: "For the conflicting operational principles, propose initial amendment language that would make them acceptable to [Tunisia/Senegal], while still being potentially palatable to a wider group. Consider our network strategy and the positions of other key delegations from the 'MERGED Final position papers from R1.pdf'."</span>
                             </div>
                         </div>
                     </div>
@@ -2300,7 +2299,7 @@
                              <h5>🤖 AI Prompts for Prioritization:</h5>
                             <div class="ai-prompt" data-gpt-type="Network Strategist">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Prompt: "Based on our previous analysis of the Draft Declaration and our mandate, help [Tunisia/Senegal] prioritize the top 3-5 operational principles or clauses for amendment. For each, briefly state why it's a priority (e.g., violates red line, significantly impacts interests, high potential for favorable outcome)."</span>
+                                <span>1. Prompt: "Based on our previous analysis of the Draft Declaration and our mandate, help [Tunisia/Senegal] prioritize the top 3-5 operational principles or clauses for amendment. For each, briefly state why it's a priority (e.g., violates red line, significantly impacts interests, high potential for favorable outcome). Which of these priorities might be shared with our Operational Sovereignty Bloc allies?"</span>
                             </div>
                         </div>
                         
@@ -2313,8 +2312,8 @@
                             <h5>🤖 AI Prompts (Post-Negotiation Analysis):</h5>
                             <div class="ai-prompt" data-gpt-type="Network Strategist">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. (After negotiations) Prompt: "We just held negotiations with [Delegation A] and [Delegation B]. Key outcomes: [Summarize key agreements, disagreements, new intel]. How does this affect our prioritization and amendment strategy for the Draft Declaration? Should we adjust our network strategy? Are there new 'Islands of Agreement' or 'Icebergs' to consider?"
-2. Prompt: "Based on these direct negotiations, refine the proposed amendment language for [Specific Clause X] to increase its chances of acceptance, potentially by co-sponsoring with [Delegation A]."</span>
+                                <span>1. (After negotiations) Prompt: "We just held negotiations with [Delegation A] and [Delegation B]. Key outcomes: [Summarize key agreements, disagreements, new intel, concessions made/received]. How does this affect our prioritization and amendment strategy for the Draft Declaration? Should we adjust our network strategy or bloc coordination? Are there new 'Islands of Agreement' or 'Icebergs' to consider, or have existing ones shifted?"
+2. Prompt: "Based on these direct negotiations, refine the proposed amendment language for [Specific Clause X] to increase its chances of acceptance, potentially by co-sponsoring with [Delegation A]. What arguments were most persuasive or met with most resistance?"</span>
                             </div>
                         </div>
                     </div>
@@ -2324,13 +2323,16 @@
                              <div class="round-title"><span class="round-number">2.3</span>Drafting and Submitting Amendments (11:00 - 12:00)</div>
                         </div>
                         <h4>2.3.1 Drafting of Amendment Proposals (11:00 - 12:00)</h4>
-                        <p>Teams (alone or jointly) draft concrete amendment proposals to improve the Declaration. Each proposal includes: Identification (Principles 1 or 2), Current Wording (optional excerpt), Proposed New Wording (exact replacement text), Rationale (short justification), Endorsements (optional co-signatories).</p>
+                        <p>Teams (alone or jointly) draft concrete amendment proposals to improve the Declaration. Each proposal includes: Identification (Principles 1 or 2), Current Wording (optional excerpt), Proposed New Wording (exact replacement text), Rationale (short justification), Endorsements (optional co-signatories).
+                           <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Amendments instructions.pdf', 'https://drive.google.com/file/d/13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ/preview', 'https://drive.google.com/uc?export=download&id=13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ')">📄 View Amendment Instructions</a>
+                        </p>
                         <div class="ai-assistant-box">
                             <h5>🤖 AI Prompts for Drafting Amendments:</h5>
                             <div class="ai-prompt" data-gpt-type="Network Strategist / Legal Drafter">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Prompt: "Help [Tunisia/Senegal] draft formal amendment proposals for the following clauses in the Draft Declaration: [List clauses]. For each, provide: a) Current Wording (if helpful), b) Proposed New Wording (precise, diplomatic language), c) Rationale (concise justification based on our interests/red lines/shared benefits), d) Suggested Endorsers (based on network analysis)."
-2. Prompt: "Review these draft amendments. Are they legally sound (within simulation context)? Is the language clear and unambiguous? Do they effectively address our concerns without being overly confrontational? Suggest improvements."</span>
+                                <span>1. Prompt: "Help [Tunisia/Senegal] draft formal amendment proposals for the following clauses in the Draft Declaration: [List clauses]. For each, provide: a) Current Wording (if helpful to show contrast), b) Proposed New Wording (precise, diplomatic, and actionable language consistent with our mandate), c) Rationale (concise justification based on our interests, red lines, and potential shared benefits for other delegations), d) Suggested Endorsers (based on network analysis and prior negotiations)."
+2. Prompt: "Review these draft amendments. Are they legally sound (within the simulation's context and international principles)? Is the language clear and unambiguous? Do they effectively address our concerns without being overly confrontational? Suggest improvements for strength and clarity, ensuring alignment with the 'Amendments instructions.pdf'."
+3. Prompt: "For a particularly contentious amendment, help us develop a 'Plan B' wording that is a slight compromise but still achieves a core part of our objective for that clause."</span>
                             </div>
                         </div>
 
@@ -2340,7 +2342,7 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Amendment Proposals</span>
                                  <span class="deliverable-status" id="amendmentProposalsStatus_R2">
-                                    <span class="status-dot pending"></span> Pending - Deadline 12:00
+                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                            <div id="amendmentProposalsUploadArea_R2">
@@ -2349,7 +2351,7 @@
                         </div>
                         <div class="alert alert-info" style="margin-top: 15px;">
                            <span class="alert-icon">💡</span> 
-                           <strong>AI Note for Round 2:</strong> The AI Assistant focused on "Network & Influence Strategist" will be crucial. Utilize its capabilities for stakeholder mapping, analyzing positions, and drafting precise amendments. (Reference 'Instructions for Stakeholder Analysis.pdf')
+                           <strong>AI Note for Round 2:</strong> The AI Assistant focused on "Network & Influence Strategist" will be crucial. Utilize its capabilities for stakeholder mapping, analyzing positions, and drafting precise amendments. (Reference 'Instructions for Stakeholder Analysis.pdf' and 'Amendments instructions.pdf')
                         </div>
                     </div>
                      <div class="round-section">
@@ -2367,10 +2369,10 @@
                         <h2 class="content-title">Round 3: Public Communication</h2>
                     </div>
                      <div class="alert alert-info">
-                        <span class="alert-icon">📋</span>
+                        <span class="alert-icon">ℹ️</span>
                         <div>
-                            <strong>Upcoming Round</strong><br>
-                            Saturday, May 24th, 13:00 - 16:00 CEST
+                            <strong>Round 3 (May 24th, 13:00 - 16:00 CEST). Upcoming.</strong><br>
+                            Focus on analyzing the Final Declaration and preparing public statements.
                         </div>
                     </div>
                     <div class="round-section">
@@ -2382,9 +2384,9 @@
                             <h5>🤖 AI Prompts for Analyzing Final Declaration:</h5>
                             <div class="ai-prompt" data-gpt-type="Communicator/Analyst">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Upload the Final Declaration of Principles.
-2. Prompt: "Compare this Final Declaration with [Tunisia/Senegal]'s Final Position Paper and our submitted amendments. Identify: a) Which of our key priorities and red lines were successfully reflected? b) Which were not addressed or were compromised? c) What are the main 'wins' and 'losses' for our delegation?"
-3. Prompt: "Overall, how should [Tunisia/Senegal] evaluate our success in this negotiation based on the Final Declaration? What is the net impact on our delegation's interests?"</span>
+                                <span>1. (Once available) Upload the Final Declaration of Principles.
+2. Prompt: "Compare this Final Declaration with [Tunisia/Senegal]'s Final Position Paper and our submitted amendments. Identify: a) Which of our key priorities and red lines were successfully reflected (point to specific clauses)? b) Which were not addressed or were compromised (and how)? c) What are the main 'wins' and 'losses' for our delegation? Who were the key actors in achieving these outcomes?"
+3. Prompt: "Overall, how should [Tunisia/Senegal] evaluate our success in this negotiation based on the Final Declaration? What is the net impact on our delegation's interests and regional standing (as per our mandate)? Provide a balanced assessment."</span>
                             </div>
                         </div>
                     </div>
@@ -2398,10 +2400,10 @@
                              <h5>🤖 AI Prompts for Crafting Statements & Speech:</h5>
                             <div class="ai-prompt" data-gpt-type="Communicator">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. Prompt: "Based on our analysis of the Final Declaration, help [Tunisia/Senegal] develop a public communication strategy. Should we endorse, endorse with reservations, or reject the Declaration? Justify this stance."
-2. Prompt: "Draft a written official statement for [Tunisia/Senegal] that reflects this stance. Highlight our contributions and positive aspects (if any), clearly state any reservations or points of disagreement, and outline our future intentions or expectations." (Reference 'CCHN-Field-Manual-EN (1).pdf' for communication principles if applicable)
-3. Prompt: "Draft a compelling 5-minute press conference speech for [Tunisia/Senegal] based on the written statement. The speech should be impactful, clear, and manage reputational risks. What are the key messages to deliver?"
-4. Prompt: "Anticipate 3-5 difficult questions journalists might ask [Tunisia/Senegal] during the Q&A based on the Final Declaration and our stance. For each, suggest a concise and strategic response."</span>
+                                <span>1. Prompt: "Based on our analysis of the Final Declaration, help [Tunisia/Senegal] develop a public communication strategy. Should we endorse, endorse with reservations, or reject the Declaration? Justify this stance with specific references to the Declaration text and our mandate."
+2. Prompt: "Draft a written official statement for [Tunisia/Senegal] that reflects this stance. Highlight our contributions and positive aspects (if any), clearly state any reservations or points of disagreement, and outline our future intentions or expectations regarding the Declaration's implementation. Ensure it adheres to diplomatic language (see CCHN Field Manual for principles)."
+3. Prompt: "Draft a compelling 5-minute press conference speech for [Tunisia/Senegal] based on the written statement. The speech should be impactful, clear, and manage reputational risks. What are the key messages to deliver to the public and international community? How can we frame our participation positively, even if some objectives weren't met?"
+4. Prompt: "Anticipate 3-5 difficult questions journalists might ask [Tunisia/Senegal] during the Q&A based on the Final Declaration, our stance, and our known red lines/objectives. For each, suggest a concise, strategic, and defensible response. Consider questions about compromises made or specific contentious issues."</span>
                             </div>
                         </div>
                         <h4>3.2.2 Submission and Publication of Written Statements (Deadline: 14:00)</h4>
@@ -2410,7 +2412,7 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Written Statement</span>
                                  <span class="deliverable-status" id="writtenStatementStatus_R3">
-                                    <span class="status-dot pending"></span> Pending - Deadline 14:00
+                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="writtenStatementUploadArea_R3">
@@ -2445,41 +2447,40 @@
                         <span class="alert-icon">🤖</span>
                         <div>
                             <strong>AI Usage Guidelines</strong><br>
-                            AI is a powerful support tool for analysis, drafting, and strategy. Your diplomatic judgment, critical thinking, and ethical considerations are paramount. <strong>Do not use AI during direct, live negotiations or the live press conference Q&A.</strong> Use it for preparation, analysis between sessions, and debriefing.
+                            AI is a powerful support tool for analysis, drafting, and strategy. Your diplomatic judgment, critical thinking, and ethical considerations are paramount. <strong>Do not use AI during direct, live negotiations or the live press conference Q&A.</strong> Use it for preparation, analysis between sessions, and debriefing. Ensure your OpenAI API Key is correctly set in the portal script for the chat widget.
                         </div>
                     </div>
                     
                     <div class="round-section">
-                        <h3>Initial Setup of Your Custom AI Assistant (GPT)</h3>
-                        <p>To effectively leverage your AI assistant (e.g., a custom GPT on ChatGPT or similar platform), it's crucial to provide it with a strong foundational knowledge base. Upload or prime your AI with the following documents:</p>
+                        <h3>Initial Setup of Your Custom AI Assistant (e.g., Custom GPT)</h3>
+                        <p>To effectively leverage your AI assistant, it's crucial to provide it with a strong foundational knowledge base. Upload or prime your AI with the following documents (links available in the Documents Hub):</p>
                         <div class="resource-grid" style="grid-template-columns: 1fr 1fr; margin-top:15px;">
                             <div class="resource-card">
                                 <div class="resource-icon" style="font-size: 1.5rem;">📚</div>
                                 <h4 class="resource-title">Core Simulation Documents:</h4>
                                 <ul style="list-style-type: disc; margin-left:20px; font-size:0.9rem;">
-                                    <li><a href="#" onclick="viewDocument('Backgrounder for the Malta Dialogue', 'https://drive.google.com/file/d/1Qtxu4PYd5D19_MhhYDqrz_7f16rvoHdZTB64lbMKZKs/preview', 'https://drive.google.com/uc?export=download&id=1Qtxu4PYd5D19_MhhYDqrz_7f16rvoHdZTB64lbMKZKs'); return false;">Backgrounder for the Malta Dialogue</a></li>
-                                    <li>Your Specific Mandate:
-                                        <ul>
-                                            <li><a href="#" onclick="viewDocument('Tunisia Mandate', 'https://drive.google.com/file/d/10X4YSS6y0Ss8-WduhvvDls9rD5aOVdbRWBWlG_Hk8rI/preview', 'https://drive.google.com/uc?export=download&id=10X4YSS6y0Ss8-WduhvvDls9rD5aOVdbRWBWlG_Hk8rI'); return false;">Tunisia Mandate</a></li>
-                                            <li><a href="#" onclick="viewDocument('Senegal Mandate', 'https://drive.google.com/file/d/12ZtMDu5rfgGtt8sSX0vsDzIJZ_3up0DvItLM9rP9dcM/preview', 'https://drive.google.com/uc?export=download&id=12ZtMDu5rfgGtt8sSX0vsDzIJZ_3up0DvItLM9rP9dcM'); return false;">Senegal Mandate</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>Composition of Negotiation Blocs (if a separate doc is provided, or summarize from Blocs tab)</li>
-                                    <li><a href="#" onclick="viewDocument('TECHNICAL FILE.pdf', 'https://drive.google.com/file/d/1cdi3F_rttb1gSyrY47Pp7du8PzRN9NfN/preview', 'https://drive.google.com/uc?export=download&id=1cdi3F_rttb1gSyrY47Pp7du8PzRN9NfN'); return false;">TECHNICAL FILE.pdf</a> (key statistics and context)</li>
+                                    <li>Backgrounder for the Malta Dialogue</li>
+                                    <li>Your Specific Delegation Mandate (Tunisia or Senegal)</li>
+                                    <li>Composition of Negotiation Blocs</li>
+                                    <li>TECHNICAL FILE.pdf</li>
+                                    <li>OPENING SPEECH R1.pdf</li>
+                                    <li>MERGED Final position papers from R1.pdf (for R2 onwards)</li>
+                                    <li>Draft Declaration of Principles.pdf (for R2 onwards)</li>
                                 </ul>
                             </div>
                             <div class="resource-card">
                                 <div class="resource-icon" style="font-size: 1.5rem;">🛠️</div>
                                 <h4 class="resource-title">Methodology & Support Docs:</h4>
                                  <ul style="list-style-type: disc; margin-left:20px; font-size:0.9rem;">
-                                    <li><a href="#" onclick="viewDocument('1 Instructions for Setting Up an AI Assistant for Analysing Complex Environments.pdf', 'https://drive.google.com/file/d/1RCGo8JJvHTiXRiqtcxtrXdt-cmHWbuMK/preview', 'https://drive.google.com/uc?export=download&id=1RCGo8JJvHTiXRiqtcxtrXdt-cmHWbuMK'); return false;">Instructions for Setting Up an AI Assistant...Complex Environments</a></li>
-                                    <li><a href="#" onclick="viewDocument('Instructions For Icebergs and CSS_New.pdf', 'https://drive.google.com/file/d/1DiEx8GwN1Ji-1lxAQhK-xlIsrVVYctiX/preview', 'https://drive.google.com/uc?export=download&id=1DiEx8GwN1Ji-1lxAQhK-xlIsrVVYctiX'); return false;">Instructions For Icebergs and CSS</a></li>
-                                    <li><a href="#" onclick="viewDocument('Instructions for Stakeholder Analysis.pdf', 'https://drive.google.com/file/d/1X8OsnWmVdtNVx3u0BZ1lPVeNM_LOODtt/preview', 'https://drive.google.com/uc?export=download&id=1X8OsnWmVdtNVx3u0BZ1lPVeNM_LOODtt'); return false;">Instructions for Stakeholder Analysis</a></li>
-                                    <li><a href="#" onclick="viewDocument('CCHN-Field-Manual-EN (1).pdf', 'https://drive.google.com/file/d/13xWmcvRm0x7S2KB9hB--EVhsw0AASVT1/preview', 'https://drive.google.com/uc?export=download&id=13xWmcvRm0x7S2KB9hB--EVhsw0AASVT1'); return false;">CCHN Field Manual (for general negotiation principles)</a></li>
+                                    <li>Instructions for Setting Up an AI Assistant...Complex Environments</li>
+                                    <li>Instructions For Icebergs and CSS_New.pdf</li>
+                                    <li>Instructions for Stakeholder Analysis.pdf</li>
+                                    <li>CCHN Field Manual (for general negotiation principles)</li>
+                                    <li>Amendments instructions.pdf (for R2)</li>
                                 </ul>
                             </div>
                         </div>
-                        <p style="margin-top:15px;">These documents provide the core context. As the simulation progresses, feed your AI new key documents like the Presidency's speeches, crisis reports, and draft declarations.</p>
+                        <p style="margin-top:15px;">These documents provide the core context. As the simulation progresses, feed your AI new key documents like crisis reports (if any more appear) and final declarations.</p>
                     </div>
 
                     <h3>AI Approaches by Round (or separate GPTs if preferred)</h3>
@@ -2489,28 +2490,28 @@
                             <h4 class="resource-title">AI Focus 1: Position & Interest Analyst</h4>
                             <p class="resource-description"><strong>Core Instructions/Tools:</strong> Primed with mandate, backgrounder, technical file. Utilizes concepts from "Instructions For Icebergs and CSS_New.pdf".<br>
                             <strong>Main Use:</strong> Round 1 preparation & initial document analysis.<br>
-                            <strong>Tasks:</strong> Analyzes opening speeches, technical dossiers, identifies convergences/divergences (Islands of Agreement), maps underlying interests (Icebergs), drafts initial position papers.
-                            <br><strong>For Tunisia:</strong> Focus on sovereignty arguments, financial/technical support needs, resisting hosting obligations.
-                            <br><strong>For Senegal:</strong> Focus on development links, legal mobility, dignified returns, diaspora engagement.
+                            <strong>Tasks:</strong> Analyzes opening speeches, technical dossiers, crisis reports. Identifies convergences/divergences (Islands of Agreement), maps underlying interests (Icebergs). Drafts initial and final position papers for Round 1.
+                            <br><strong>For Tunisia:</strong> Focus on sovereignty arguments, financial/technical support needs, resisting hosting obligations, leveraging bloc position.
+                            <br><strong>For Senegal:</strong> Focus on development links, legal mobility, dignified returns, diaspora engagement, constructive but firm positioning.
                             </p>
                         </div>
                         <div class="resource-card">
                             <div class="resource-icon" style="background: #fef3c7; color: #d97706;">🤝</div>
                             <h4 class="resource-title">AI Focus 2: Network & Influence Strategist</h4>
-                             <p class="resource-description"><strong>Core Instructions/Tools:</strong> Primed with all position papers (own and others as they become available), draft declarations. Utilizes concepts from "Instructions for Stakeholder Analysis.pdf".<br>
-                            <strong>Main Use:</strong> Round 2 analysis & drafting, Round 3 preparation.<br>
-                            <strong>Tasks:</strong> Maps stakeholder relationships, identifies key influencers, develops coalition-building strategies, drafts amendments to declarations, prepares public communication points, anticipates Q&A.
-                            <br><strong>For Tunisia:</strong> Identify allies for sovereignty positions, strategize on countering pressures for legal commitments.
-                            <br><strong>For Senegal:</strong> Find partners for legal mobility initiatives, ensure return cooperation is beneficial and dignified.
+                             <p class="resource-description"><strong>Core Instructions/Tools:</strong> Primed with all position papers (own and others as they become available), draft declarations. Utilizes concepts from "Instructions for Stakeholder Analysis.pdf" and "Amendments instructions.pdf".<br>
+                            <strong>Main Use:</strong> Round 2 analysis & drafting amendments.<br>
+                            <strong>Tasks:</strong> Maps stakeholder relationships, identifies key influencers, develops coalition-building strategies, drafts precise amendments to the Draft Declaration, anticipates counter-arguments.
+                            <br><strong>For Tunisia:</strong> Identify allies for sovereignty positions, strategize on countering pressures for legal commitments, formulate amendments that secure aid without compromising autonomy.
+                            <br><strong>For Senegal:</strong> Find partners for legal mobility initiatives, ensure return cooperation is beneficial and dignified, draft amendments that promote development-centric solutions.
                             </p>
                         </div>
                          <div class="resource-card">
                             <div class="resource-icon" style="background: #d1fae5; color: #059669;">📢</div>
                             <h4 class="resource-title">AI Focus 3: Crisis Communicator & Speechwriter</h4>
-                             <p class="resource-description"><strong>Core Instructions/Tools:</strong> Primed with crisis reports, final declaration outcomes, CCHN Field Manual communication principles.<br>
-                            <strong>Main Use:</strong> Responding to crises, Round 3 public statements.<br>
-                            <strong>Tasks:</strong> Analyzes crisis impact on reputation and objectives, drafts press statements, crafts speeches, prepares for Q&A by anticipating tough questions and formulating strategic answers.
-                            <br><strong>For Tunisia/Senegal:</strong> Frame national position positively, manage reputational risks from crisis or unfavorable declaration clauses, articulate successes and reservations clearly.
+                             <p class="resource-description"><strong>Core Instructions/Tools:</strong> Primed with crisis reports (if any), final declaration outcomes, CCHN Field Manual communication principles.<br>
+                            <strong>Main Use:</strong> Responding to crises (if new ones arise), Round 3 public statements and press conference preparation.<br>
+                            <strong>Tasks:</strong> Analyzes impact of final declaration on reputation and objectives, drafts press statements, crafts speeches, prepares for Q&A by anticipating tough questions and formulating strategic, evidence-based answers.
+                            <br><strong>For Tunisia/Senegal:</strong> Frame national position positively, manage reputational risks from crisis or unfavorable declaration clauses, articulate successes and reservations clearly, highlight contributions to the dialogue.
                             </p>
                         </div>
                     </div>
@@ -2522,10 +2523,10 @@
                             <li><strong>Iterative Prompting:</strong> Start with broad requests, then refine with more specific follow-up prompts. Example: "Summarize this document" -> "Now, from Tunisia's perspective, what are the 3 main concerns?" -> "Draft a statement addressing these concerns."</li>
                             <li><strong>Role-Play with the AI:</strong> Instruct the AI to adopt the persona of your delegation. E.g., "You are the lead negotiator for Senegal. Review this proposal..."</li>
                             <li><strong>Provide Explicit Instructions for Format:</strong> If you need a list, a table, or specific sections in a document, tell the AI. E.g., "Provide the answer as a bulleted list." "Draft the position paper with these sections: Intro, Issue 1, Issue 2..."</li>
-                            <li><strong>Upload Strategically:</strong> When uploading multiple documents, guide the AI on how to use them. E.g., "Use Document A as our primary mandate, and compare it against proposals in Document B and C." For lengthy documents, consider summarizing key sections yourself first if feasible, or ask the AI to focus on specific page ranges/chapters.</li>
+                            <li><strong>Upload Strategically:</strong> When uploading multiple documents, guide the AI on how to use them. E.g., "Use Document A as our primary mandate, and compare it against proposals in Document B and C." For lengthy documents, consider summarizing key sections yourself first if feasible, or ask the AI to focus on specific page ranges/chapters. If using a platform that doesn't support uploads, copy-paste relevant text sections.</li>
                             <li><strong>Critically Evaluate AI Output:</strong> Always review and critically assess the AI's suggestions. It's a tool, not a replacement for your judgment. Check for accuracy, alignment with your mandate, and diplomatic appropriateness.</li>
                             <li><strong>"Teach" Your AI:</strong> If the AI misunderstands or gives poor advice, correct it. E.g., "That's not quite right. Our red line on Issue X is actually [clarify]. Please revise your suggestion based on this."</li>
-                            <li><strong>Save Key Prompts:</strong> Keep a separate document of your most effective prompts for different tasks. This saves time and helps ensure consistency.</li>
+                            <li><strong>Save Key Prompts:</strong> Keep a separate document of your most effective prompts for different tasks. This saves time and helps ensure consistency. The prompts in the Round tabs are a good starting point.</li>
                         </ul>
                     </div>
                 </div>
@@ -2603,6 +2604,22 @@
                                 <button class="btn btn-secondary" onclick="alert('Please find the Blocs Composition document in the General Information folder on the main Google Drive.')">ℹ️ Find on GDrive</button>
                             </div>
                         </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background: #fee2e2; color: #dc2626;">📄</div>
+                            <h4 class="resource-title">MERGED Final Position Papers (R1)</h4>
+                            <p class="resource-description">Consolidated final position papers from all delegations after Round 1. Crucial for Round 2 prep.</p>
+                            <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View/Download</button>
+                            </div>
+                        </div>
+                         <div class="resource-card">
+                            <div class="resource-icon" style="background: #dbeafe; color: #2563eb;">📝</div>
+                            <h4 class="resource-title">Draft Declaration of Principles (R2)</h4>
+                            <p class="resource-description">The Presidency's proposed Draft Declaration for negotiation in Round 2.</p>
+                            <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Draft Declaration of Principles.pdf', 'https://drive.google.com/file/d/1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT/preview', 'https://drive.google.com/uc?export=download&id=1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT')">📄 View/Download</button>
+                            </div>
+                        </div>
                     </div>
                      <h3 style="margin: 30px 0 20px; font-size:1.5rem; color: var(--primary-color);">AI & Methodology Documents</h3>
                      <div class="resource-grid">
@@ -2636,6 +2653,14 @@
                             <p class="resource-description">Centre for Competence on Humanitarian Negotiation Field Manual for negotiation principles.</p>
                              <div class="resource-link-area">
                                 <button class="btn btn-secondary" onclick="viewDocument('CCHN-Field-Manual-EN (1).pdf', 'https://drive.google.com/file/d/13xWmcvRm0x7S2KB9hB--EVhsw0AASVT1/preview', 'https://drive.google.com/uc?export=download&id=13xWmcvRm0x7S2KB9hB--EVhsw0AASVT1')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background: #ffedd5; color: #f97316;">🛠️</div>
+                            <h4 class="resource-title">Amendment Instructions (R2)</h4>
+                            <p class="resource-description">Guidelines and instructions for drafting and submitting amendment proposals in Round 2.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Amendments instructions.pdf', 'https://drive.google.com/file/d/13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ/preview', 'https://drive.google.com/uc?export=download&id=13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ')">📄 View/Download</button>
                             </div>
                         </div>
                     </div>
@@ -2799,7 +2824,7 @@
                 <button onclick="toggleChat()" title="Close Chat">✕</button>
             </div>
             <div class="chat-messages" id="chatMessagesContainer">
-                <div class="chat-message system">AI Assistant ready. How can I help you prepare for the Malta Dialogue? (Simulated)</div>
+                <div class="chat-message system">OpenAI Assistant ready. How can I help you prepare for the Malta Dialogue? (Ensure API key is set in script)</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chatInput" class="chat-input" placeholder="Ask for preparation advice..." onkeypress="handleChatInput(event)">
@@ -2832,19 +2857,32 @@
         // --- Global State & Config ---
         let selectedDelegation = localStorage.getItem('selectedDelegation') || null;
         let currentTabId = 'dashboard';
-        const uploadedFiles = {}; // To simulate uploaded files { fileKey: fileData }
-        const activityStatuses = JSON.parse(localStorage.getItem('activityStatuses')) || {};
-
-
+        const uploadedFiles = {}; 
+        let activityStatuses = JSON.parse(localStorage.getItem('activityStatuses')) || {};
         const roundNotes = {
             round1: localStorage.getItem('round1Notes') || '',
             round2: localStorage.getItem('round2Notes') || '',
             round3: localStorage.getItem('round3Notes') || '',
         };
-
         const deliverableKeys = [
             'preliminaryPosition_R1', 'finalPosition_R1', 
             'amendmentProposals_R2', 'writtenStatement_R3'
+        ];
+
+        // +++ SIMULATION DATE LOGIC +++
+        const SIMULATION_YEAR = 2025;
+        const SIMULATION_MONTH_JS = 4; // May (0-indexed: January is 0, May is 4)
+        const SIMULATION_DAY = 24;    // Current day is 24th
+        const SIMULATION_HOUR_CEST = 9; // Current hour in CEST is 09
+        const SIMULATION_MINUTE_CEST = 30; // Current minute is 30
+        // ++++++++++++++++++++++++++++++
+
+        // OpenAI API Configuration - WARNING: DO NOT COMMIT YOUR REAL KEY TO A PUBLIC REPOSITORY
+        // REPLACE "YOUR_OPENAI_API_KEY_HERE" with your actual key if you want to use the live chat feature.
+        const OPENAI_API_KEY = "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"; // IMPORTANT: Replace with your key
+        const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+        let chatHistory = [ // Initial system prompt
+            { "role": "system", "content": `You are a helpful AI assistant for a negotiation simulation called the Malta Dialogue. Provide concise, strategic advice based on the user's delegation and the simulation's context. The simulation is currently set to May 24, ${SIMULATION_YEAR}, around ${String(SIMULATION_HOUR_CEST).padStart(2,'0')}:${String(SIMULATION_MINUTE_CEST).padStart(2,'0')} CEST.` }
         ];
 
 
@@ -2857,8 +2895,8 @@
                 }, 700);
             }, 1200);
             
-            updateClocks();
-            setInterval(updateClocks, 1000);
+            updateRealClocks(); 
+            setInterval(updateRealClocks, 1000 * 60); 
 
             if (selectedDelegation) {
                 const delegationBtn = document.querySelector(`.delegation-btn.${selectedDelegation}`);
@@ -2872,20 +2910,139 @@
                 const textarea = document.getElementById(`${roundKey}Notes`);
                 if (textarea) textarea.value = roundNotes[roundKey];
             });
-
-            initializeAllFileUploadAreas();
-            loadActivityStatuses();
             
-            updateDashboardStats();
-            checkDeadlinesAndTimeline();
-            setInterval(checkDeadlinesAndTimeline, 30000); // Check every 30 seconds
+            initializeActivityStatusDropdowns(); 
+            initializeDefaultActivityStatuses(); 
+            loadActivityStatusesFromStorageAndApply(); 
+            
+            initializeAllFileUploadAreas(); 
+            
+            updateDashboardStats(); 
+            checkDeadlinesAndTimeline(); 
+            setInterval(checkDeadlinesAndTimeline, 30000); 
 
             document.getElementById('modalOverlay').addEventListener('click', closeModal);
         });
 
+        function initializeActivityStatusDropdowns() {
+            const allStatusSelects = document.querySelectorAll('.activity-status-editor select');
+            const optionsHTML = `
+                <option value="upcoming">Upcoming</option>
+                <option value="active">In Progress</option>
+                <option value="completed">Completed</option>
+            `; // Add more if needed: <option value="manual-progress">In Progress (M)</option> <option value="manual-upcoming">Upcoming (M)</option>
+
+            allStatusSelects.forEach(select => {
+                // Preserve existing selected value if the select already had one (e.g. from HTML default)
+                const currentVal = select.value;
+                select.innerHTML = optionsHTML;
+                if (select.querySelector(`option[value="${currentVal}"]`)) {
+                    select.value = currentVal;
+                } else {
+                    select.value = "upcoming"; // Default if previous value not in new options
+                }
+            });
+        }
+        
+        function initializeDefaultActivityStatuses() {
+            const nowSimulatedCEST = getSimulatedCESTTime();
+            const currentSimDay = nowSimulatedCEST.getUTCDate();
+            const currentSimHourCEST = nowSimulatedCEST.getUTCHours() + (nowSimulatedCEST.getTimezoneOffset() === -120 ? 0 : 2); // CEST is UTC+2 during DST
+            const currentSimMinute = nowSimulatedCEST.getUTCMinutes();
+
+            const defaultStatuses = {};
+            const allActivityIds = Array.from(document.querySelectorAll('.timeline-item[data-activity-id]')).map(el => el.dataset.activityId);
+            allActivityIds.forEach(id => defaultStatuses[id] = 'upcoming');
+
+
+            // --- May 23rd Activities (SIMULATION_DAY - 1) ---
+            if (SIMULATION_DAY > 23 || (SIMULATION_DAY === 23 && currentSimHourCEST >= 17) ) { // If sim is past R1 on May 23rd
+                const r1Activities = [
+                    "sched-inauguration", "sched-round1", "sched-r1-opening", "sched-r1-dossier", 
+                    "sched-r1-prelimdraft", "sched-r1-informal", "sched-r1-crisis", 
+                    "sched-r1-reassess", "sched-r1-presidencycall", "sched-r1-finalsubmit",
+                    "opening-ceremony", "technical-dossier", "preliminary-paper", "informal-exchanges",
+                    "crisis-reassessment", "final-paper-submission" // Dashboard specific IDs
+                ];
+                r1Activities.forEach(id => { if (allActivityIds.includes(id)) defaultStatuses[id] = 'completed'; });
+            }
+            // (No need for more granular May 23rd if sim day is 24th)
+
+            // --- May 24th Activities (SIMULATION_DAY) ---
+            if (currentSimDay === 24) {
+                // Round 2 (09:00 - 12:00 CEST)
+                if (currentSimHourCEST >= 9) defaultStatuses['sched-round2'] = 'active';
+                if (currentSimHourCEST >= 12) defaultStatuses['sched-round2'] = 'completed';
+                
+                // 2.1.1 (09:10 - 09:30)
+                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 10)) defaultStatuses['sched-r2-consult'] = 'active';
+                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 30)) defaultStatuses['sched-r2-consult'] = 'completed';
+                if (allActivityIds.includes('dashboard-r2-consult')) defaultStatuses['dashboard-r2-consult'] = defaultStatuses['sched-r2-consult'];
+
+
+                // 2.1.2 (09:30 - 09:45)
+                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 30)) defaultStatuses['sched-r2-draftdec'] = 'active';
+                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 45)) defaultStatuses['sched-r2-draftdec'] = 'completed';
+                if (allActivityIds.includes('dashboard-r2-draftdec')) defaultStatuses['dashboard-r2-draftdec'] = defaultStatuses['sched-r2-draftdec'];
+
+                // 2.2.1 (09:45 - 10:00)
+                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 45)) defaultStatuses['sched-r2-negostart'] = 'active';
+                if (currentSimHourCEST >= 10) defaultStatuses['sched-r2-negostart'] = 'completed';
+                if (allActivityIds.includes('dashboard-r2-negostart')) defaultStatuses['dashboard-r2-negostart'] = defaultStatuses['sched-r2-negostart'];
+                
+                // 2.2.2 (10:00 - 11:00)
+                if (currentSimHourCEST >= 10) defaultStatuses['sched-r2-directnego'] = 'active';
+                if (currentSimHourCEST >= 11) defaultStatuses['sched-r2-directnego'] = 'completed';
+
+                // 2.3.1 & 2.3.2 (11:00 - 12:00)
+                if (currentSimHourCEST >= 11) defaultStatuses['sched-r2-amendsubmit'] = 'active';
+                if (currentSimHourCEST >= 12) defaultStatuses['sched-r2-amendsubmit'] = 'completed';
+                if (allActivityIds.includes('dashboard-r2-amendsubmit')) defaultStatuses['dashboard-r2-amendsubmit'] = defaultStatuses['sched-r2-amendsubmit'];
+
+                // Round 3 (13:00 - 16:00 CEST)
+                if (currentSimHourCEST >= 13) defaultStatuses['sched-round3'] = 'active';
+                if (currentSimHourCEST >= 16) defaultStatuses['sched-round3'] = 'completed';
+
+                // 3.1 (13:00 - 13:30)
+                if (currentSimHourCEST >= 13) defaultStatuses['sched-r3-finaldec'] = 'active';
+                if (currentSimHourCEST > 13 || (currentSimHourCEST === 13 && currentSimMinute >= 30)) defaultStatuses['sched-r3-finaldec'] = 'completed';
+                
+                // 3.2.1 & 3.2.2 (13:30 - 14:00)
+                if (currentSimHourCEST > 13 || (currentSimHourCEST === 13 && currentSimMinute >= 30)) defaultStatuses['sched-r3-statementsubmit'] = 'active';
+                if (currentSimHourCEST >= 14) defaultStatuses['sched-r3-statementsubmit'] = 'completed';
+                
+                // 3.3.1 (14:00 - 16:00)
+                if (currentSimHourCEST >= 14) defaultStatuses['sched-r3-pressconf'] = 'active';
+                if (currentSimHourCEST >= 16) defaultStatuses['sched-r3-pressconf'] = 'completed';
+
+                // Closing Ceremony (16:30 - 17:00 CEST)
+                if (currentSimHourCEST > 16 || (currentSimHourCEST === 16 && currentSimMinute >= 30)) defaultStatuses['sched-closing'] = 'active';
+                if (currentSimHourCEST >= 17) defaultStatuses['sched-closing'] = 'completed';
+            }
+            
+            // Merge with localStorage, giving localStorage precedence for user overrides
+            const storedStatuses = JSON.parse(localStorage.getItem('activityStatuses')) || {};
+            activityStatuses = {...defaultStatuses, ...storedStatuses}; 
+        }
+        
+        function loadActivityStatusesFromStorageAndApply() {
+            // activityStatuses should now be populated by initializeDefaultActivityStatuses (which merges with localStorage)
+            document.querySelectorAll('.timeline-item[data-activity-id]').forEach(item => {
+                const activityId = item.dataset.activityId;
+                const currentStatus = activityStatuses[activityId] || 'upcoming'; // Fallback if somehow missed
+                
+                const statusSelect = item.querySelector('.activity-status-editor select');
+                if (statusSelect) {
+                    statusSelect.value = currentStatus;
+                }
+                updateActivityStatusUI(item, currentStatus);
+            });
+            // No need to save to localStorage here again, as initializeDefaultActivityStatuses already does that after merging.
+        }
+
         // --- Clock and Time Functions ---
-        function updateClocks() {
-            const now = new Date();
+        function updateRealClocks() { 
+            const now = new Date(); 
             const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
             const optionsDate = { weekday: 'short', day: 'numeric', month: 'short' };
 
@@ -2903,56 +3060,36 @@
             } catch (e) { console.error("Error setting Caracas time:", e); }
         }
         
-        function getCESTTime() {
-             return new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Zurich"}));
+        function getSimulatedCESTTime() { 
+            // UTC time for May 24, 2025, 09:30 CEST (CEST is UTC+2) would be 07:30 UTC.
+            const simulatedUTCTime = Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, SIMULATION_DAY, SIMULATION_HOUR_CEST - 2, SIMULATION_MINUTE_CEST, 0);
+            return new Date(simulatedUTCTime);
         }
 
         function checkDeadlinesAndTimeline() {
-            const nowCEST = getCESTTime();
-            let nextOverallDeadlineText = "All deadlines passed for today.";
+            const nowSimulatedCEST = getSimulatedCESTTime(); 
+            let nextOverallDeadlineText = "All deadlines passed or simulation ended.";
             let nextOverallDeadlineTime = null;
             let nextOverallDeadlineTask = "None";
             let isUrgent = false;
 
             const deadlines = [
-                { name: "Prelim. Position Paper", date: new Date(Date.UTC(nowCEST.getUTCFullYear(), 4, 23, 15, 15, 0)), key: 'preliminaryPosition_R1' }, // May 23, 15:15 UTC - Assuming CEST is UTC+2
-                { name: "Final Position Paper", date: new Date(Date.UTC(nowCEST.getUTCFullYear(), 4, 23, 17, 0, 0)), key: 'finalPosition_R1' },  // May 23, 17:00 UTC
-                { name: "Amendment Proposals", date: new Date(Date.UTC(nowCEST.getUTCFullYear(), 4, 24, 12, 0, 0)), key: 'amendmentProposals_R2' },// May 24, 12:00 UTC
-                { name: "Written Statement", date: new Date(Date.UTC(nowCEST.getUTCFullYear(), 4, 24, 14, 0, 0)), key: 'writtenStatement_R3' } // May 24, 14:00 UTC
+                { name: "Prelim. Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 15-2, 15, 0)), key: 'preliminaryPosition_R1' }, 
+                { name: "Final Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 17-2, 0, 0)), key: 'finalPosition_R1' },  
+                { name: "Amendment Proposals", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 12-2, 0, 0)), key: 'amendmentProposals_R2' },
+                { name: "Written Statement", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 14-2, 0, 0)), key: 'writtenStatement_R3' } 
             ];
-             // Adjust deadline dates to be specific for the simulation if they are fixed dates
-            // For May 23rd, 2025 (example year, assuming the simulation runs then)
-            // const simYear = 2025; 
-            // deadlines[0].date = new Date(Date.UTC(simYear, 4, 23, 13, 15, 0)); // 15:15 CEST is 13:15 UTC in May
-            // deadlines[1].date = new Date(Date.UTC(simYear, 4, 23, 15, 0, 0));  // 17:00 CEST is 15:00 UTC
-            // deadlines[2].date = new Date(Date.UTC(simYear, 4, 24, 10, 0, 0)); // 12:00 CEST is 10:00 UTC
-            // deadlines[3].date = new Date(Date.UTC(simYear, 4, 24, 12, 0, 0)); // 14:00 CEST is 12:00 UTC
-
-            // For dynamic deadlines based on current year, ensure month (0-indexed) and day are correct for simulation
-            // Example: For a simulation on May 23rd and 24th of the current year:
-            const today = nowCEST;
-            const tomorrow = new Date(nowCEST);
-            tomorrow.setDate(today.getDate() + 1);
-
-            // Assuming simulation days are fixed (e.g. a specific Friday and Saturday)
-            // For this portal, I will assume the deadlines are for a hypothetical May 23rd and 24th.
-            // Users should adjust these if the simulation dates are different.
-            // Let's use fixed dates for stability in this example.
-            const simDay1 = new Date(nowCEST.getFullYear(), 4, 23); // May 23rd of current year
-            const simDay2 = new Date(nowCEST.getFullYear(), 4, 24); // May 24th of current year
-
-            deadlines[0].date.setFullYear(simDay1.getFullYear(), simDay1.getMonth(), simDay1.getDate()); // 15:15 CEST
-            deadlines[1].date.setFullYear(simDay1.getFullYear(), simDay1.getMonth(), simDay1.getDate()); // 17:00 CEST
-            deadlines[2].date.setFullYear(simDay2.getFullYear(), simDay2.getMonth(), simDay2.getDate()); // 12:00 CEST
-            deadlines[3].date.setFullYear(simDay2.getFullYear(), simDay2.getMonth(), simDay2.getDate()); // 14:00 CEST
-
+            
+            const nowSimulated_Timestamp = nowSimulatedCEST.getTime();
 
             deadlines.forEach(dl => {
-                // Convert UTC deadline to CEST for comparison display if needed, but nowCEST is already CEST.
-                // dl.date is UTC, nowCEST is local CEST.
-                if (nowCEST < dl.date && (!nextOverallDeadlineTime || dl.date < nextOverallDeadlineTime)) {
-                    nextOverallDeadlineTime = dl.date;
-                    nextOverallDeadlineText = `${dl.name} at ${dl.date.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour: '2-digit', minute:'2-digit'})} CEST`;
+                const deadline_Timestamp = dl.date.getTime();
+                if (nowSimulated_Timestamp < deadline_Timestamp && (!nextOverallDeadlineTime || deadline_Timestamp < nextOverallDeadlineTime.getTime())) {
+                    nextOverallDeadlineTime = dl.date; // Store as Date object
+                    // Format for display, ensuring it's shown as CEST
+                    let deadlineCESTHour = dl.date.getUTCHours() + 2; // Convert UTC hour to CEST
+                    let deadlineCESTMinutes = String(dl.date.getUTCMinutes()).padStart(2, '0');
+                    nextOverallDeadlineText = `${dl.name} at ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
                     nextOverallDeadlineTask = dl.name;
                 }
             });
@@ -2962,12 +3099,13 @@
             const nextDeadlineTaskEl = document.getElementById('nextDeadlineTask');
 
             if (nextOverallDeadlineTime) {
-                nextDeadlineTimeDisplayEl.textContent = nextOverallDeadlineTime.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour: '2-digit', minute:'2-digit'});
+                let deadlineCESTHour = nextOverallDeadlineTime.getUTCHours() + 2;
+                let deadlineCESTMinutes = String(nextOverallDeadlineTime.getUTCMinutes()).padStart(2, '0');
+                nextDeadlineTimeDisplayEl.textContent = `${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes}`;
                 nextDeadlineTaskEl.textContent = nextOverallDeadlineTask;
-                const timeRemaining = nextOverallDeadlineTime - nowCEST;
-                if (timeRemaining > 0 && timeRemaining < 30 * 60 * 1000) { // Less than 30 minutes
+                const timeRemaining = nextOverallDeadlineTime.getTime() - nowSimulated_Timestamp;
+                if (timeRemaining > 0 && timeRemaining < 30 * 60 * 1000) { 
                     isUrgent = true;
-                    showNotification('warning', '⏰', `Deadline approaching for ${nextOverallDeadlineTask}! Only ${Math.round(timeRemaining/60000)} mins left.`);
                 }
             } else {
                  nextDeadlineTimeDisplayEl.textContent = "--:--";
@@ -2977,111 +3115,192 @@
             const topDeadlineEl = document.getElementById('nextDeadline');
             topDeadlineEl.style.color = isUrgent ? 'var(--danger-color)' : 'white';
             topDeadlineEl.style.fontWeight = isUrgent ? 'bold' : 'normal';
-            if(isUrgent) topDeadlineEl.classList.add('pulse-text'); else topDeadlineEl.classList.remove('pulse-text');
 
-
-            // Update timeline item statuses on Dashboard and Schedule tabs based on their data-activity-id
-            // This is now primarily handled by manual status updates, but automatic can be a fallback.
-            // For now, let's focus on deadline-driven status for deliverables.
-            updateDashboardAlert(nowCEST, nextOverallDeadlineTime, nextOverallDeadlineTask);
-            updateDeliverableStatuses(nowCEST, deadlines);
-            updateDashboardStats(); // After statuses are updated
+            updateDashboardAlert(nowSimulatedCEST, nextOverallDeadlineTime, nextOverallDeadlineTask);
+            updateDeliverableStatuses(nowSimulatedCEST, deadlines);
+            updateDashboardStats(); 
         }
 
-        function updateDashboardAlert(nowCEST, nextDeadlineTime, nextDeadlineTask) {
+        function updateDashboardAlert(nowSimulatedCEST, nextDeadlineTimeObj, nextDeadlineTask) {
             const alertEl = document.getElementById('dashboardAlert');
             const titleEl = document.getElementById('dashboardAlertTitle');
             const detailEl = document.getElementById('dashboardAlertDetail');
+            
+            const currentSimulatedHourCEST = nowSimulatedCEST.getUTCHours() + 2; 
 
-            // This logic can be expanded based on current round, crisis events etc.
-            // For now, just reflecting the next deadline.
-            if (nextDeadlineTime && nowCEST < nextDeadlineTime) {
-                titleEl.textContent = "Activity In Progress";
-                detailEl.textContent = `Next deadline: ${nextDeadlineTask} - ${nextDeadlineTime.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour:'2-digit', minute:'2-digit'})} CEST`;
-                alertEl.className = 'alert alert-warning'; // Default to warning for active tasks
-                 if ((nextDeadlineTime - nowCEST) < 30 * 60 * 1000) {
-                    alertEl.className = 'alert alert-danger'; // Urgent
-                 }
-            } else {
-                titleEl.textContent = "All Deadlines Passed or Portal Awaiting Next Phase";
-                detailEl.textContent = "Monitor schedule for upcoming activities.";
-                alertEl.className = 'alert alert-success';
+            if (nowSimulatedCEST.getUTCDate() === SIMULATION_DAY) { // It's May 24th
+                if (currentSimulatedHourCEST >= 9 && currentSimulatedHourCEST < 12) { 
+                    titleEl.textContent = "Round 2 In Progress";
+                    if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && nextDeadlineTask === "Amendment Proposals") {
+                        let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
+                        let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
+                        detailEl.textContent = `Next deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                        alertEl.className = 'alert alert-warning';
+                        if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
+                            alertEl.className = 'alert alert-danger';
+                        }
+                    } else {
+                        detailEl.textContent = "Negotiations ongoing. Finalize amendments.";
+                        alertEl.className = 'alert alert-info';
+                    }
+                } else if (currentSimulatedHourCEST >= 13 && currentSimulatedHourCEST < 16) { 
+                    titleEl.textContent = "Round 3 In Progress";
+                     if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && nextDeadlineTask === "Written Statement") {
+                        let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
+                        let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
+                        detailEl.textContent = `Next deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                        alertEl.className = 'alert alert-warning';
+                        if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
+                            alertEl.className = 'alert alert-danger';
+                        }
+                    } else {
+                        detailEl.textContent = "Public communication phase.";
+                        alertEl.className = 'alert alert-info';
+                    }
+                } else if (currentSimulatedHourCEST >= 16) {
+                    titleEl.textContent = "Post-Rounds / Awaiting Closing";
+                    detailEl.textContent = "Main negotiation rounds for May 24th have concluded.";
+                    alertEl.className = 'alert alert-success';
+                } else { // Before R2 start on May 24th (e.g. if sim time was 08:00)
+                    titleEl.textContent = "Awaiting Round 2 Start";
+                    detailEl.textContent = "Round 2 begins at 09:00 CEST.";
+                    alertEl.className = 'alert alert-info';
+                }
+            } else if (nowSimulatedCEST.getUTCDate() === 23) { // If sim date was May 23rd
+                titleEl.textContent = "Round 1 In Progress / Concluded";
+                 if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj) {
+                    let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
+                    let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
+                    detailEl.textContent = `Next R1 deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                    alertEl.className = 'alert alert-warning';
+                    if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
+                        alertEl.className = 'alert alert-danger';
+                    }
+                } else {
+                    detailEl.textContent = "Round 1 activities concluded for May 23rd.";
+                    alertEl.className = 'alert alert-success';
+                }
+            } else { 
+                titleEl.textContent = "Simulation Awaiting Correct Date Context";
+                detailEl.textContent = `Portal configured for May 23-24, ${SIMULATION_YEAR} simulation activities.`;
+                alertEl.className = 'alert alert-info';
             }
         }
         
-        function updateDeliverableStatuses(nowCEST, deadlinesConfig) {
-            deliverableKeys.forEach(key => {
-                const deadlineInfo = deadlinesConfig.find(d => d.key === key);
-                if (deadlineInfo) {
-                    updateDeliverableStatus(`${key}Status_R1`, key, deadlineInfo.date, nowCEST, deadlineInfo.name); // Assuming R1 in ID is generic
-                    // For schedule tab, which might have unique IDs:
-                    updateDeliverableStatus(`${key}UploadStatus_schedule`, key, deadlineInfo.date, nowCEST, deadlineInfo.name);
+        // --- AI Chat Widget (OpenAI - Client Side) ---
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            const messageText = input.value.trim();
+
+            if (messageText) {
+                appendChatMessage(messageText, 'user');
+                input.value = '';
+                input.disabled = true; 
+                const sendButton = input.nextElementSibling;
+                if(sendButton) sendButton.disabled = true;
+
+                if (OPENAI_API_KEY === "" || OPENAI_API_KEY === "YOUR_OPENAI_API_KEY_HERE") {
+                    appendChatMessage("ERROR: OpenAI API Key not configured. Please set it in the script.", 'system');
+                    input.disabled = false;
+                    if(sendButton) sendButton.disabled = false;
+                    input.focus();
+                    return;
                 }
-            });
-        }
+                
+                let currentDelegationInfo = selectedDelegation ? `User is representing: ${selectedDelegation}. ` : "User has not selected a delegation. ";
+                let currentSimTime = getSimulatedCESTTime();
+                let currentSimHourCEST = currentSimTime.getUTCHours() + 2;
+                let currentSimMinutesCEST = String(currentSimTime.getUTCMinutes()).padStart(2, '0');
 
-        function updateDeliverableStatus(statusElementId, fileKey, deadline, now, deliverableName) {
-            const statusEl = document.getElementById(statusElementId);
-            if (!statusEl) return;
+                let currentContext = `The simulation is currently at ${String(currentSimHourCEST).padStart(2,'0')}:${currentSimMinutesCEST} CEST on May ${currentSimTime.getUTCDate()}, ${SIMULATION_YEAR}. Advise accordingly.`;
 
-            let statusText = `Pending - Deadline for ${deliverableName}: ${deadline.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour:'2-digit', minute:'2-digit'})}`;
-            let dotClass = "pending";
+                const messagesForAPI = [
+                    { "role": "system", "content": `You are a helpful AI assistant for a negotiation simulation called the Malta Dialogue. ${currentDelegationInfo} ${currentContext} Provide concise, strategic advice based on the user's delegation and the simulation's context. Refer to official documents like mandates, technical files, and declarations when relevant.` },
+                    ...chatHistory.slice(-6), 
+                    { "role": "user", "content": messageText }
+                ];
 
-            if (uploadedFiles[fileKey]) {
-                statusText = `${deliverableName} Submitted <small>(${new Date(uploadedFiles[fileKey].lastModified).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})})</small>`;
-                dotClass = "completed";
-            } else if (now > deadline) {
-                statusText = `${deliverableName} OVERDUE - Deadline Passed at ${deadline.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour:'2-digit', minute:'2-digit'})}`;
-                dotClass = "overdue";
-            } else if ((deadline - now) < 30 * 60 * 1000) { // Urgent: less than 30 mins
-                 statusText = `${deliverableName} Pending - DEADLINE URGENT: ${deadline.toLocaleTimeString('en-GB', {timeZone:'Europe/Zurich', hour:'2-digit', minute:'2-digit'})}`;
-                 dotClass = "pending"; // Could add an 'urgent' dot class too e.g. status-dot.urgent
+
+                try {
+                    const response = await fetch(OPENAI_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${OPENAI_API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-3.5-turbo", 
+                            messages: messagesForAPI, 
+                            max_tokens: 350,
+                            temperature: 0.7 
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error("OpenAI API Error:", errorData);
+                        appendChatMessage(`Error: ${errorData.error?.message || response.statusText}`, 'system');
+                    } else {
+                        const data = await response.json();
+                        const aiResponse = data.choices[0]?.message?.content.trim();
+                        if (aiResponse) {
+                            appendChatMessage(aiResponse, 'assistant');
+                            chatHistory.push({ "role": "user", "content": messageText }); 
+                            chatHistory.push({ "role": "assistant", "content": aiResponse }); 
+                             if(chatHistory.length > 20) chatHistory = chatHistory.slice(-20); 
+                        } else {
+                            appendChatMessage("Received an empty or incomplete response from AI.", 'system');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error sending message to AI:', error);
+                    appendChatMessage('Error connecting to AI. Check console and API key.', 'system');
+                } finally {
+                    input.disabled = false;
+                     if(sendButton) sendButton.disabled = false;
+                    input.focus();
+                }
             }
-            
-            statusEl.innerHTML = `<span class="status-dot ${dotClass}"></span> ${statusText}`;
         }
-
-        // --- Delegation Selection ---
+        
+        // --- Delegation Selection, Navigation, Notifications, Utils, Modal ---
         function selectDelegation(delegation) {
             selectedDelegation = delegation;
             localStorage.setItem('selectedDelegation', delegation);
-            
             document.querySelectorAll('.delegation-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.querySelector(`.delegation-btn.${delegation}`);
             if (activeBtn) activeBtn.classList.add('active');
-            
             updateDelegationDisplay();
-            showNotification('success', '✅', `Delegation of <strong>${delegation.charAt(0).toUpperCase() + delegation.slice(1)}</strong> selected. Your view is now personalized.`);
+            showNotification('success', '✅', `Delegation of <strong>${delegation.charAt(0).toUpperCase() + delegation.slice(1)}</strong> selected.`);
+            updateDashboardStats(); 
+            checkDeadlinesAndTimeline(); 
             
-            updateDashboardStats(); // Update stats based on potentially delegation-specific progress
-            checkDeadlinesAndTimeline(); // Re-check statuses
+            let currentSimTime = getSimulatedCESTTime();
+            let currentSimHourCEST = currentSimTime.getUTCHours() + 2;
+            let currentSimMinutesCEST = String(currentSimTime.getUTCMinutes()).padStart(2, '0');
+            chatHistory[0].content = `You are a helpful AI assistant for a negotiation simulation called the Malta Dialogue. User is representing: ${selectedDelegation}. The simulation is currently at ${String(currentSimHourCEST).padStart(2,'0')}:${currentSimMinutesCEST} CEST on May ${currentSimTime.getUTCDate()}, ${SIMULATION_YEAR}. Advise accordingly.`;
         }
 
         function updateDelegationDisplay() {
             const delegationName = selectedDelegation ? (selectedDelegation.charAt(0).toUpperCase() + selectedDelegation.slice(1)) : 'None';
             document.getElementById('activeDelegationStat').textContent = delegationName;
-             // Could also update other UI elements based on delegation if needed
         }
 
-        // --- Navigation ---
         function showTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             const targetTab = document.getElementById(tabId);
             if (targetTab) targetTab.classList.add('active');
-            
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if (element) element.classList.add('active');
-            
             currentTabId = tabId;
-            window.scrollTo(0,0); // Scroll to top of page on tab change
+            window.scrollTo(0,0);
         }
-
-        // --- Notifications ---
+        
         let currentNotificationCount = 0;
         function showNotification(type, icon, message, duration = 7000) {
             const container = document.getElementById('notificationContainer');
             if (!container) return;
-
             const notificationId = `notif-${Date.now()}`;
             const notification = document.createElement('div');
             notification.id = notificationId;
@@ -3094,29 +3313,23 @@
                 </div>
                 <button class="notification-close" onclick="closeNotification('${notificationId}')" title="Close notification">✕</button>
             `;
-            
-            container.insertBefore(notification, container.firstChild); // Add to top
+            container.insertBefore(notification, container.firstChild);
             updateNotificationBadge(1);
-
-            setTimeout(() => {
-                closeNotification(notificationId);
-            }, duration);
+            setTimeout(() => closeNotification(notificationId), duration);
         }
-        
         function closeNotification(notificationId) {
             const notification = document.getElementById(notificationId);
             if (notification) {
                 notification.style.opacity = '0';
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
-                    if (notification.parentElement) { // Check if still in DOM
+                    if (notification.parentElement) {
                          notification.remove();
                          updateNotificationBadge(-1);
                     }
                 }, 400);
             }
         }
-
         function updateNotificationBadge(change) {
             currentNotificationCount += change;
             if (currentNotificationCount < 0) currentNotificationCount = 0;
@@ -3124,98 +3337,106 @@
             if (badge) {
                 badge.textContent = currentNotificationCount;
                 badge.style.display = currentNotificationCount > 0 ? 'inline-block' : 'none';
-                if (currentNotificationCount > 0) badge.classList.add('pulse'); else badge.classList.remove('pulse');
             }
         }
-        
-        function toggleNotificationPanel() {
-            // This would typically open a more detailed panel. For now, an alert.
-            if(currentNotificationCount > 0) {
-                 alert(`You have ${currentNotificationCount} active notification(s).`);
-            } else {
-                alert('No new notifications.');
-            }
-            // A real panel would list notifications and allow dismissing all.
-        }
-
-        // --- AI Chat Widget (Simulated) ---
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
-            if (chatWindow) {
-                 chatWindow.classList.toggle('open');
-                 if(chatWindow.classList.contains('open')) {
-                    document.getElementById('chatInput').focus();
-                 }
-            }
+            if (chatWindow) chatWindow.classList.toggle('open');
+            if(chatWindow.classList.contains('open')) document.getElementById('chatInput').focus();
         }
-
         function handleChatInput(event) {
-            if (event.key === 'Enter' && !event.shiftKey) { // Send on Enter, allow Shift+Enter for newline
+            if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 sendChatMessage();
             }
         }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            if (!input) return;
-            const messageText = input.value.trim();
-
-            if (messageText) {
-                appendChatMessage(messageText, 'user');
-                input.value = '';
-                
-                setTimeout(() => {
-                    let aiResponse = "I am a simulated AI assistant. I can provide general guidance based on the information in this portal. ";
-                    const lowerMessage = messageText.toLowerCase();
-
-                    if (!selectedDelegation) {
-                        aiResponse += "Please select your delegation (Tunisia or Senegal) first for more specific advice.";
-                    } else if (lowerMessage.includes("mandate") || lowerMessage.includes("position for " + selectedDelegation)) {
-                        aiResponse += `For ${selectedDelegation}, your mandate (available in the Documents Hub and your delegation's tab) is key. For Round 1's Preliminary Position Paper, articulate your stance on the 4 fundamental issues, reflecting your red lines and objectives.`;
-                         if(selectedDelegation === 'tunisia') aiResponse += " Tunisia emphasizes sovereignty, financial/technical support in exchange for cooperation, and resists long-term hosting/processing roles.";
-                         if(selectedDelegation === 'senegal') aiResponse += " Senegal focuses on development-linked migration, legal pathways, and dignified, voluntary returns for its nationals.";
-                    } else if (lowerMessage.includes("crisis")) {
-                        aiResponse += "The crisis scenario in Round 1 requires you to reassess your initial position. Consider how it impacts your leverage, alliances, and stated objectives. Your Final Position Paper must address the crisis implications.";
-                    } else if (lowerMessage.includes("round 2") || lowerMessage.includes("amendment")) {
-                        aiResponse += "In Round 2, you'll receive a Draft Declaration. Your task is to analyze it against your Final Position Paper and propose amendments. Focus on the 'Operational Principles'. Use your network strategy to build support for your amendments.";
-                    } else if (lowerMessage.includes("round 3") || lowerMessage.includes("statement") || lowerMessage.includes("press conference")) {
-                        aiResponse += "For Round 3, after the Final Declaration is published, you'll prepare a written statement and a 5-minute press speech. Your AI can help analyze the final declaration, assess your success, and craft your communication strategy, including anticipating tough Q&A questions.";
-                    } else if (lowerMessage.includes("help") || lowerMessage.includes("advice")) {
-                         aiResponse += "I can help you think through strategies related to your mandate, document analysis, or preparing for deliverables. What specific task are you working on?";
-                    } else {
-                        aiResponse += "How can I assist you with the Malta Dialogue simulation today?";
-                    }
-                    appendChatMessage(aiResponse, 'assistant');
-                }, 800 + Math.random() * 700);
-            }
-        }
-
         function appendChatMessage(text, sender) {
             const messagesContainer = document.getElementById('chatMessagesContainer');
             if (!messagesContainer) return;
-
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('chat-message', sender);
-            
-            // Sanitize text before setting as innerHTML if you expect HTML, otherwise textContent is safer.
-            // For this simulation, simple text is fine.
             messageDiv.textContent = text; 
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        // --- Document Upload & Handling (Simulation) ---
+        
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitleEl = document.getElementById('modalTitle');
+        const documentViewerEl = document.getElementById('documentViewerContent');
+        const modalDownloadLink = document.getElementById('modalDownloadLink');
+
+        function openModal(title, contentHTML, downloadUrl = null, downloadFilename = null) {
+            if (modalTitleEl) modalTitleEl.textContent = title;
+            if (documentViewerEl) documentViewerEl.innerHTML = contentHTML;
+            if (modalDownloadLink && downloadUrl) {
+                modalDownloadLink.href = downloadUrl;
+                modalDownloadLink.download = downloadFilename || title.replace(/[^a-z0-9_.-]/gi, '_').toLowerCase() + (downloadUrl.includes('.pdf') ? '.pdf' : ''); 
+                modalDownloadLink.style.display = 'inline-flex';
+            } else if (modalDownloadLink) {
+                modalDownloadLink.style.display = 'none';
+            }
+            if (modalOverlay) modalOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            if (modalOverlay) modalOverlay.style.display = 'none';
+            if (documentViewerEl) documentViewerEl.innerHTML = '';
+            if (modalDownloadLink) modalDownloadLink.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        async function viewDocument(docName, previewUrl, downloadUrl) {
+            showNotification('info', '📄', `Loading ${docName}...`);
+            let contentToDisplay = `<p style="text-align:center; padding:20px;">Loading preview for ${docName}...</p>`;
+             if (previewUrl.includes('drive.google.com/file') || previewUrl.includes('drive.google.com/open')) {
+                let embedUrl = previewUrl;
+                if (previewUrl.includes('/view')) { 
+                    embedUrl = previewUrl.replace("/view", "/preview");
+                } else if (previewUrl.includes('/d/')) { 
+                     embedUrl = previewUrl.replace("/edit", "/preview").replace("?usp=drive_link","").replace("?usp=sharing","");
+                     if (!embedUrl.includes('/preview')) { 
+                        const parts = embedUrl.split('/d/');
+                        if (parts.length > 1) {
+                            const idAndRest = parts[1].split('/');
+                            embedUrl = `https://drive.google.com/file/d/${idAndRest[0]}/preview`;
+                        }
+                     }
+                }
+                contentToDisplay = `<iframe src="${embedUrl}" title="${docName}" style="width:100%; height: calc(65vh - 20px); border:none;"></iframe>`;
+            } else if (previewUrl.endsWith('.pdf')) {
+                 contentToDisplay = `<iframe src="${previewUrl}" title="${docName}" style="width:100%; height: calc(65vh - 20px); border:none;"></iframe>`;
+            } else if (previewUrl.match(/\.(jpeg|jpg|gif|png)$/i) != null) {
+                 contentToDisplay = `<img src="${previewUrl}" alt="${docName}" style="max-width:100%; height:auto; display:block; margin: 0 auto;">`;
+            } else { 
+                contentToDisplay = `<p>Preview for this file type might not be optimal. For the best experience, please use the download button.</p> 
+                                     <p style="text-align:center; margin-top:20px;"><a href="${downloadUrl || previewUrl}" target="_blank" class="btn btn-primary">Open in New Tab</a></p>`;
+            }
+            openModal(docName, contentToDisplay, downloadUrl || previewUrl, docName);
+        }
+        
         function initializeAllFileUploadAreas() {
             const areas = [
                 { areaId: 'preliminaryPositionUploadArea_R1', fileKey: 'preliminaryPosition_R1', name: 'Preliminary Position Paper (R1)' },
                 { areaId: 'finalPositionUploadArea_R1', fileKey: 'finalPosition_R1', name: 'Final Position Paper (R1)' },
                 { areaId: 'amendmentProposalsUploadArea_R2', fileKey: 'amendmentProposals_R2', name: 'Amendment Proposals (R2)' },
-                { areaId: 'writtenStatementUploadArea_R3', fileKey: 'writtenStatement_R3', name: 'Final Written Statement (R3)' }
+                { areaId: 'writtenStatementUploadArea_R3', fileKey: 'writtenStatement_R3', name: 'Final Written Statement (R3)' },
+                // Add dashboard upload area if one exists for Amendment Proposals
+                { areaId: 'amendmentProposalsUploadStatus_dashboard', fileKey: 'amendmentProposals_R2', name: 'Amendment Proposals (R2)' }
             ];
-            areas.forEach(area => initializeFileUploadArea(area.areaId, area.fileKey, area.name));
-        }
+            areas.forEach(area => {
+                // Only initialize if the area ID exists. The dashboard version is just a status display.
+                if (document.getElementById(area.areaId) && area.areaId.includes('UploadArea')) {
+                     initializeFileUploadArea(area.areaId, area.fileKey, area.name);
+                }
+            });
 
-        function initializeFileUploadArea(areaId, fileKey, deliverableName) {
+            updateDeliverableStatusesUIOnly(getSimulatedCESTTime(), [ 
+                { name: "Prelim. Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 15-2, 15, 0)), key: 'preliminaryPosition_R1' },
+                { name: "Final Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 17-2, 0, 0)), key: 'finalPosition_R1' },
+                { name: "Amendment Proposals", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 12-2, 0, 0)), key: 'amendmentProposals_R2' },
+                { name: "Written Statement", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 14-2, 0, 0)), key: 'writtenStatement_R3' }
+             ]);
+        }
+         function initializeFileUploadArea(areaId, fileKey, deliverableName) {
             const uploadAreaContainer = document.getElementById(areaId);
             if (!uploadAreaContainer) return;
 
@@ -3223,18 +3444,16 @@
             if (storedFile) {
                 try {
                     const fileData = JSON.parse(storedFile);
-                    uploadedFiles[fileKey] = fileData;
+                    uploadedFiles[fileKey] = fileData; 
                     renderUploadedFile(areaId, fileKey, fileData, deliverableName);
                 } catch (e) {
-                    console.error("Error parsing stored file data for " + fileKey, e);
-                    localStorage.removeItem(fileKey); // Clear corrupted data
+                    localStorage.removeItem(fileKey); 
                     renderUploadPrompt(areaId, fileKey, deliverableName);
                 }
             } else {
                 renderUploadPrompt(areaId, fileKey, deliverableName);
             }
         }
-
         function renderUploadPrompt(areaId, fileKey, deliverableName) {
             const uploadAreaContainer = document.getElementById(areaId);
             if (!uploadAreaContainer) return;
@@ -3246,21 +3465,19 @@
                      ondragleave="dragLeaveHandler(event)">
                     <input type="file" id="${fileKey}-input" accept=".pdf,.doc,.docx,.txt" style="display: none;" 
                            onchange="handleFileSelect(event, '${fileKey}', '${areaId}', '${deliverableName}')">
-                    <svg class="file-upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.41 11.097h-11.59c-.404 0-.8-.122-1.13-.353" />
+                    <svg class="file-upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:50px; height:50px; margin:0 auto 18px; color: #94a3b8;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.41 11.097H6.75z" />
                     </svg>
                     <h4>Upload ${deliverableName}</h4>
                     <p style="color: #64748b; font-size:0.9rem;">Drag & drop or click to select file</p>
                     <p style="font-size: 0.8rem; color: #94a3b8;">PDF, DOC, DOCX, TXT accepted (Max 5MB for demo)</p>
                 </div>`;
         }
-
-        function renderUploadedFile(areaId, fileKey, fileData, deliverableName) {
+         function renderUploadedFile(areaId, fileKey, fileData, deliverableName) {
             const uploadAreaContainer = document.getElementById(areaId);
             if (!uploadAreaContainer) return;
             const fileSizeKB = fileData.size ? (fileData.size / 1024).toFixed(1) : 'N/A';
             const lastModifiedDate = fileData.lastModified ? new Date(fileData.lastModified).toLocaleString('en-GB') : 'N/A';
-
             uploadAreaContainer.innerHTML = `
                 <div class="file-item">
                     <div class="file-info">
@@ -3276,122 +3493,223 @@
                     </div>
                 </div>`;
         }
-
         function handleFileSelect(event, fileKey, areaId, deliverableName) {
             const file = event.target.files[0];
-            if (file) {
-                processAndStoreFile(file, fileKey, areaId, deliverableName);
-            }
+            if (file) processAndStoreFile(file, fileKey, areaId, deliverableName);
         }
-
         function dropHandler(event, fileKey, areaId, deliverableName) {
             event.preventDefault();
             event.currentTarget.classList.remove('drag-over');
             const file = event.dataTransfer.items ? event.dataTransfer.items[0].getAsFile() : event.dataTransfer.files[0];
             if (file) processAndStoreFile(file, fileKey, areaId, deliverableName);
         }
-
-        function dragOverHandler(event) {
-            event.preventDefault();
-            event.currentTarget.classList.add('drag-over');
-        }
-        function dragLeaveHandler(event) {
-            event.currentTarget.classList.remove('drag-over');
-        }
-        
-        function processAndStoreFile(file, fileKey, areaId, deliverableName) {
+        function dragOverHandler(event){ event.preventDefault(); event.currentTarget.classList.add('drag-over');}
+        function dragLeaveHandler(event){ event.currentTarget.classList.remove('drag-over');}
+         function processAndStoreFile(file, fileKey, areaId, deliverableName) {
             const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
             if (!allowedTypes.includes(file.type)) {
                 showNotification('danger', '❌', 'Invalid file type. Please upload PDF, DOC, DOCX, or TXT.');
                 return;
             }
-            if (file.size > 5 * 1024 * 1024) { // 5MB limit for demo
+            if (file.size > 5 * 1024 * 1024) { 
                 showNotification('danger', '❌', 'File is too large (Max 5MB for this demo).');
                 return;
             }
-
             const reader = new FileReader();
             reader.onload = function(e) {
-                const fileData = {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    lastModified: file.lastModified,
-                    content: e.target.result // Base64 content
-                };
-                
+                const fileData = { name: file.name, type: file.type, size: file.size, lastModified: file.lastModified, content: e.target.result };
                 localStorage.setItem(fileKey, JSON.stringify(fileData));
                 uploadedFiles[fileKey] = fileData;
-
                 renderUploadedFile(areaId, fileKey, fileData, deliverableName);
-                showNotification('success', '✅', `<strong>${deliverableName}</strong> "${file.name}" submitted successfully.`);
+                showNotification('success', '✅', `"${file.name}" submitted for ${deliverableName}.`);
                 updateDashboardStats();
-                checkDeadlinesAndTimeline();
+                checkDeadlinesAndTimeline(); 
             };
-            reader.onerror = function() {
-                showNotification('danger', '❌', 'Error reading file.');
-            };
-            reader.readAsDataURL(file); // Read as Base64
+            reader.readAsDataURL(file);
         }
-        
         function downloadUploadedFile(fileKey) {
             const fileData = uploadedFiles[fileKey];
             if (fileData && fileData.content) {
-                const link = document.createElement('a');
-                link.href = fileData.content;
-                link.download = fileData.name;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showNotification('info', '📥', `Downloading ${fileData.name}...`);
-            } else {
-                showNotification('warning', '⚠️', 'File content not found for download.');
+                const link = document.createElement('a'); link.href = fileData.content; link.download = fileData.name;
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
             }
         }
-
         function removeFile(areaId, fileKey, deliverableName) {
-            localStorage.removeItem(fileKey);
-            delete uploadedFiles[fileKey];
+            localStorage.removeItem(fileKey); delete uploadedFiles[fileKey];
             renderUploadPrompt(areaId, fileKey, deliverableName);
-            showNotification('info', '🗑️', `${deliverableName} submission cleared.`);
-            updateDashboardStats();
-            checkDeadlinesAndTimeline();
+            showNotification('info', '🗑️', `${deliverableName} cleared.`);
+            updateDashboardStats(); checkDeadlinesAndTimeline();
         }
-        
+         function updateDeliverableStatuses(nowSimulatedCEST, deadlinesConfig) { 
+            deliverableKeys.forEach(key => {
+                const deadlineInfo = deadlinesConfig.find(d => d.key === key);
+                if (deadlineInfo) {
+                    // For Round tabs, the status element is directly the span
+                    updateDeliverableStatusUIOnly(`${key}Status_R1`, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name); 
+                    // For Schedule tab, the ID is on the deliverable-section div
+                    updateDeliverableStatusUIOnly(`${key}UploadStatus_schedule`, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
+                    // For dashboard's amendment proposal status
+                    if (key === 'amendmentProposals_R2') {
+                        updateDeliverableStatusUIOnly('amendmentProposalsUploadStatus_dashboard', key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
+                    }
+                }
+            });
+        }
+
+        function updateDeliverableStatusUIOnly(statusElementIdOrContainerId, fileKey, deadline, now, deliverableName) {
+            let statusElContainer = document.getElementById(statusElementIdOrContainerId);
+            let statusEl;
+
+            if (!statusElContainer) return;
+
+            if (statusElContainer.classList.contains('deliverable-status')) { // Direct span ID (Round tabs)
+                statusEl = statusElContainer;
+            } else if (statusElContainer.classList.contains('deliverable-section')) { // Container div (Schedule, Dashboard)
+                statusEl = statusElContainer.querySelector('.deliverable-status');
+                if (!statusEl) { // If structure is missing, try to build it
+                    let header = statusElContainer.querySelector('.deliverable-header');
+                    if (!header) {
+                        header = document.createElement('div');
+                        header.className = 'deliverable-header';
+                        statusElContainer.prepend(header); // Add header to the top of the section
+                    }
+                    let titleSpan = header.querySelector('.deliverable-title');
+                    if(!titleSpan){
+                        titleSpan = document.createElement('span');
+                        titleSpan.className = 'deliverable-title';
+                        titleSpan.textContent = deliverableName;
+                        header.appendChild(titleSpan);
+                    }
+                    statusEl = document.createElement('span');
+                    statusEl.className = 'deliverable-status';
+                    header.appendChild(statusEl);
+                }
+            } else {
+                return; 
+            }
+            
+            let deadlineCESTHour = deadline.getUTCHours() + 2;
+            let deadlineCESTMinutes = String(deadline.getUTCMinutes()).padStart(2, '0');
+            let deadlineString = `${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes}`;
+
+            let statusText = `Pending - Deadline: ${deadlineString}`;
+            let dotClass = "pending";
+
+            if (uploadedFiles[fileKey]) {
+                statusText = `Submitted <small>(${new Date(uploadedFiles[fileKey].lastModified).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})})</small>`;
+                dotClass = "completed";
+            } else if (now > deadline) {
+                statusText = `OVERDUE - Passed at ${deadlineString}`;
+                dotClass = "overdue";
+            } else if ((deadline.getTime() - now.getTime()) < 30 * 60 * 1000 && (deadline.getTime() - now.getTime()) > 0) {
+                statusText = `URGENT: ${deadlineString}`;
+                dotClass = "pending"; // Could be 'urgent' if you add CSS for .status-dot.urgent
+            }
+            statusEl.innerHTML = `<span class="status-dot ${dotClass}"></span> ${statusText}`;
+        }
+
         function updateDashboardStats() {
             let r1DocsSubmittedCount = 0;
             if (uploadedFiles.preliminaryPosition_R1) r1DocsSubmittedCount++;
             if (uploadedFiles.finalPosition_R1) r1DocsSubmittedCount++;
             
             document.getElementById('docsSubmittedR1').textContent = `${r1DocsSubmittedCount}/2`;
-            let detailTextR1 = "";
-            if (r1DocsSubmittedCount === 0) detailTextR1 = "Prelim. & Final Position Pending";
-            else if (r1DocsSubmittedCount === 1 && uploadedFiles.preliminaryPosition_R1) detailTextR1 = "Prelim. Position ✓, Final Pending";
-            else if (r1DocsSubmittedCount === 1 && uploadedFiles.finalPosition_R1) detailTextR1 = "Final Position ✓, Prelim. Missing!";
-            else if (r1DocsSubmittedCount === 2) detailTextR1 = "All R1 Docs Submitted ✓";
-            document.getElementById('docsSubmittedR1Detail').textContent = detailTextR1;
+            document.getElementById('docsSubmittedR1Detail').textContent = (r1DocsSubmittedCount === 2) ? "All R1 Docs Submitted ✓" : "R1 Docs Pending";
 
-             const round1NavBadge = document.getElementById('round1Badge');
-             if (round1NavBadge) {
-                const pendingR1 = 2 - r1DocsSubmittedCount;
-                if (selectedDelegation && pendingR1 > 0) {
+            const round1NavBadge = document.getElementById('round1Badge');
+            const pendingR1 = 2 - r1DocsSubmittedCount;
+            const nowSimulated = getSimulatedCESTTime();
+            
+            if (round1NavBadge) { 
+                if (selectedDelegation && pendingR1 > 0 && (nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS && nowSimulated.getUTCDate() === 23) ) {
                     round1NavBadge.style.display = 'inline-block';
                     round1NavBadge.textContent = pendingR1;
                 } else {
                     round1NavBadge.style.display = 'none';
                 }
-             }
-             // Update overall activity status on dashboard (simplified)
-             // More complex logic could determine this based on current time and manual statuses
-             const activeTimelineItem = document.querySelector('.timeline-item.active h4');
-             if(activeTimelineItem) {
-                document.getElementById('currentRoundActivityDetail').textContent = activeTimelineItem.textContent;
-             }
+            }
+            
+            const currentSimulatedHourCEST = nowSimulated.getUTCHours() + 2;
+            const currentRoundActivityEl = document.getElementById('currentRoundActivity');
+            const currentRoundActivityDetailEl = document.getElementById('currentRoundActivityDetail');
+
+            if (nowSimulated.getUTCDate() === 24 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
+                if (currentSimulatedHourCEST >= 9 && currentSimulatedHourCEST < 12) {
+                    currentRoundActivityEl.textContent = "Round 2";
+                    currentRoundActivityDetailEl.textContent = "Strategic Negotiation & Drafting";
+                } else if (currentSimulatedHourCEST >= 13 && currentSimulatedHourCEST < 16) {
+                    currentRoundActivityEl.textContent = "Round 3";
+                    currentRoundActivityDetailEl.textContent = "Public Communication";
+                } else if (currentSimulatedHourCEST >= 16) {
+                     currentRoundActivityEl.textContent = "Post-Rounds";
+                    currentRoundActivityDetailEl.textContent = "Awaiting Closing";
+                } else {
+                    currentRoundActivityEl.textContent = "Pre-Round 2";
+                    currentRoundActivityDetailEl.textContent = "Awaiting R2 Start";
+                }
+            } else if (nowSimulated.getUTCDate() === 23 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
+                 currentRoundActivityEl.textContent = "Round 1";
+                 let r1ActiveDetail = "Information Management & Crisis";
+                 // Simplified detail for dashboard if R1
+                 const r1TimelineItemActive = document.querySelector('#dashboard .timeline-item.active h4');
+                 if (r1TimelineItemActive) r1ActiveDetail = r1TimelineItemActive.textContent;
+                 currentRoundActivityDetailEl.textContent = r1ActiveDetail;
+            } else {
+                currentRoundActivityEl.textContent = "Pre-Simulation";
+                currentRoundActivityDetailEl.textContent = "Awaiting Start";
+            }
+            
+            const dashboardR1Indicator = document.getElementById('dashboardRound1StatusIndicator');
+            if (dashboardR1Indicator) {
+                if (nowSimulated.getUTCDate() >= 24 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
+                    dashboardR1Indicator.textContent = "Completed";
+                    dashboardR1Indicator.className = 'status-indicator completed';
+                } else if (nowSimulated.getUTCDate() === 23 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) {
+                     dashboardR1Indicator.textContent = "In Progress / Concluded"; 
+                     dashboardR1Indicator.className = 'status-indicator active'; // Or 'completed' if past 17:00 CEST
+                     if(currentSimulatedHourCEST >= 17) {
+                        dashboardR1Indicator.textContent = "Concluded";
+                        dashboardR1Indicator.className = 'status-indicator completed';
+                     }
+                } else {
+                     dashboardR1Indicator.textContent = "Upcoming";
+                     dashboardR1Indicator.className = 'status-indicator upcoming';
+                }
+            }
+        }
+        
+        function updateActivityStatus(activityId, newStatus) {
+            activityStatuses[activityId] = newStatus;
+            localStorage.setItem('activityStatuses', JSON.stringify(activityStatuses));
+            
+            document.querySelectorAll(`.timeline-item[data-activity-id="${activityId}"]`).forEach(item => {
+                updateActivityStatusUI(item, newStatus);
+                const selectElement = item.querySelector('.activity-status-editor select');
+                if (selectElement && selectElement.value !== newStatus) {
+                    selectElement.value = newStatus;
+                }
+            });
+            showNotification('info', '🔄', `Status of activity "${activityId.replace(/-/g, ' ')}" updated to ${newStatus}.`);
+            updateDashboardStats(); 
+            checkDeadlinesAndTimeline(); 
         }
 
+        function updateActivityStatusUI(timelineItem, status) {
+            timelineItem.classList.remove('upcoming', 'active', 'completed', 'manual-progress', 'manual-upcoming');
+            const statusIndicator = timelineItem.querySelector('.time-label .status-indicator');
+            let statusText = status.charAt(0).toUpperCase() + status.slice(1);
 
-        // --- Utility Functions ---
-        function copyToClipboard(button) {
+            if (status === 'active') { timelineItem.classList.add('active'); statusText="In Progress"; }
+            else if (status === 'completed') { timelineItem.classList.add('completed'); }
+            else if (status === 'upcoming') { timelineItem.classList.add('upcoming'); }
+            
+            if (statusIndicator) {
+                statusIndicator.textContent = statusText;
+                statusIndicator.className = `status-indicator ${status}`;
+            }
+        }
+
+        function copyToClipboard(button) { 
             const textElement = button.nextElementSibling;
             if (textElement && textElement.textContent) {
                 navigator.clipboard.writeText(textElement.textContent.trim())
@@ -3410,198 +3728,96 @@
                     });
             }
         }
-
-        function saveNotes(roundKey) {
+        function saveNotes(roundKey) { 
             const notesTextarea = document.getElementById(`${roundKey}Notes`);
             if (notesTextarea) {
                 roundNotes[roundKey] = notesTextarea.value;
                 localStorage.setItem(`${roundKey}Notes`, notesTextarea.value);
-                showNotification('success', '💾', `Notes for <strong>${roundKey.replace('round', 'Round ')}</strong> saved successfully.`);
+                showNotification('success', '💾', `Notes for <strong>${roundKey.replace('round', 'Round ')}</strong> saved.`);
             }
         }
-
-        function checkForUpdates() {
-            showNotification('info', '🔄', 'Checking for portal updates...');
+        function checkForUpdates() { 
+             showNotification('info', '🔄', 'Checking for portal updates...');
             setTimeout(() => {
-                showNotification('success', '✅', 'Portal is up-to-date. No new information from organizers at this time.');
+                showNotification('success', '✅', 'Portal is up-to-date.');
             }, 1500);
         }
-
-        // --- Modal Functions ---
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalTitleEl = document.getElementById('modalTitle');
-        const modalBodyEl = document.getElementById('modalBody'); // This is the div containing documentViewerContent
-        const documentViewerEl = document.getElementById('documentViewerContent');
-        const modalDownloadLink = document.getElementById('modalDownloadLink');
-
-
-        function openModal(title, contentHTML, downloadUrl = null, downloadFilename = null) {
-            if (modalTitleEl) modalTitleEl.textContent = title;
-            if (documentViewerEl) documentViewerEl.innerHTML = contentHTML;
-            
-            if (modalDownloadLink && downloadUrl) {
-                modalDownloadLink.href = downloadUrl;
-                modalDownloadLink.download = downloadFilename || title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf'; // Default filename
-                modalDownloadLink.style.display = 'inline-flex';
-            } else if (modalDownloadLink) {
-                modalDownloadLink.style.display = 'none';
-            }
-            if (modalOverlay) modalOverlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
-        }
-
-        function closeModal() {
-            if (modalOverlay) modalOverlay.style.display = 'none';
-            if (documentViewerEl) documentViewerEl.innerHTML = ''; // Clear content to prevent issues
-            if (modalDownloadLink) modalDownloadLink.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore background scroll
-        }
-        
-        // --- Content Specific Functions (Viewing Documents) ---
-        async function viewDocument(docName, previewUrl, downloadUrl, mandateType = null) {
-            showNotification('info', '📄', `Loading ${docName}...`);
-            let contentToDisplay = `<p style="text-align:center; padding:20px;">Loading preview for ${docName}...</p>`;
-            let effectiveDownloadUrl = downloadUrl; // Use specific download URL if provided
-
-            if (previewUrl.endsWith('.txt') || docName.toLowerCase().includes("mandate")) { // Assuming mandates are text-based
-                try {
-                    // For GDrive text files, direct fetch might be blocked by CORS.
-                    // The preview URL for GDrive often renders it in a GDrive viewer.
-                    // Best to use GDrive /preview for iframe, or rely on download.
-                    // For this simulation, if it's a GDrive link, we'll attempt iframe.
-                     if (previewUrl.includes('drive.google.com')) {
-                        contentToDisplay = `<iframe src="${previewUrl}" title="${docName}"></iframe>`;
-                    } else { // If it were a direct .txt link not on GDrive (less likely here)
-                        const response = await fetch(previewUrl);
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        let text = await response.text();
-                        // Mandate parsing logic (if needed for non-GDrive text files) would go here
-                        contentToDisplay = `<pre>${text}</pre>`;
-                    }
-                } catch (error) {
-                    console.error('Error preparing text document view:', error);
-                    contentToDisplay = `<p>Error loading preview for ${docName}. Please use the download button. Details: ${error.message}</p>`;
-                }
-            } else if (previewUrl.endsWith('.pdf') || previewUrl.includes('drive.google.com/file')) {
-                 // Use GDrive preview for PDFs
-                 contentToDisplay = `<iframe src="${previewUrl}" title="${docName}"></iframe>`;
-            } else if (previewUrl.match(/\.(jpeg|jpg|gif|png)$/i) != null) { // Image files
-                 contentToDisplay = `<img src="${previewUrl}" alt="${docName}" style="max-width:100%; height:auto;">`;
-            } else {
-                contentToDisplay = `<p>Preview for this file type or link is not fully supported. Best to download.</p>
-                                     ${previewUrl.includes('drive.google.com') ? `<iframe src="${previewUrl}" title="${docName}"></iframe>` : ''}`;
-            }
-            openModal(docName, contentToDisplay, effectiveDownloadUrl, docName);
-        }
-        
-        // --- Activity Status Management ---
-        function updateActivityStatus(activityId, newStatus) {
-            activityStatuses[activityId] = newStatus;
-            localStorage.setItem('activityStatuses', JSON.stringify(activityStatuses));
-            
-            const timelineItem = document.querySelector(`.timeline-item[data-activity-id="${activityId}"]`);
-            if (timelineItem) {
-                timelineItem.classList.remove('upcoming', 'active', 'completed', 'manual-progress', 'manual-upcoming');
-                const statusIndicator = timelineItem.querySelector('.time-label .status-indicator');
-                
-                let statusText = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-                if (newStatus === 'active') {
-                    timelineItem.classList.add('active'); // Default active style
-                    statusText = "In Progress";
-                } else if (newStatus === 'completed') {
-                    timelineItem.classList.add('completed');
-                } else if (newStatus === 'upcoming') {
-                    timelineItem.classList.add('upcoming');
-                } else if (newStatus === 'manual-progress') { // Custom status if needed
-                     timelineItem.classList.add('manual-progress'); // Uses specific dot color
-                     statusText = "In Progress (M)";
-                } else if (newStatus === 'manual-upcoming') {
-                     timelineItem.classList.add('manual-upcoming');
-                     statusText = "Upcoming (M)";
-                }
-
-
-                if (statusIndicator) {
-                    statusIndicator.textContent = statusText;
-                    statusIndicator.className = `status-indicator ${newStatus}`;
-                }
-                 // Ensure the select dropdown also reflects this change if it got out of sync
-                const selectElement = document.getElementById(`status-${activityId}`) || timelineItem.querySelector('.activity-status-editor select');
-                if (selectElement && selectElement.value !== newStatus) {
-                    selectElement.value = newStatus;
-                }
-            }
-            showNotification('info', '🔄', `Status of activity "${activityId.replace(/-/g, ' ')}" updated to ${newStatus}.`);
-        }
-
-        function loadActivityStatuses() {
-            document.querySelectorAll('.timeline-item[data-activity-id]').forEach(item => {
-                const activityId = item.dataset.activityId;
-                const statusSelect = item.querySelector('.activity-status-editor select');
-                
-                if (activityStatuses[activityId]) {
-                    const savedStatus = activityStatuses[activityId];
-                    if (statusSelect) statusSelect.value = savedStatus;
-                    // Apply class and indicator text based on saved status
-                    updateActivityStatusUI(item, savedStatus);
-                } else if (statusSelect) {
-                    // If no saved status, derive from current classes or default to select's current value
-                    const initialStatus = statusSelect.value;
-                    activityStatuses[activityId] = initialStatus; // Save the default/initial
-                    updateActivityStatusUI(item, initialStatus);
-                }
-            });
-             localStorage.setItem('activityStatuses', JSON.stringify(activityStatuses)); // Save any newly defaulted statuses
-        }
-
-        function updateActivityStatusUI(timelineItem, status) {
-            timelineItem.classList.remove('upcoming', 'active', 'completed', 'manual-progress', 'manual-upcoming');
-            const statusIndicator = timelineItem.querySelector('.time-label .status-indicator');
-            let statusText = status.charAt(0).toUpperCase() + status.slice(1);
-
-            if (status === 'active') { timelineItem.classList.add('active'); statusText="In Progress"; }
-            else if (status === 'completed') { timelineItem.classList.add('completed'); }
-            else if (status === 'upcoming') { timelineItem.classList.add('upcoming'); }
-            else if (status === 'manual-progress') { timelineItem.classList.add('manual-progress'); statusText="In Progress (M)";}
-            else if (status === 'manual-upcoming') { timelineItem.classList.add('manual-upcoming'); statusText="Upcoming (M)";}
-
-
-            if (statusIndicator) {
-                statusIndicator.textContent = statusText;
-                statusIndicator.className = `status-indicator ${status}`;
-            }
-        }
-
-
-        function showSignalInstructions() {
+        function showSignalInstructions() { 
             const instructionsDiv = document.getElementById('signalInstructions');
             if (instructionsDiv) {
                 const isHidden = instructionsDiv.style.display === 'none' || instructionsDiv.style.display === '';
                 instructionsDiv.style.display = isHidden ? 'block' : 'none';
-                if (isHidden) {
-                    instructionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                     showNotification('info', '📱', 'Signal setup guide displayed. Check the Platforms & Links tab.');
-                }
+                if (isHidden) instructionsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
+         }
+        
+        function formatICSDate(date) {
+            return date.getUTCFullYear() +
+                String(date.getUTCMonth() + 1).padStart(2, '0') +
+                String(date.getUTCDate()).padStart(2, '0') + 'T' +
+                String(date.getUTCHours()).padStart(2, '0') +
+                String(date.getUTCMinutes()).padStart(2, '0') +
+                String(date.getUTCSeconds()).padStart(2, '0') + 'Z';
         }
 
         function exportSchedule() {
-            showNotification('info', '📅', 'Calendar export (.ics) feature is conceptual for this portal. In a full app, this would generate a downloadable calendar file.');
-            // Basic .ics structure example (would need dynamic data)
-            // const calContent = `BEGIN:VCALENDAR
-            // VERSION:2.0
-            // PRODID:-//COACH PRO Portal//EN
-            // BEGIN:VEVENT
-            // UID:${new Date().toISOString()}@coachpro.portal
-            // DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'}
-            // DTSTART:20250523T070000Z 
-            // DTEND:20250523T100000Z
-            // SUMMARY:Inauguration Session (Webex)
-            // DESCRIPTION:Expert panels and keynote speeches.
-            // LOCATION:Webex
-            // END:VEVENT
-            // END:VCALENDAR`;
-            // console.log(calContent); // In a real scenario, trigger download
+            const nowSimulated = getSimulatedCESTTime(); // Use simulated year for event dates
+            const simYear = nowSimulated.getUTCFullYear();
+
+            let icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//COACH PRO Portal//Malta Dialogue Schedule//EN
+CALSCALE:GREGORIAN
+`;
+
+            const scheduleEvents = [
+                { summary: "Inauguration Session (Webex)", dtstart: new Date(Date.UTC(simYear, 4, 23, 9-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 12-2, 0, 0)), location: "Webex", description: "Expert panels and keynote speeches. Open to public." },
+                { summary: "ROUND 1: Info Management & Positioning", dtstart: new Date(Date.UTC(simYear, 4, 23, 13-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), location: "Zoom", description: "Full Round 1 activities." },
+                { summary: "R1 - Official Opening", dtstart: new Date(Date.UTC(simYear, 4, 23, 14-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 14-2, 20, 0)), location: "Zoom Plenary" },
+                { summary: "R1 - Prelim. Position Paper Deadline", dtstart: new Date(Date.UTC(simYear, 4, 23, 15-2, 15, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 15-2, 15, 0)), location: "Google Drive", description: "Deadline for Preliminary Position Paper." },
+                { summary: "R1 - Final Position Paper Deadline", dtstart: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Updated Position Paper." },
+                
+                { summary: "ROUND 2: Strategic Negotiation & Drafting", dtstart: new Date(Date.UTC(simYear, 4, 24, 9-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), location: "Zoom", description: "Full Round 2 activities." },
+                { summary: "R2 - Amendment Proposals Deadline", dtstart: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Amendment Proposals." },
+
+                { summary: "ROUND 3: Public Communication", dtstart: new Date(Date.UTC(simYear, 4, 24, 13-0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 16-2, 0, 0)), location: "Zoom", description: "Full Round 3 activities." },
+                { summary: "R3 - Written Statement Deadline", dtstart: new Date(Date.UTC(simYear, 4, 24, 14-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 14-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Written Statement." },
+                
+                { summary: "Closing Ceremony and Awards (Webex)", dtstart: new Date(Date.UTC(simYear, 4, 24, 16-2, 30, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 17-2, 0, 0)), location: "Webex", description: "Delivery of excellence certificates and closing remarks." }
+            ];
+
+            scheduleEvents.forEach(event => {
+                icsContent += `BEGIN:VEVENT
+UID:${event.dtstart.toISOString()}-${event.summary.replace(/\s/g, '')}@coachpro.portal
+DTSTAMP:${formatICSDate(new Date())}
+DTSTART:${formatICSDate(event.dtstart)}
+DTEND:${formatICSDate(event.dtend)}
+SUMMARY:${event.summary}
+LOCATION:${event.location || ''}
+DESCRIPTION:${event.description || ''}
+END:VEVENT
+`;
+            });
+
+            icsContent += "END:VCALENDAR";
+
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", "MaltaDialogue_Schedule.ics");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showNotification('success', '📅', 'Schedule downloaded as MaltaDialogue_Schedule.ics');
+        }
+
+        function toggleNotificationPanel() { 
+            // This is a placeholder. A real implementation would show/hide a notification list panel.
+            if(currentNotificationCount > 0) {
+                 alert(`You have ${currentNotificationCount} active notification(s). Check the individual pop-ups.`);
+            } else {
+                alert('No new notifications.');
+            }
         }
 
     </script>
