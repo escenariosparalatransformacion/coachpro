@@ -319,6 +319,7 @@
         .content-actions {
             display: flex;
             gap: 12px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
         }
         .btn {
             padding: 12px 22px; /* Larger buttons */
@@ -458,6 +459,8 @@
         .stat-card.warning::before { background: var(--warning-color); }
         .stat-card.danger::before { background: var(--danger-color); }
         .stat-card.success::before { background: var(--success-color); }
+        .stat-card.info::before { background: #60a5fa; } /* Light blue for general info */
+
         .stat-label {
             font-size: 0.9rem;
             color: #64748b;
@@ -517,7 +520,7 @@
             transition: all 0.3s ease;
             z-index: 1;
         }
-        .timeline-item.active::before {
+        .timeline-item.active::before { /* For timeline items dynamically marked active */
             background: var(--accent-color);
             border-color: var(--accent-color);
             box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.25);
@@ -533,9 +536,10 @@
             border-color: var(--success-color);
         }
         .timeline-item.upcoming::before {
-            background: #e2e8f0;
+            background: #e2e8f0; /* Default light gray for upcoming */
             border-color: #cbd5e1;
         }
+        /* Manual status classes also apply to ::before for consistency if needed */
         .timeline-item.manual-progress::before { background: #60a5fa; border-color: #60a5fa; } /* Light blue for manual in-progress */
         .timeline-item.manual-upcoming::before { background: #a78bfa; border-color: #a78bfa; } /* Purple for manual upcoming */
 
@@ -549,7 +553,7 @@
             gap: 12px;
             flex-wrap: wrap; /* Allow wrapping for status editor */
         }
-        .time-label .status, .status-indicator {
+        .time-label .status, .status-indicator { /* .status for general text, .status-indicator for styled badges */
             font-size: 0.9rem;
             padding: 5px 14px;
             border-radius: 20px;
@@ -1201,6 +1205,23 @@
              border: 1px solid var(--border-color);
         }
 
+        .delegation-deliverables {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .delegation-deliverables h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        .deliverable-item {
+            margin-bottom:10px;
+        }
+        .deliverable-item .btn {
+            margin-right: 10px;
+        }
+
 
         @media (max-width: 1024px) {
             .dashboard-grid {
@@ -1239,6 +1260,7 @@
             .content-title { font-size: 1.8rem; }
             .nav-item { padding: 10px 12px; }
             .btn { padding: 10px 18px; }
+            .content-actions { justify-content: center;} /* Center buttons on small screens */
         }
     </style>
 </head>
@@ -1370,15 +1392,20 @@
                     <div class="alert alert-warning" id="dashboardAlert">
                         <span class="alert-icon">⚠️</span>
                         <div>
-                            <strong id="dashboardAlertTitle">Round 2 In Progress</strong> 
-                            <span id="dashboardAlertDetail">Next deadline: Amendment Proposals - 12:00 CEST</span>
+                            <strong id="dashboardAlertTitle">Loading Status...</strong> 
+                            <span id="dashboardAlertDetail">Please wait while the portal initializes.</span>
                         </div>
                     </div>
                     <div class="stats-grid">
-                        <div class="stat-card warning">
-                            <div class="stat-label">Current Round Activity</div>
-                            <div class="stat-value" id="currentRoundActivity">Round 2</div> 
-                            <div class="stat-detail" id="currentRoundActivityDetail">Strategic Negotiation & Drafting</div>
+                         <div class="stat-card info"> <!-- New Overall Progress Card -->
+                            <div class="stat-label">Overall Simulation Progress</div>
+                            <div class="stat-value" id="overallProgressValue" style="font-size:1.8rem;">Initializing...</div>
+                            <div class="stat-detail" id="overallProgressDetail">Calculating total activities.</div>
+                        </div>
+                        <div class="stat-card warning"> <!-- Changed from "Current Round Activity" to be more specific -->
+                            <div class="stat-label">Current Active Task</div>
+                            <div class="stat-value" id="currentRoundActivity" style="font-size:1.6rem; line-height:1.2;">-</div> 
+                            <div class="stat-detail" id="currentRoundActivityDetail">Waiting for activity data...</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-label">Active Delegation</div>
@@ -1387,13 +1414,13 @@
                         </div>
                         <div class="stat-card danger">
                             <div class="stat-label">Next Deadline (CEST)</div>
-                            <div class="stat-value" id="nextDeadlineTimeDisplay">12:00</div> 
-                            <div class="stat-detail" id="nextDeadlineTask">Amendment Proposals</div>
+                            <div class="stat-value" id="nextDeadlineTimeDisplay">--:--</div> 
+                            <div class="stat-detail" id="nextDeadlineTask">Calculating...</div>
                         </div>
                         <div class="stat-card success"> 
                             <div class="stat-label">Round 1 Docs Submitted</div>
-                            <div class="stat-value" id="docsSubmittedR1">2/2</div>
-                            <div class="stat-detail" id="docsSubmittedR1Detail">All R1 Docs Submitted ✓</div>
+                            <div class="stat-value" id="docsSubmittedR1">0/2</div>
+                            <div class="stat-detail" id="docsSubmittedR1Detail">Pending R1 Docs</div>
                         </div>
                     </div>
                     
@@ -1403,31 +1430,28 @@
                                 <span class="round-number">1</span>
                                 Round 1: Information Management & Positioning
                             </div>
-                            <span class="status-indicator completed" id="dashboardRound1StatusIndicator">Completed</span>
+                            <span class="status-indicator upcoming" id="dashboardRound1StatusIndicator">Upcoming</span>
                         </div>
-                        <p style="text-align: center; padding: 10px 0;"><i>Round 1 (May 23rd) has concluded. Details of activities are available in the "Round 1" tab or "Schedule" tab.</i></p>
+                        <p id="dashboardRound1Summary" style="text-align: center; padding: 10px 0;"><i>Round 1 (May 23rd). Status loading...</i></p>
                     </div>
 
                      <div class="round-section">
                         <div class="round-header">
                             <div class="round-title">
                                 <span class="round-number">2</span>
-                                Current Status: Round 2 - Strategic Negotiation & Drafting
+                                Round 2: Strategic Negotiation & Drafting
                             </div>
-                            <span class="status-indicator active" id="dashboardRound2StatusIndicator">⚡ ACTIVE</span>
+                            <span class="status-indicator upcoming" id="dashboardRound2StatusIndicator">Upcoming</span>
                         </div>
-                        <div class="timeline">
-                             <div class="timeline-item completed" data-activity-id="dashboard-r2-consult">
+                         <p id="dashboardRound2Summary" style="text-align: center; padding: 10px 0;"><i>Round 2 (May 24th, 09:00-12:00 CEST). Awaiting start or R1 completion.</i></p>
+                        <div class="timeline" id="dashboardRound2Timeline" style="display:none;"> <!-- Initially hidden, shown when R2 is active -->
+                             <div class="timeline-item" data-activity-id="dashboard-r2-consult"> <!-- Matched with sched-r2-consult -->
                                 <div class="time-label">
                                     09:10 - 09:30 CEST (May 24)
-                                    <span class="status-indicator completed">Completed</span>
+                                    <span class="status-indicator upcoming">Upcoming</span>
                                     <div class="activity-status-editor">
                                         <label for="status-dashboard-r2-consult">Status:</label>
-                                        <select id="status-dashboard-r2-consult" onchange="updateActivityStatus('sched-r2-consult', this.value)">
-                                            <option value="upcoming">Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed" selected>Completed</option>
-                                        </select>
+                                        <select id="status-dashboard-r2-consult" onchange="updateActivityStatus('sched-r2-consult', this.value)"></select>
                                     </div>
                                 </div>
                                 <h4>Consultation of R1 Position Papers</h4>
@@ -1435,17 +1459,13 @@
                                     <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Papers</a>
                                 </p>
                             </div>
-                            <div class="timeline-item active" data-activity-id="dashboard-r2-draftdec"> <!-- Currently 09:30, this is active -->
+                            <div class="timeline-item" data-activity-id="dashboard-r2-draftdec"> <!-- Matched with sched-r2-draftdec -->
                                 <div class="time-label">
                                     09:30 - 09:45 CEST (May 24)
-                                    <span class="status-indicator active">In Progress</span>
+                                    <span class="status-indicator upcoming">Upcoming</span>
                                      <div class="activity-status-editor">
                                         <label for="status-dashboard-r2-draftdec">Status:</label>
-                                        <select id="status-dashboard-r2-draftdec" onchange="updateActivityStatus('sched-r2-draftdec', this.value)">
-                                            <option value="upcoming">Upcoming</option>
-                                            <option value="active" selected>In Progress</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
+                                        <select id="status-dashboard-r2-draftdec" onchange="updateActivityStatus('sched-r2-draftdec', this.value)"></select>
                                     </div>
                                 </div>
                                 <h4>Communication of Draft Declaration</h4>
@@ -1453,33 +1473,25 @@
                                     <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Draft Declaration of Principles.pdf', 'https://drive.google.com/file/d/1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT/preview', 'https://drive.google.com/uc?export=download&id=1ug3jAWBeVW6pzsBWdTw6h6gwrV1EGjiT')">📄 View Draft Declaration</a>
                                 </p>
                             </div>
-                             <div class="timeline-item upcoming" data-activity-id="dashboard-r2-negostart">
+                             <div class="timeline-item" data-activity-id="dashboard-r2-negostart"> <!-- Matched with sched-r2-negostart -->
                                 <div class="time-label">
                                     09:45 - 10:00 CEST (May 24)
                                     <span class="status-indicator upcoming">Upcoming</span>
                                     <div class="activity-status-editor">
                                         <label for="status-dashboard-r2-negostart">Status:</label>
-                                        <select id="status-dashboard-r2-negostart" onchange="updateActivityStatus('sched-r2-negostart', this.value)">
-                                            <option value="upcoming" selected>Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
+                                        <select id="status-dashboard-r2-negostart" onchange="updateActivityStatus('sched-r2-negostart', this.value)"></select>
                                     </div>
                                 </div>
                                 <h4>Negotiation Starts: Prioritization of Issues</h4>
                                 <p>Teams evaluate Draft Declaration and identify critical issues for amendment.</p>
                             </div>
-                            <div class="timeline-item upcoming" data-activity-id="dashboard-r2-amendsubmit">
+                            <div class="timeline-item" data-activity-id="dashboard-r2-amendsubmit"> <!-- Matched with sched-r2-amendsubmit -->
                                 <div class="time-label">
                                     11:00 - 12:00 CEST (May 24)
                                     <span class="status-indicator upcoming">Upcoming Deadline</span>
                                     <div class="activity-status-editor">
                                         <label for="status-dashboard-r2-amendsubmit">Status:</label>
-                                        <select id="status-dashboard-r2-amendsubmit" onchange="updateActivityStatus('sched-r2-amendsubmit', this.value)">
-                                            <option value="upcoming" selected>Upcoming</option>
-                                            <option value="active">In Progress</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
+                                        <select id="status-dashboard-r2-amendsubmit" onchange="updateActivityStatus('sched-r2-amendsubmit', this.value)"></select>
                                     </div>
                                 </div>
                                 <h4>Submission of Amendment Proposals</h4>
@@ -1487,7 +1499,7 @@
                                      <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Amendments instructions.pdf', 'https://drive.google.com/file/d/13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ/preview', 'https://drive.google.com/uc?export=download&id=13vCqKyJpUXO-KIetJEjSnyUUXHZB1fXQ')">📄 View Amendment Instructions</a>
                                 </p>
                                 <div id="amendmentProposalsUploadStatus_dashboard" class="deliverable-section" style="padding: 15px; margin-top:10px;">
-                                    <!-- Status will be rendered here for the dashboard copy of this item -->
+                                    <div class="deliverable-header"><span class="deliverable-title">Amendment Proposals (R2)</span><span class="deliverable-status"></span></div>
                                 </div>
                             </div>
                         </div>
@@ -1562,6 +1574,23 @@
                         </ul>
                         <p class="reference">📄 Full Document: <a href="#" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x'); return false;">MERGED Final position papers from R1.pdf</a></p>
                     </div>
+                    <div class="key-takeaway-box">
+                        <h4><span class="icon" style="font-size: 1.5rem;">📜</span>Presidency's Final Guidance: General Declaration</h4>
+                        <ul>
+                            <li>The <span class="highlight-important">General Final Declaration of Principles .pdf</span> likely represents the Presidency's vision or a near-final version of the negotiated outcome for the Malta Dialogue.</li>
+                            <li>It's crucial for Round 3 preparations, as delegations will need to articulate their final stance (endorse, endorse with reservations, reject) in relation to this document.</li>
+                        </ul>
+                        <p class="reference">📄 Full Document: <a href="#" onclick="viewDocument('General Final Declaration of Principles .pdf', 'https://drive.google.com/file/d/1VNSAdVuGXzOs1GSjD13OTyKjVu79Vjqs/preview', 'https://drive.google.com/uc?export=download&id=1VNSAdVuGXzOs1GSjD13OTyKjVu79Vjqs'); return false;">General Final Declaration of Principles .pdf</a></p>
+                    </div>
+                    <div class="key-takeaway-box">
+                        <h4><span class="icon" style="font-size: 1.5rem;">📜</span>Negotiated Outcome: Final Declaration</h4>
+                        <ul>
+                            <li>The <span class="highlight-important">Final Declaration of Principle.pdf</span> is another key document, potentially the version that reflects amendments and agreements from Round 2.</li>
+                            <li>Compare this with the "General Final Declaration" to understand shifts and final compromises. This will inform your delegation's press statements.</li>
+                        </ul>
+                        <p class="reference">📄 Full Document: <a href="#" onclick="viewDocument('Final Declaration of Principle.pdf', 'https://drive.google.com/file/d/1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j/preview', 'https://drive.google.com/uc?export=download&id=1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j'); return false;">Final Declaration of Principle.pdf</a></p>
+                    </div>
+
 
                     <div class="delegation-card" style="border-left: 5px solid var(--accent-color);">
                         <h3 style="color: var(--accent-color); margin-bottom: 15px;">Disrupted Geopolitical Context</h3>
@@ -1805,7 +1834,9 @@
                                 <div class="timeline-item" data-activity-id="sched-r3-finaldec">
                                     <div class="time-label">13:00 - 13:30<span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r3-finaldec">Status:</label><select id="status-sched-r3-finaldec" onchange="updateActivityStatus('sched-r3-finaldec', this.value)"></select></div></div>
                                     <h5>3.1 Publication of the Final Declaration of Principles</h5>
-                                    <p>Presidency publishes the Final Declaration. Teams review and note priorities addressed.</p>
+                                    <p>Presidency publishes the Final Declaration. Teams review and note priorities addressed.
+                                        <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Final Declaration of Principle.pdf', 'https://drive.google.com/file/d/1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j/preview', 'https://drive.google.com/uc?export=download&id=1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j')">📄 View Final Declaration</a>
+                                    </p>
                                 </div>
                                 <div class="timeline-item" id="schedule-statement-submission" data-activity-id="sched-r3-statementsubmit">
                                     <div class="time-label">13:30 - 14:00 <span class="status-indicator"></span><div class="activity-status-editor"><label for="status-sched-r3-statementsubmit">Status:</label><select id="status-sched-r3-statementsubmit" onchange="updateActivityStatus('sched-r3-statementsubmit', this.value)"></select></div></div>
@@ -1844,10 +1875,10 @@
                         <h2 class="content-title">Delegation of Tunisia 🇹🇳</h2>
                         <div class="content-actions">
                              <button class="btn btn-primary" onclick="viewDocument('Republic of Tunisia Preliminary Position Paper.pdf', 'https://drive.google.com/file/d/1Exo7e3L3tOeSVOWFZat-5zE5pIasYE3m/preview', 'https://drive.google.com/uc?export=download&id=1Exo7e3L3tOeSVOWFZat-5zE5pIasYE3m')">
-                               📄 View Prelim. Position
+                               R1: Prelim. Position
                             </button>
                             <button class="btn btn-primary" onclick="viewDocument('Tunisia - Final Position Paper.pdf', 'https://drive.google.com/file/d/110gJmvQwlKgL-0gR6cpC_8cgiXmQEBoS/preview', 'https://drive.google.com/uc?export=download&id=110gJmvQwlKgL-0gR6cpC_8cgiXmQEBoS')">
-                               📄 View Final Position
+                               R1: Final Position
                             </button>
                         </div>
                     </div>
@@ -1924,6 +1955,22 @@
 
                         <h3>6. Negotiation Pathways</h3>
                         <p>Tunisia will employ a transactional and defensive negotiation posture, mirroring Poland’s strategy of red-line clarity and rhetorical flexibility. It will support vague or symbolic consensus language on “regional partnership” or “capacity-building” if such phrasing opens funding streams and does not imply legal responsibility. Tunisia may use the bloc’s cohesion to reject SAR, return, or externalization frameworks that exceed its interests, while quietly supporting technical formats that bolster its domestic control. Flexibility exists in timing, formats, and aid flows — not in substance, legal accountability, or long-term commitments.</p>
+                        
+                        <div class="delegation-deliverables">
+                            <h4>Key Deliverables & Bloc Documents:</h4>
+                            <div class="deliverable-item">
+                                <p><strong>Round 2 - Amendments:</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Libya Egypt Tunisia Niger Senegal Amendments to Draft Declaration of Principles2 (2).pdf','https://drive.google.com/file/d/1JKUguN8deTCkdMXSl36rMGTvK7WwETf8/preview','https://drive.google.com/uc?export=download&id=1JKUguN8deTCkdMXSl36rMGTvK7WwETf8')">📄 View Bloc Amendments</button>
+                            </div>
+                            <div class="deliverable-item">
+                                <p><strong>Round 3 - Official Statement:</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Tunisia - Official Statement.pdf','https://drive.google.com/file/d/16s8mByAkMIqL6UPOc6u7lTeSkfND5xiI/preview','https://drive.google.com/uc?export=download&id=16s8mByAkMIqL6UPOc6u7lTeSkfND5xiI')">📄 View Tunisia's Official Statement</button>
+                            </div>
+                             <div class="deliverable-item">
+                                <p><strong>Bloc Position (General):</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Joint Declaration of the Operational Sovereignty Coalition.pdf','https://drive.google.com/file/d/1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-/preview','https://drive.google.com/uc?export=download&id=1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-')">📄 View Joint OSC Declaration</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1933,10 +1980,10 @@
                         <h2 class="content-title">Delegation of Senegal 🇸🇳</h2>
                          <div class="content-actions">
                             <button class="btn btn-primary" onclick="viewDocument('Senegal Position Paper.pdf', 'https://drive.google.com/file/d/1KKvdQwPTbRyN3AANRSs9Hc8EZ31emTiH/preview', 'https://drive.google.com/uc?export=download&id=1KKvdQwPTbRyN3AANRSs9Hc8EZ31emTiH')">
-                               📄 View Prelim. Position
+                               R1: Prelim. Position
                             </button>
                              <button class="btn btn-primary" onclick="viewDocument('Senegal Position Paper final.pdf', 'https://drive.google.com/file/d/1lovYTj9Dm3tuWBj-Zkz9Z4xvEnLYiDiu/preview', 'https://drive.google.com/uc?export=download&id=1lovYTj9Dm3tuWBj-Zkz9Z4xvEnLYiDiu')">
-                               📄 View Final Position
+                               R1: Final Position
                             </button>
                         </div>
                     </div>
@@ -2014,6 +2061,23 @@
 
                         <h3>6. Negotiation Pathways</h3>
                         <p>Senegal’s negotiation strategy is based on narrative reframing and transactional pragmatism. It will oppose coercive measures but engage constructively on development-linked cooperation. Senegal may support vague declarations that reference “dignified return,” “mutual benefit,” or “skills mobility” — while rejecting conditionality, monitoring, or obligations. It will seek alignment with France or Germany on ethical recruitment, and with African Union actors on regional frameworks. Flexibility exists on implementation tools and language — not on forced returns or loss of narrative control.</p>
+                        
+                        <div class="delegation-deliverables">
+                            <h4>Key Deliverables & Bloc Documents:</h4>
+                            <div class="deliverable-item">
+                                <p><strong>Round 2 - Amendments (Individual/Bloc Input):</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Senegal Draft Declaration of Principles.pdf','https://drive.google.com/file/d/1wHHESujRG7LZzKggIdxTyDjLM21s0K8S/preview','https://drive.google.com/uc?export=download&id=1wHHESujRG7LZzKggIdxTyDjLM21s0K8S')">📄 View Senegal's Draft/Amendments</button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Libya Egypt Tunisia Niger Senegal Amendments to Draft Declaration of Principles2 (2).pdf','https://drive.google.com/file/d/1JKUguN8deTCkdMXSl36rMGTvK7WwETf8/preview','https://drive.google.com/uc?export=download&id=1JKUguN8deTCkdMXSl36rMGTvK7WwETf8')">📄 View Bloc Amendments</button>
+                            </div>
+                            <div class="deliverable-item">
+                                <p><strong>Round 3 - Press Release:</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Senegal Press release.pdf','https://drive.google.com/file/d/16RDH6WHer85OzHo8-XL4-M_zuK96JaLJ/preview','https://drive.google.com/uc?export=download&id=16RDH6WHer85OzHo8-XL4-M_zuK96JaLJ')">📄 View Senegal's Press Release</button>
+                            </div>
+                            <div class="deliverable-item">
+                                <p><strong>Bloc Position (General):</strong></p>
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Joint Declaration of the Operational Sovereignty Coalition.pdf','https://drive.google.com/file/d/1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-/preview','https://drive.google.com/uc?export=download&id=1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-')">📄 View Joint OSC Declaration</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2074,6 +2138,9 @@
                                 <li>Use bloc's collective weight to resist pressure for unwanted responsibilities (e.g., SAR zones, return quotas for non-nationals).</li>
                                 <li>Exploit differences between other blocs to advance sovereignty agenda.</li>
                             </ul>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary btn-sm" onclick="viewDocument('Joint Declaration of the Operational Sovereignty Coalition.pdf','https://drive.google.com/file/d/1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-/preview','https://drive.google.com/uc?export=download&id=1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-')">📄 View Joint OSC Declaration</button>
+                            </div>
                         </div>
                     </div>
                     <div class="round-section">
@@ -2110,7 +2177,7 @@
                 <!-- Round 1 Tab -->
                 <div id="round1" class="tab-content">
                     <div class="content-header">
-                        <h2 class="content-title">Round 1: Information Management & Positioning (Concluded)</h2>
+                        <h2 class="content-title">Round 1: Information Management & Positioning</h2>
                     </div>
                      <div class="alert alert-success"> 
                         <span class="alert-icon">✅</span>
@@ -2155,11 +2222,9 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Preliminary Position Paper</span>
                                 <span class="deliverable-status" id="preliminaryPositionStatus_R1">
-                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="preliminaryPositionUploadArea_R1">
-                                <!-- Upload area will be rendered here by JS -->
                             </div>
                              <div class="ai-assistant-box">
                                  <h5>🤖 AI Prompts for Drafting Preliminary Position Paper:</h5>
@@ -2222,11 +2287,9 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Updated Position Paper</span>
                                  <span class="deliverable-status" id="finalPositionStatus_R1">
-                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="finalPositionUploadArea_R1">
-                                <!-- Upload area will be rendered here by JS -->
                             </div>
                         </div>
                         <div class="alert alert-info" style="margin-top: 15px;">
@@ -2251,8 +2314,8 @@
                      <div class="alert alert-info">
                         <span class="alert-icon">ℹ️</span>
                         <div>
-                            <strong>Round 2 (May 24th, 09:00 - 12:00 CEST). Active now.</strong><br>
-                            Focus on analyzing the Draft Declaration and preparing amendments.
+                            <strong>Round 2 (May 24th, 09:00 - 12:00 CEST).</strong><br>
+                            Focus on analyzing the Draft Declaration and preparing amendments. Check Dashboard for current status.
                         </div>
                     </div>
                     <div class="round-section">
@@ -2261,8 +2324,7 @@
                         </div>
                         <h4>2.1.1 Consultation of Position Papers of Potential Targets (09:10 - 09:30)</h4>
                         <p>Teams analyze the Final Position Papers from Round 1 (downloaded from Google Drive) to identify potential allies and areas for compromise. No debate occurs at this stage; the focus is on mapping others’ strategies, red lines, and possible engagement targets.
-                             <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px
-							 onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Position Papers</a>
+                             <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('MERGED Final position papers from R1.pdf', 'https://drive.google.com/file/d/1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x/preview', 'https://drive.google.com/uc?export=download&id=1BsXa6oEOjkJd7ECZepWUECFsxBQy7z8x')">📄 View Merged R1 Position Papers</a>
                         </p>
                         <div class="ai-assistant-box">
                             <h5>🤖 AI Prompts for Analyzing Positions:</h5>
@@ -2342,11 +2404,9 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Amendment Proposals</span>
                                  <span class="deliverable-status" id="amendmentProposalsStatus_R2">
-                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                            <div id="amendmentProposalsUploadArea_R2">
-                                <!-- Upload area will be rendered here by JS -->
                             </div>
                         </div>
                         <div class="alert alert-info" style="margin-top: 15px;">
@@ -2371,20 +2431,23 @@
                      <div class="alert alert-info">
                         <span class="alert-icon">ℹ️</span>
                         <div>
-                            <strong>Round 3 (May 24th, 13:00 - 16:00 CEST). Upcoming.</strong><br>
-                            Focus on analyzing the Final Declaration and preparing public statements.
+                            <strong>Round 3 (May 24th, 13:00 - 16:00 CEST).</strong><br>
+                            Focus on analyzing the Final Declaration and preparing public statements. Check Dashboard for current status.
                         </div>
                     </div>
                     <div class="round-section">
                         <div class="round-header">
                             <div class="round-title"><span class="round-number">3.1</span>Publication of the Final "Declaration of Principle" (13:00 - 13:30)</div>
                         </div>
-                        <p>The Presidency publishes the Final Declaration of Principles (reflecting some amendments). Teams review and note which priorities were addressed/pushed aside. (Document would be available on Google Drive)</p>
+                        <p>The Presidency publishes the Final Declaration of Principles (reflecting some amendments). Teams review and note which priorities were addressed/pushed aside. 
+                            <br><a href="#" class="btn btn-sm btn-secondary" style="margin-top:5px;" onclick="viewDocument('Final Declaration of Principle.pdf', 'https://drive.google.com/file/d/1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j/preview', 'https://drive.google.com/uc?export=download&id=1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j')">📄 View Final Declaration</a>
+                            (Also see "General Final Declaration" in Overview/Documents Hub for Presidency's overarching document).
+                        </p>
                         <div class="ai-assistant-box">
                             <h5>🤖 AI Prompts for Analyzing Final Declaration:</h5>
                             <div class="ai-prompt" data-gpt-type="Communicator/Analyst">
                                 <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-                                <span>1. (Once available) Upload the Final Declaration of Principles.
+                                <span>1. (Once available) Upload the "Final Declaration of Principle.pdf".
 2. Prompt: "Compare this Final Declaration with [Tunisia/Senegal]'s Final Position Paper and our submitted amendments. Identify: a) Which of our key priorities and red lines were successfully reflected (point to specific clauses)? b) Which were not addressed or were compromised (and how)? c) What are the main 'wins' and 'losses' for our delegation? Who were the key actors in achieving these outcomes?"
 3. Prompt: "Overall, how should [Tunisia/Senegal] evaluate our success in this negotiation based on the Final Declaration? What is the net impact on our delegation's interests and regional standing (as per our mandate)? Provide a balanced assessment."</span>
                             </div>
@@ -2412,11 +2475,9 @@
                             <div class="deliverable-header">
                                 <span class="deliverable-title">📄 Final Written Statement</span>
                                  <span class="deliverable-status" id="writtenStatementStatus_R3">
-                                    <!-- Status rendered by JS -->
                                 </span>
                             </div>
                             <div id="writtenStatementUploadArea_R3">
-                                <!-- Upload area will be rendered here by JS -->
                             </div>
                         </div>
                     </div>
@@ -2452,6 +2513,26 @@
                     </div>
                     
                     <div class="round-section">
+                        <h3>
+                        <button class="btn btn-secondary" style="margin-top: 10px;" onclick="saveNotes('round3')">
+                            💾 Save Notes
+                        </button>
+                    </div>
+                </div>
+                <!-- AI Assistant Guide Tab -->
+                <div id="ai-assistant" class="tab-content">
+                    <div class="content-header">
+                        <h2 class="content-title">AI Assistant Guide</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <span class="alert-icon">🤖</span>
+                        <div>
+                            <strong>AI Usage Guidelines</strong><br>
+                            AI is a powerful support tool for analysis, drafting, and strategy. Your diplomatic judgment, critical thinking, and ethical considerations are paramount. <strong>Do not use AI during direct, live negotiations or the live press conference Q&A.</strong> Use it for preparation, analysis between sessions, and debriefing. Ensure your OpenAI API Key is correctly set in the portal script for the chat widget.
+                        </div>
+                    </div>
+                    
+                    <div class="round-section">
                         <h3>Initial Setup of Your Custom AI Assistant (e.g., Custom GPT)</h3>
                         <p>To effectively leverage your AI assistant, it's crucial to provide it with a strong foundational knowledge base. Upload or prime your AI with the following documents (links available in the Documents Hub):</p>
                         <div class="resource-grid" style="grid-template-columns: 1fr 1fr; margin-top:15px;">
@@ -2466,6 +2547,8 @@
                                     <li>OPENING SPEECH R1.pdf</li>
                                     <li>MERGED Final position papers from R1.pdf (for R2 onwards)</li>
                                     <li>Draft Declaration of Principles.pdf (for R2 onwards)</li>
+                                    <li>General Final Declaration of Principles .pdf (for R3 and final analysis)</li>
+                                    <li>Final Declaration of Principle.pdf (for R3 and final analysis)</li>
                                 </ul>
                             </div>
                             <div class="resource-card">
@@ -2665,38 +2748,94 @@
                         </div>
                     </div>
 
-                    <h3 style="margin: 30px 0 20px; font-size:1.5rem; color: var(--primary-color);">Example Deliverables (Reference Only)</h3>
+                    <h3 style="margin: 30px 0 20px; font-size:1.5rem; color: var(--primary-color);">Key Deliverables & Final Documents</h3>
                      <div class="resource-grid">
                         <div class="resource-card">
                             <div class="resource-icon" style="background-color: var(--tunisia-red); color: white;">🇹🇳</div>
-                            <h4 class="resource-title">Tunisia - Prelim. Position Paper</h4>
-                            <p class="resource-description">Example of a preliminary position paper for Tunisia.</p>
+                            <h4 class="resource-title">Tunisia - Prelim. Position Paper (R1)</h4>
+                            <p class="resource-description">Tunisia's initial position submitted in Round 1.</p>
                              <div class="resource-link-area">
                                  <button class="btn btn-secondary" onclick="viewDocument('Republic of Tunisia Preliminary Position Paper.pdf', 'https://drive.google.com/file/d/1Exo7e3L3tOeSVOWFZat-5zE5pIasYE3m/preview', 'https://drive.google.com/uc?export=download&id=1Exo7e3L3tOeSVOWFZat-5zE5pIasYE3m')">📄 View/Download</button>
                             </div>
                         </div>
                         <div class="resource-card">
                             <div class="resource-icon" style="background-color: var(--senegal-green); color: white;">🇸🇳</div>
-                            <h4 class="resource-title">Senegal - Position Paper (Prelim.)</h4>
-                            <p class="resource-description">Example of a preliminary position paper for Senegal.</p>
+                            <h4 class="resource-title">Senegal - Position Paper (Prelim. R1)</h4>
+                            <p class="resource-description">Senegal's initial position submitted in Round 1.</p>
                              <div class="resource-link-area">
                                  <button class="btn btn-secondary" onclick="viewDocument('Senegal Position Paper.pdf', 'https://drive.google.com/file/d/1KKvdQwPTbRyN3AANRSs9Hc8EZ31emTiH/preview', 'https://drive.google.com/uc?export=download&id=1KKvdQwPTbRyN3AANRSs9Hc8EZ31emTiH')">📄 View/Download</button>
                             </div>
                         </div>
                          <div class="resource-card">
                             <div class="resource-icon" style="background-color: var(--tunisia-red); color: white;">🇹🇳</div>
-                            <h4 class="resource-title">Tunisia - Final Position Paper</h4>
-                            <p class="resource-description">Example of a final position paper for Tunisia.</p>
+                            <h4 class="resource-title">Tunisia - Final Position Paper (R1)</h4>
+                            <p class="resource-description">Tunisia's final position paper for Round 1, post-crisis.</p>
                              <div class="resource-link-area">
                                  <button class="btn btn-secondary" onclick="viewDocument('Tunisia - Final Position Paper.pdf', 'https://drive.google.com/file/d/110gJmvQwlKgL-0gR6cpC_8cgiXmQEBoS/preview', 'https://drive.google.com/uc?export=download&id=110gJmvQwlKgL-0gR6cpC_8cgiXmQEBoS')">📄 View/Download</button>
                             </div>
                         </div>
                         <div class="resource-card">
                             <div class="resource-icon" style="background-color: var(--senegal-green); color: white;">🇸🇳</div>
-                            <h4 class="resource-title">Senegal - Final Position Paper</h4>
-                            <p class="resource-description">Example of a final position paper for Senegal.</p>
+                            <h4 class="resource-title">Senegal - Final Position Paper (R1)</h4>
+                            <p class="resource-description">Senegal's final position paper for Round 1, post-crisis.</p>
                              <div class="resource-link-area">
                                  <button class="btn btn-secondary" onclick="viewDocument('Senegal Position Paper final.pdf', 'https://drive.google.com/file/d/1lovYTj9Dm3tuWBj-Zkz9Z4xvEnLYiDiu/preview', 'https://drive.google.com/uc?export=download&id=1lovYTj9Dm3tuWBj-Zkz9Z4xvEnLYiDiu')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background: #eab308; color: white;">🌍</div>
+                            <h4 class="resource-title">OSC Bloc Amendments (R2)</h4>
+                            <p class="resource-description">Amendments to Draft Declaration by Libya, Egypt, Tunisia, Niger, Senegal.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Libya Egypt Tunisia Niger Senegal Amendments to Draft Declaration of Principles2 (2).pdf','https://drive.google.com/file/d/1JKUguN8deTCkdMXSl36rMGTvK7WwETf8/preview','https://drive.google.com/uc?export=download&id=1JKUguN8deTCkdMXSl36rMGTvK7WwETf8')">📄 View/Download</button>
+                            </div>
+                        </div>
+                         <div class="resource-card">
+                            <div class="resource-icon" style="background-color: var(--senegal-green); color: white;">🇸🇳</div>
+                            <h4 class="resource-title">Senegal - Draft/Amendments (R2)</h4>
+                            <p class="resource-description">Senegal's individual contribution or draft for amendments in Round 2.</p>
+                             <div class="resource-link-area">
+                                 <button class="btn btn-secondary" onclick="viewDocument('Senegal Draft Declaration of Principles.pdf','https://drive.google.com/file/d/1wHHESujRG7LZzKggIdxTyDjLM21s0K8S/preview','https://drive.google.com/uc?export=download&id=1wHHESujRG7LZzKggIdxTyDjLM21s0K8S')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background-color: var(--tunisia-red); color: white;">🇹🇳</div>
+                            <h4 class="resource-title">Tunisia - Official Statement (R3)</h4>
+                            <p class="resource-description">Tunisia's official statement following the Final Declaration in Round 3.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Tunisia - Official Statement.pdf','https://drive.google.com/file/d/16s8mByAkMIqL6UPOc6u7lTeSkfND5xiI/preview','https://drive.google.com/uc?export=download&id=16s8mByAkMIqL6UPOc6u7lTeSkfND5xiI')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background-color: var(--senegal-green); color: white;">🇸🇳</div>
+                            <h4 class="resource-title">Senegal - Press Release (R3)</h4>
+                            <p class="resource-description">Senegal's press release following the Final Declaration in Round 3.</p>
+                             <div class="resource-link-area">
+                                 <button class="btn btn-secondary" onclick="viewDocument('Senegal Press release.pdf','https://drive.google.com/file/d/16RDH6WHer85OzHo8-XL4-M_zuK96JaLJ/preview','https://drive.google.com/uc?export=download&id=16RDH6WHer85OzHo8-XL4-M_zuK96JaLJ')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background: #eab308; color: white;">🌍</div>
+                            <h4 class="resource-title">Joint OSC Declaration</h4>
+                            <p class="resource-description">A joint declaration from the Operational Sovereignty Coalition.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Joint Declaration of the Operational Sovereignty Coalition.pdf','https://drive.google.com/file/d/1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-/preview','https://drive.google.com/uc?export=download&id=1UhlYGKPFBFRthfdvYHiRz8BhMepySfK-')">📄 View/Download</button>
+                            </div>
+                        </div>
+                         <div class="resource-card">
+                            <div class="resource-icon" style="background: var(--primary-color); color: white;">📜</div>
+                            <h4 class="resource-title">Presidency: General Final Declaration</h4>
+                            <p class="resource-description">The overarching final declaration from the Presidency.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('General Final Declaration of Principles .pdf', 'https://drive.google.com/file/d/1VNSAdVuGXzOs1GSjD13OTyKjVu79Vjqs/preview', 'https://drive.google.com/uc?export=download&id=1VNSAdVuGXzOs1GSjD13OTyKjVu79Vjqs')">📄 View/Download</button>
+                            </div>
+                        </div>
+                        <div class="resource-card">
+                            <div class="resource-icon" style="background: var(--primary-color); color: white;">📜</div>
+                            <h4 class="resource-title">Final Declaration of Principle (Negotiated)</h4>
+                            <p class="resource-description">The negotiated outcome reflecting amendments from Round 2.</p>
+                             <div class="resource-link-area">
+                                <button class="btn btn-secondary" onclick="viewDocument('Final Declaration of Principle.pdf', 'https://drive.google.com/file/d/1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j/preview', 'https://drive.google.com/uc?export=download&id=1exeeyqT5lyI_DzNcx6UO2Tn1J4FbCw8j')">📄 View/Download</button>
                             </div>
                         </div>
                     </div>
@@ -2877,13 +3016,51 @@
         const SIMULATION_MINUTE_CEST = 30; // Current minute is 30
         // ++++++++++++++++++++++++++++++
 
-        // OpenAI API Configuration - WARNING: DO NOT COMMIT YOUR REAL KEY TO A PUBLIC REPOSITORY
-        // REPLACE "YOUR_OPENAI_API_KEY_HERE" with your actual key if you want to use the live chat feature.
-        const OPENAI_API_KEY = "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"; // IMPORTANT: Replace with your key
+        const OPENAI_API_KEY = "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"; 
         const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-        let chatHistory = [ // Initial system prompt
+        let chatHistory = [ 
             { "role": "system", "content": `You are a helpful AI assistant for a negotiation simulation called the Malta Dialogue. Provide concise, strategic advice based on the user's delegation and the simulation's context. The simulation is currently set to May 24, ${SIMULATION_YEAR}, around ${String(SIMULATION_HOUR_CEST).padStart(2,'0')}:${String(SIMULATION_MINUTE_CEST).padStart(2,'0')} CEST.` }
         ];
+
+        // --- Activity Definitions ---
+        // Store all activity definitions centrally for easier management
+        // Times are [Year, Month_JS (0-11), Day, Hour_CEST, Minute_CEST]
+        const activityDefinitions = [
+            // May 23
+            { id: "sched-inauguration", name: "Inauguration Session (Webex)", round: 0, start: [SIMULATION_YEAR, 4, 23, 9, 0], end: [SIMULATION_YEAR, 4, 23, 12, 0] },
+            { id: "sched-round1", name: "ROUND 1 (Overall)", round: 1, start: [SIMULATION_YEAR, 4, 23, 13, 0], end: [SIMULATION_YEAR, 4, 23, 17, 0] },
+            { id: "sched-r1-opening", name: "R1.1.1 Official Opening", round: 1, start: [SIMULATION_YEAR, 4, 23, 14, 0], end: [SIMULATION_YEAR, 4, 23, 14, 20] },
+            { id: "sched-r1-dossier", name: "R1.1.2 Analysis of Technical Dossier", round: 1, start: [SIMULATION_YEAR, 4, 23, 14, 20], end: [SIMULATION_YEAR, 4, 23, 14, 45] },
+            { id: "sched-r1-prelimdraft", name: "R1.1.3 Drafting Prelim. Position Papers", round: 1, start: [SIMULATION_YEAR, 4, 23, 14, 45], end: [SIMULATION_YEAR, 4, 23, 15, 15], deliverableKey: 'preliminaryPosition_R1' },
+            { id: "sched-r1-informal", name: "R1.1.4 First Informal Exchanges", round: 1, start: [SIMULATION_YEAR, 4, 23, 15, 15], end: [SIMULATION_YEAR, 4, 23, 15, 45] },
+            { id: "sched-r1-crisis", name: "R1.2.1 Crisis", round: 1, start: [SIMULATION_YEAR, 4, 23, 15, 45], end: [SIMULATION_YEAR, 4, 23, 16, 0] }, // End time assumed for flow
+            { id: "sched-r1-reassess", name: "R1.2.2 Reassessment with allies", round: 1, start: [SIMULATION_YEAR, 4, 23, 16, 0], end: [SIMULATION_YEAR, 4, 23, 16, 20] },
+            { id: "sched-r1-presidencycall", name: "R1.2.3 Presidency Intervention", round: 1, start: [SIMULATION_YEAR, 4, 23, 16, 20], end: [SIMULATION_YEAR, 4, 23, 16, 50] },
+            { id: "sched-r1-finalsubmit", name: "R1.2.4 Delivery of Final Position Papers", round: 1, start: [SIMULATION_YEAR, 4, 23, 16, 50], end: [SIMULATION_YEAR, 4, 23, 17, 0], deliverableKey: 'finalPosition_R1' },
+            
+            // May 24
+            { id: "sched-round2", name: "ROUND 2 (Overall)", round: 2, start: [SIMULATION_YEAR, 4, 24, 9, 0], end: [SIMULATION_YEAR, 4, 24, 12, 0] },
+            { id: "sched-r2-consult", name: "R2.1.1 Consultation of Position Papers", round: 2, start: [SIMULATION_YEAR, 4, 24, 9, 10], end: [SIMULATION_YEAR, 4, 24, 9, 30] },
+            { id: "sched-r2-draftdec", name: "R2.1.2 Communication of Draft Declaration", round: 2, start: [SIMULATION_YEAR, 4, 24, 9, 30], end: [SIMULATION_YEAR, 4, 24, 9, 45] },
+            { id: "sched-r2-negostart", name: "R2.2.1 Negotiation Starts: Prioritization", round: 2, start: [SIMULATION_YEAR, 4, 24, 9, 45], end: [SIMULATION_YEAR, 4, 24, 10, 0] },
+            { id: "sched-r2-directnego", name: "R2.2.2 Direct Negotiations", round: 2, start: [SIMULATION_YEAR, 4, 24, 10, 0], end: [SIMULATION_YEAR, 4, 24, 11, 0] },
+            { id: "sched-r2-amendsubmit", name: "R2.3.1/2 Drafting & Submission of Amendments", round: 2, start: [SIMULATION_YEAR, 4, 24, 11, 0], end: [SIMULATION_YEAR, 4, 24, 12, 0], deliverableKey: 'amendmentProposals_R2' },
+
+            { id: "sched-round3", name: "ROUND 3 (Overall)", round: 3, start: [SIMULATION_YEAR, 4, 24, 13, 0], end: [SIMULATION_YEAR, 4, 24, 16, 0] },
+            { id: "sched-r3-finaldec", name: "R3.1 Publication of Final Declaration", round: 3, start: [SIMULATION_YEAR, 4, 24, 13, 0], end: [SIMULATION_YEAR, 4, 24, 13, 30] },
+            { id: "sched-r3-statementsubmit", name: "R3.2.1/2 Prep & Submission of Statements", round: 3, start: [SIMULATION_YEAR, 4, 24, 13, 30], end: [SIMULATION_YEAR, 4, 24, 14, 0], deliverableKey: 'writtenStatement_R3'},
+            { id: "sched-r3-pressconf", name: "R3.3.1 Press Conference & Q&A", round: 3, start: [SIMULATION_YEAR, 4, 24, 14, 0], end: [SIMULATION_YEAR, 4, 24, 16, 0] },
+            
+            { id: "sched-closing", name: "Closing Ceremony and Awards", round: 4, start: [SIMULATION_YEAR, 4, 24, 16, 30], end: [SIMULATION_YEAR, 4, 24, 17, 0] },
+        ];
+        
+        // Mapping dashboard timeline items to their corresponding schedule IDs
+        const dashboardToScheduleMap = {
+            "dashboard-r2-consult": "sched-r2-consult",
+            "dashboard-r2-draftdec": "sched-r2-draftdec",
+            "dashboard-r2-negostart": "sched-r2-negostart",
+            "dashboard-r2-amendsubmit": "sched-r2-amendsubmit"
+        };
 
 
         // --- Initialisation ---
@@ -2912,14 +3089,14 @@
             });
             
             initializeActivityStatusDropdowns(); 
-            initializeDefaultActivityStatuses(); 
-            loadActivityStatusesFromStorageAndApply(); 
+            initializeActivityStates(); // This now handles default and stored statuses
+            refreshAllActivityUIs(); // Apply the determined statuses to the UI
             
             initializeAllFileUploadAreas(); 
             
             updateDashboardStats(); 
             checkDeadlinesAndTimeline(); 
-            setInterval(checkDeadlinesAndTimeline, 30000); 
+            setInterval(checkDeadlinesAndTimeline, 30000); // Check every 30s
 
             document.getElementById('modalOverlay').addEventListener('click', closeModal);
         });
@@ -2930,117 +3107,142 @@
                 <option value="upcoming">Upcoming</option>
                 <option value="active">In Progress</option>
                 <option value="completed">Completed</option>
-            `; // Add more if needed: <option value="manual-progress">In Progress (M)</option> <option value="manual-upcoming">Upcoming (M)</option>
+            `; 
 
             allStatusSelects.forEach(select => {
-                // Preserve existing selected value if the select already had one (e.g. from HTML default)
                 const currentVal = select.value;
                 select.innerHTML = optionsHTML;
                 if (select.querySelector(`option[value="${currentVal}"]`)) {
                     select.value = currentVal;
                 } else {
-                    select.value = "upcoming"; // Default if previous value not in new options
+                    select.value = "upcoming"; 
                 }
             });
         }
         
-        function initializeDefaultActivityStatuses() {
+        function initializeActivityStates() {
             const nowSimulatedCEST = getSimulatedCESTTime();
-            const currentSimDay = nowSimulatedCEST.getUTCDate();
-            const currentSimHourCEST = nowSimulatedCEST.getUTCHours() + (nowSimulatedCEST.getTimezoneOffset() === -120 ? 0 : 2); // CEST is UTC+2 during DST
-            const currentSimMinute = nowSimulatedCEST.getUTCMinutes();
-
-            const defaultStatuses = {};
-            const allActivityIds = Array.from(document.querySelectorAll('.timeline-item[data-activity-id]')).map(el => el.dataset.activityId);
-            allActivityIds.forEach(id => defaultStatuses[id] = 'upcoming');
-
-
-            // --- May 23rd Activities (SIMULATION_DAY - 1) ---
-            if (SIMULATION_DAY > 23 || (SIMULATION_DAY === 23 && currentSimHourCEST >= 17) ) { // If sim is past R1 on May 23rd
-                const r1Activities = [
-                    "sched-inauguration", "sched-round1", "sched-r1-opening", "sched-r1-dossier", 
-                    "sched-r1-prelimdraft", "sched-r1-informal", "sched-r1-crisis", 
-                    "sched-r1-reassess", "sched-r1-presidencycall", "sched-r1-finalsubmit",
-                    "opening-ceremony", "technical-dossier", "preliminary-paper", "informal-exchanges",
-                    "crisis-reassessment", "final-paper-submission" // Dashboard specific IDs
-                ];
-                r1Activities.forEach(id => { if (allActivityIds.includes(id)) defaultStatuses[id] = 'completed'; });
-            }
-            // (No need for more granular May 23rd if sim day is 24th)
-
-            // --- May 24th Activities (SIMULATION_DAY) ---
-            if (currentSimDay === 24) {
-                // Round 2 (09:00 - 12:00 CEST)
-                if (currentSimHourCEST >= 9) defaultStatuses['sched-round2'] = 'active';
-                if (currentSimHourCEST >= 12) defaultStatuses['sched-round2'] = 'completed';
-                
-                // 2.1.1 (09:10 - 09:30)
-                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 10)) defaultStatuses['sched-r2-consult'] = 'active';
-                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 30)) defaultStatuses['sched-r2-consult'] = 'completed';
-                if (allActivityIds.includes('dashboard-r2-consult')) defaultStatuses['dashboard-r2-consult'] = defaultStatuses['sched-r2-consult'];
-
-
-                // 2.1.2 (09:30 - 09:45)
-                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 30)) defaultStatuses['sched-r2-draftdec'] = 'active';
-                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 45)) defaultStatuses['sched-r2-draftdec'] = 'completed';
-                if (allActivityIds.includes('dashboard-r2-draftdec')) defaultStatuses['dashboard-r2-draftdec'] = defaultStatuses['sched-r2-draftdec'];
-
-                // 2.2.1 (09:45 - 10:00)
-                if (currentSimHourCEST > 9 || (currentSimHourCEST === 9 && currentSimMinute >= 45)) defaultStatuses['sched-r2-negostart'] = 'active';
-                if (currentSimHourCEST >= 10) defaultStatuses['sched-r2-negostart'] = 'completed';
-                if (allActivityIds.includes('dashboard-r2-negostart')) defaultStatuses['dashboard-r2-negostart'] = defaultStatuses['sched-r2-negostart'];
-                
-                // 2.2.2 (10:00 - 11:00)
-                if (currentSimHourCEST >= 10) defaultStatuses['sched-r2-directnego'] = 'active';
-                if (currentSimHourCEST >= 11) defaultStatuses['sched-r2-directnego'] = 'completed';
-
-                // 2.3.1 & 2.3.2 (11:00 - 12:00)
-                if (currentSimHourCEST >= 11) defaultStatuses['sched-r2-amendsubmit'] = 'active';
-                if (currentSimHourCEST >= 12) defaultStatuses['sched-r2-amendsubmit'] = 'completed';
-                if (allActivityIds.includes('dashboard-r2-amendsubmit')) defaultStatuses['dashboard-r2-amendsubmit'] = defaultStatuses['sched-r2-amendsubmit'];
-
-                // Round 3 (13:00 - 16:00 CEST)
-                if (currentSimHourCEST >= 13) defaultStatuses['sched-round3'] = 'active';
-                if (currentSimHourCEST >= 16) defaultStatuses['sched-round3'] = 'completed';
-
-                // 3.1 (13:00 - 13:30)
-                if (currentSimHourCEST >= 13) defaultStatuses['sched-r3-finaldec'] = 'active';
-                if (currentSimHourCEST > 13 || (currentSimHourCEST === 13 && currentSimMinute >= 30)) defaultStatuses['sched-r3-finaldec'] = 'completed';
-                
-                // 3.2.1 & 3.2.2 (13:30 - 14:00)
-                if (currentSimHourCEST > 13 || (currentSimHourCEST === 13 && currentSimMinute >= 30)) defaultStatuses['sched-r3-statementsubmit'] = 'active';
-                if (currentSimHourCEST >= 14) defaultStatuses['sched-r3-statementsubmit'] = 'completed';
-                
-                // 3.3.1 (14:00 - 16:00)
-                if (currentSimHourCEST >= 14) defaultStatuses['sched-r3-pressconf'] = 'active';
-                if (currentSimHourCEST >= 16) defaultStatuses['sched-r3-pressconf'] = 'completed';
-
-                // Closing Ceremony (16:30 - 17:00 CEST)
-                if (currentSimHourCEST > 16 || (currentSimHourCEST === 16 && currentSimMinute >= 30)) defaultStatuses['sched-closing'] = 'active';
-                if (currentSimHourCEST >= 17) defaultStatuses['sched-closing'] = 'completed';
-            }
-            
-            // Merge with localStorage, giving localStorage precedence for user overrides
             const storedStatuses = JSON.parse(localStorage.getItem('activityStatuses')) || {};
-            activityStatuses = {...defaultStatuses, ...storedStatuses}; 
+            let currentActivityFound = false;
+
+            activityDefinitions.forEach(activity => {
+                const activityStartCEST = new Date(Date.UTC(activity.start[0], activity.start[1], activity.start[2], activity.start[3] - 2, activity.start[4]));
+                const activityEndCEST = new Date(Date.UTC(activity.end[0], activity.end[1], activity.end[2], activity.end[3] - 2, activity.end[4]));
+                
+                let determinedStatus = 'upcoming';
+                if (nowSimulatedCEST >= activityEndCEST) {
+                    determinedStatus = 'completed';
+                } else if (nowSimulatedCEST >= activityStartCEST && nowSimulatedCEST < activityEndCEST) {
+                    determinedStatus = 'active';
+                    if (!currentActivityFound) { // Mark the first active one for dashboard display logic
+                        activityStatuses.currentActiveActivityId = activity.id;
+                        currentActivityFound = true;
+                    }
+                }
+                // Prioritize stored manual status if it exists
+                activityStatuses[activity.id] = storedStatuses[activity.id] || determinedStatus;
+            });
+
+            // If no activity is "active" by time, but one was manually set to active, respect that for dashboard
+            if (!currentActivityFound) {
+                const manualActive = Object.keys(storedStatuses).find(key => storedStatuses[key] === 'active');
+                if (manualActive) {
+                     activityStatuses.currentActiveActivityId = manualActive;
+                }
+            }
+        }
+
+        function refreshAllActivityUIs() {
+            // Update all timeline items in the Schedule tab
+            activityDefinitions.forEach(activityDef => {
+                const itemInSchedule = document.querySelector(`#schedule .timeline-item[data-activity-id="${activityDef.id}"]`);
+                if (itemInSchedule) {
+                    updateActivityStatusUI(itemInSchedule, activityStatuses[activityDef.id] || 'upcoming');
+                    const selectElement = itemInSchedule.querySelector('.activity-status-editor select');
+                    if (selectElement) selectElement.value = activityStatuses[activityDef.id] || 'upcoming';
+                }
+            });
+
+            // Update timeline items in the Dashboard tab (they might have different data-activity-id or map to schedule ones)
+            document.querySelectorAll('#dashboard .timeline-item[data-activity-id]').forEach(dashboardItem => {
+                const dashboardActivityId = dashboardItem.dataset.activityId;
+                // Check if this dashboard ID maps to a schedule ID or is a standalone ID that should be in activityStatuses
+                const actualActivityId = dashboardToScheduleMap[dashboardActivityId] || dashboardActivityId;
+                
+                const status = activityStatuses[actualActivityId] || 'upcoming';
+                updateActivityStatusUI(dashboardItem, status);
+                const selectElement = dashboardItem.querySelector('.activity-status-editor select');
+                if (selectElement) selectElement.value = status;
+            });
+
+            updateDashboardRoundStatusIndicators();
         }
         
-        function loadActivityStatusesFromStorageAndApply() {
-            // activityStatuses should now be populated by initializeDefaultActivityStatuses (which merges with localStorage)
-            document.querySelectorAll('.timeline-item[data-activity-id]').forEach(item => {
-                const activityId = item.dataset.activityId;
-                const currentStatus = activityStatuses[activityId] || 'upcoming'; // Fallback if somehow missed
-                
-                const statusSelect = item.querySelector('.activity-status-editor select');
-                if (statusSelect) {
-                    statusSelect.value = currentStatus;
+        function updateDashboardRoundStatusIndicators() {
+            const nowSimulated = getSimulatedCESTTime();
+            const dashboardR1Indicator = document.getElementById('dashboardRound1StatusIndicator');
+            const dashboardR2Indicator = document.getElementById('dashboardRound2StatusIndicator');
+            const dashboardR1Summary = document.getElementById('dashboardRound1Summary');
+            const dashboardR2Summary = document.getElementById('dashboardRound2Summary');
+            const dashboardR2Timeline = document.getElementById('dashboardRound2Timeline');
+
+            // Round 1 Status
+            const r1Activities = activityDefinitions.filter(act => act.round === 1);
+            const r1CompletedCount = r1Activities.filter(act => activityStatuses[act.id] === 'completed').length;
+            
+            if (dashboardR1Indicator) {
+                if (r1CompletedCount === r1Activities.length) {
+                    dashboardR1Indicator.textContent = "Completed";
+                    dashboardR1Indicator.className = 'status-indicator completed';
+                    dashboardR1Summary.innerHTML = '<i>Round 1 (May 23rd) has concluded. Details in "Round 1" or "Schedule" tabs.</i>';
+                } else if (r1Activities.some(act => activityStatuses[act.id] === 'active') || (nowSimulated >= getCESTDateTime(r1Activities[0].start) && nowSimulated < getCESTDateTime(r1Activities[r1Activities.length-1].end))) {
+                    dashboardR1Indicator.textContent = "In Progress";
+                    dashboardR1Indicator.className = 'status-indicator active';
+                     dashboardR1Summary.innerHTML = '<i>Round 1 (May 23rd) is in progress or recently concluded. See Schedule for details.</i>';
+                } else {
+                    dashboardR1Indicator.textContent = "Upcoming";
+                    dashboardR1Indicator.className = 'status-indicator upcoming';
+                    dashboardR1Summary.innerHTML = '<i>Round 1 (May 23rd) is upcoming.</i>';
                 }
-                updateActivityStatusUI(item, currentStatus);
-            });
-            // No need to save to localStorage here again, as initializeDefaultActivityStatuses already does that after merging.
+            }
+
+            // Round 2 Status
+            const r2Activities = activityDefinitions.filter(act => act.round === 2);
+            const r2CompletedCount = r2Activities.filter(act => activityStatuses[act.id] === 'completed').length;
+            const r2IsActiveOrUpcoming = r2Activities.some(act => activityStatuses[act.id] === 'active' || activityStatuses[act.id] === 'upcoming');
+
+            if (dashboardR2Indicator) {
+                 if (r2CompletedCount === r2Activities.length) {
+                    dashboardR2Indicator.textContent = "Completed";
+                    dashboardR2Indicator.className = 'status-indicator completed';
+                    dashboardR2Summary.innerHTML = '<i>Round 2 (May 24th) has concluded. Details in "Round 2" or "Schedule" tabs.</i>';
+                    dashboardR2Timeline.style.display = 'block'; // Show timeline even if completed
+                } else if (r2Activities.some(act => activityStatuses[act.id] === 'active') || (nowSimulated >= getCESTDateTime(r2Activities[0].start) && nowSimulated < getCESTDateTime(r2Activities[r2Activities.length-1].end))) {
+                    dashboardR2Indicator.textContent = "⚡ ACTIVE";
+                    dashboardR2Indicator.className = 'status-indicator active';
+                    dashboardR2Summary.style.display = 'none'; // Hide summary text
+                    dashboardR2Timeline.style.display = 'block'; // Show timeline
+                } else if (nowSimulated < getCESTDateTime(r2Activities[0].start) && r1CompletedCount < r1Activities.length) {
+                     dashboardR2Indicator.textContent = "Pending R1";
+                     dashboardR2Indicator.className = 'status-indicator upcoming';
+                     dashboardR2Summary.innerHTML = '<i>Round 2 (May 24th, 09:00-12:00 CEST). Awaiting completion of Round 1.</i>';
+                     dashboardR2Timeline.style.display = 'none';
+                }
+                 else {
+                    dashboardR2Indicator.textContent = "Upcoming";
+                    dashboardR2Indicator.className = 'status-indicator upcoming';
+                    dashboardR2Summary.innerHTML = '<i>Round 2 (May 24th, 09:00-12:00 CEST) is upcoming.</i>';
+                    dashboardR2Timeline.style.display = 'none';
+                }
+            }
         }
 
-        // --- Clock and Time Functions ---
+        function getCESTDateTime(dateTimeArray) {
+            // Converts [Y, M_JS, D, H_CEST, M_CEST] to a Date object in UTC, then effectively treats it as CEST
+            return new Date(Date.UTC(dateTimeArray[0], dateTimeArray[1], dateTimeArray[2], dateTimeArray[3] - 2, dateTimeArray[4]));
+        }
+
+
         function updateRealClocks() { 
             const now = new Date(); 
             const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
@@ -3061,7 +3263,9 @@
         }
         
         function getSimulatedCESTTime() { 
-            // UTC time for May 24, 2025, 09:30 CEST (CEST is UTC+2) would be 07:30 UTC.
+            // This function now returns a Date object representing the *fixed* start of the simulation day/time
+            // To make the simulation clock "run", you'd need to update SIMULATION_HOUR_CEST and SIMULATION_MINUTE_CEST over time.
+            // For now, it's fixed to the initial values.
             const simulatedUTCTime = Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, SIMULATION_DAY, SIMULATION_HOUR_CEST - 2, SIMULATION_MINUTE_CEST, 0);
             return new Date(simulatedUTCTime);
         }
@@ -3073,11 +3277,11 @@
             let nextOverallDeadlineTask = "None";
             let isUrgent = false;
 
-            const deadlines = [
-                { name: "Prelim. Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 15-2, 15, 0)), key: 'preliminaryPosition_R1' }, 
-                { name: "Final Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 17-2, 0, 0)), key: 'finalPosition_R1' },  
-                { name: "Amendment Proposals", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 12-2, 0, 0)), key: 'amendmentProposals_R2' },
-                { name: "Written Statement", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 14-2, 0, 0)), key: 'writtenStatement_R3' } 
+            const deadlines = [ // Ensure these keys match deliverableKeys and activityDefinitions if linked
+                { name: "Prelim. Position Paper", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'preliminaryPosition_R1').end), key: 'preliminaryPosition_R1' }, 
+                { name: "Final Position Paper", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'finalPosition_R1').end), key: 'finalPosition_R1' },  
+                { name: "Amendment Proposals", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'amendmentProposals_R2').end), key: 'amendmentProposals_R2' },
+                { name: "Written Statement", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'writtenStatement_R3').end), key: 'writtenStatement_R3' } 
             ];
             
             const nowSimulated_Timestamp = nowSimulatedCEST.getTime();
@@ -3085,9 +3289,8 @@
             deadlines.forEach(dl => {
                 const deadline_Timestamp = dl.date.getTime();
                 if (nowSimulated_Timestamp < deadline_Timestamp && (!nextOverallDeadlineTime || deadline_Timestamp < nextOverallDeadlineTime.getTime())) {
-                    nextOverallDeadlineTime = dl.date; // Store as Date object
-                    // Format for display, ensuring it's shown as CEST
-                    let deadlineCESTHour = dl.date.getUTCHours() + 2; // Convert UTC hour to CEST
+                    nextOverallDeadlineTime = dl.date; 
+                    let deadlineCESTHour = dl.date.getUTCHours() + 2; 
                     let deadlineCESTMinutes = String(dl.date.getUTCMinutes()).padStart(2, '0');
                     nextOverallDeadlineText = `${dl.name} at ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
                     nextOverallDeadlineTask = dl.name;
@@ -3115,10 +3318,11 @@
             const topDeadlineEl = document.getElementById('nextDeadline');
             topDeadlineEl.style.color = isUrgent ? 'var(--danger-color)' : 'white';
             topDeadlineEl.style.fontWeight = isUrgent ? 'bold' : 'normal';
-
+            
+            // refreshAllActivityUIs(); // Refresh UI based on current time/status
             updateDashboardAlert(nowSimulatedCEST, nextOverallDeadlineTime, nextOverallDeadlineTask);
-            updateDeliverableStatuses(nowSimulatedCEST, deadlines);
-            updateDashboardStats(); 
+            updateDeliverableStatuses(nowSimulatedCEST, deadlines); //This updates the deliverable specific status dots
+            updateDashboardStats(); //This updates general dashboard cards
         }
 
         function updateDashboardAlert(nowSimulatedCEST, nextDeadlineTimeObj, nextDeadlineTask) {
@@ -3126,68 +3330,86 @@
             const titleEl = document.getElementById('dashboardAlertTitle');
             const detailEl = document.getElementById('dashboardAlertDetail');
             
-            const currentSimulatedHourCEST = nowSimulatedCEST.getUTCHours() + 2; 
+            const currentSimDay = nowSimulatedCEST.getUTCDate();
+            const currentSimHourCEST = nowSimulatedCEST.getUTCHours() + 2; 
 
-            if (nowSimulatedCEST.getUTCDate() === SIMULATION_DAY) { // It's May 24th
-                if (currentSimulatedHourCEST >= 9 && currentSimulatedHourCEST < 12) { 
+            if (currentSimDay === 23 && SIMULATION_YEAR === nowSimulatedCEST.getUTCFullYear() && SIMULATION_MONTH_JS === nowSimulatedCEST.getUTCMonth()) {
+                const r1Overall = activityDefinitions.find(a => a.id === 'sched-round1');
+                if (activityStatuses['sched-round1'] === 'completed' || nowSimulatedCEST >= getCESTDateTime(r1Overall.end)) {
+                    titleEl.textContent = "Round 1 Concluded";
+                    detailEl.textContent = "Awaiting start of Round 2 (May 24th, 09:00 CEST).";
+                    alertEl.className = 'alert alert-success';
+                } else if (activityStatuses['sched-round1'] === 'active' || (nowSimulatedCEST >= getCESTDateTime(r1Overall.start) && nowSimulatedCEST < getCESTDateTime(r1Overall.end))) {
+                    titleEl.textContent = "Round 1 In Progress";
+                    if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && (nextDeadlineTask === "Prelim. Position Paper" || nextDeadlineTask === "Final Position Paper")) {
+                        let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
+                        let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
+                        detailEl.textContent = `Next R1 deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                        alertEl.className = 'alert alert-warning';
+                         if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
+                            alertEl.className = 'alert alert-danger';
+                        }
+                    } else {
+                         detailEl.textContent = "Information management & positioning. Check schedule for current task.";
+                         alertEl.className = 'alert alert-info';
+                    }
+                } else {
+                    titleEl.textContent = "Awaiting Round 1 Start";
+                    detailEl.textContent = "Round 1 begins May 23rd, 13:00 CEST.";
+                    alertEl.className = 'alert alert-info';
+                }
+            } else if (currentSimDay === 24 && SIMULATION_YEAR === nowSimulatedCEST.getUTCFullYear() && SIMULATION_MONTH_JS === nowSimulatedCEST.getUTCMonth()) { 
+                const r2Overall = activityDefinitions.find(a => a.id === 'sched-round2');
+                const r3Overall = activityDefinitions.find(a => a.id === 'sched-round3');
+
+                if (activityStatuses['sched-round3'] === 'completed' || nowSimulatedCEST >= getCESTDateTime(r3Overall.end)) {
+                    titleEl.textContent = "All Negotiation Rounds Concluded";
+                    detailEl.textContent = "Awaiting Closing Ceremony (16:30 CEST).";
+                    alertEl.className = 'alert alert-success';
+                } else if (activityStatuses['sched-round3'] === 'active' || (nowSimulatedCEST >= getCESTDateTime(r3Overall.start) && nowSimulatedCEST < getCESTDateTime(r3Overall.end))) {
+                     titleEl.textContent = "Round 3 In Progress";
+                     if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && nextDeadlineTask === "Written Statement") {
+                        let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
+                        let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
+                        detailEl.textContent = `Next R3 deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                        alertEl.className = 'alert alert-warning';
+                        if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
+                            alertEl.className = 'alert alert-danger';
+                        }
+                    } else {
+                        detailEl.textContent = "Public communication phase. Check schedule.";
+                        alertEl.className = 'alert alert-info';
+                    }
+                } else if (activityStatuses['sched-round2'] === 'completed' || nowSimulatedCEST >= getCESTDateTime(r2Overall.end)) {
+                    titleEl.textContent = "Round 2 Concluded";
+                    detailEl.textContent = "Awaiting start of Round 3 (13:00 CEST).";
+                    alertEl.className = 'alert alert-success';
+                } else if (activityStatuses['sched-round2'] === 'active' || (nowSimulatedCEST >= getCESTDateTime(r2Overall.start) && nowSimulatedCEST < getCESTDateTime(r2Overall.end))) {
                     titleEl.textContent = "Round 2 In Progress";
                     if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && nextDeadlineTask === "Amendment Proposals") {
                         let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
                         let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
-                        detailEl.textContent = `Next deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
+                        detailEl.textContent = `Next R2 deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
                         alertEl.className = 'alert alert-warning';
                         if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
                             alertEl.className = 'alert alert-danger';
                         }
                     } else {
-                        detailEl.textContent = "Negotiations ongoing. Finalize amendments.";
+                        detailEl.textContent = "Strategic negotiation & drafting. Check schedule.";
                         alertEl.className = 'alert alert-info';
-                    }
-                } else if (currentSimulatedHourCEST >= 13 && currentSimulatedHourCEST < 16) { 
-                    titleEl.textContent = "Round 3 In Progress";
-                     if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj && nextDeadlineTask === "Written Statement") {
-                        let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
-                        let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
-                        detailEl.textContent = `Next deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
-                        alertEl.className = 'alert alert-warning';
-                        if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
-                            alertEl.className = 'alert alert-danger';
-                        }
-                    } else {
-                        detailEl.textContent = "Public communication phase.";
-                        alertEl.className = 'alert alert-info';
-                    }
-                } else if (currentSimulatedHourCEST >= 16) {
-                    titleEl.textContent = "Post-Rounds / Awaiting Closing";
-                    detailEl.textContent = "Main negotiation rounds for May 24th have concluded.";
-                    alertEl.className = 'alert alert-success';
-                } else { // Before R2 start on May 24th (e.g. if sim time was 08:00)
-                    titleEl.textContent = "Awaiting Round 2 Start";
-                    detailEl.textContent = "Round 2 begins at 09:00 CEST.";
-                    alertEl.className = 'alert alert-info';
-                }
-            } else if (nowSimulatedCEST.getUTCDate() === 23) { // If sim date was May 23rd
-                titleEl.textContent = "Round 1 In Progress / Concluded";
-                 if (nextDeadlineTimeObj && nowSimulatedCEST < nextDeadlineTimeObj) {
-                    let deadlineCESTHour = nextDeadlineTimeObj.getUTCHours() + 2;
-                    let deadlineCESTMinutes = String(nextDeadlineTimeObj.getUTCMinutes()).padStart(2, '0');
-                    detailEl.textContent = `Next R1 deadline: ${nextDeadlineTask} - ${String(deadlineCESTHour).padStart(2,'0')}:${deadlineCESTMinutes} CEST`;
-                    alertEl.className = 'alert alert-warning';
-                    if ((nextDeadlineTimeObj.getTime() - nowSimulatedCEST.getTime()) < 30 * 60 * 1000) {
-                        alertEl.className = 'alert alert-danger';
                     }
                 } else {
-                    detailEl.textContent = "Round 1 activities concluded for May 23rd.";
-                    alertEl.className = 'alert alert-success';
+                    titleEl.textContent = "Awaiting Round 2 Start";
+                    detailEl.textContent = "Round 2 begins May 24th, 09:00 CEST.";
+                    alertEl.className = 'alert alert-info';
                 }
             } else { 
                 titleEl.textContent = "Simulation Awaiting Correct Date Context";
-                detailEl.textContent = `Portal configured for May 23-24, ${SIMULATION_YEAR} simulation activities.`;
+                detailEl.textContent = `Portal configured for May 23-24, ${SIMULATION_YEAR} simulation activities. Current portal time is ${nowSimulatedCEST.toUTCString()}.`;
                 alertEl.className = 'alert alert-info';
             }
         }
         
-        // --- AI Chat Widget (OpenAI - Client Side) ---
         async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             if (!input) return;
@@ -3200,8 +3422,8 @@
                 const sendButton = input.nextElementSibling;
                 if(sendButton) sendButton.disabled = true;
 
-                if (OPENAI_API_KEY === "" || OPENAI_API_KEY === "YOUR_OPENAI_API_KEY_HERE") {
-                    appendChatMessage("ERROR: OpenAI API Key not configured. Please set it in the script.", 'system');
+                if (OPENAI_API_KEY === "" || OPENAI_API_KEY === "YOUR_OPENAI_API_KEY_HERE" || !OPENAI_API_KEY.startsWith("sk-proj-")) { 
+                    appendChatMessage("ERROR: OpenAI API Key not configured or invalid. Please set it correctly in the script.", 'system');
                     input.disabled = false;
                     if(sendButton) sendButton.disabled = false;
                     input.focus();
@@ -3210,7 +3432,7 @@
                 
                 let currentDelegationInfo = selectedDelegation ? `User is representing: ${selectedDelegation}. ` : "User has not selected a delegation. ";
                 let currentSimTime = getSimulatedCESTTime();
-                let currentSimHourCEST = currentSimTime.getUTCHours() + 2;
+                let currentSimHourCEST = currentSimTime.getUTCHours() + 2; 
                 let currentSimMinutesCEST = String(currentSimTime.getUTCMinutes()).padStart(2, '0');
 
                 let currentContext = `The simulation is currently at ${String(currentSimHourCEST).padStart(2,'0')}:${currentSimMinutesCEST} CEST on May ${currentSimTime.getUTCDate()}, ${SIMULATION_YEAR}. Advise accordingly.`;
@@ -3232,7 +3454,7 @@
                         body: JSON.stringify({
                             model: "gpt-3.5-turbo", 
                             messages: messagesForAPI, 
-                            max_tokens: 350,
+                            max_tokens: 350, 
                             temperature: 0.7 
                         })
                     });
@@ -3264,7 +3486,6 @@
             }
         }
         
-        // --- Delegation Selection, Navigation, Notifications, Utils, Modal ---
         function selectDelegation(delegation) {
             selectedDelegation = delegation;
             localStorage.setItem('selectedDelegation', delegation);
@@ -3273,6 +3494,10 @@
             if (activeBtn) activeBtn.classList.add('active');
             updateDelegationDisplay();
             showNotification('success', '✅', `Delegation of <strong>${delegation.charAt(0).toUpperCase() + delegation.slice(1)}</strong> selected.`);
+            
+            // Re-evaluate everything based on new delegation context if needed
+            initializeActivityStates(); // Re-check default vs stored, might not change much here
+            refreshAllActivityUIs();
             updateDashboardStats(); 
             checkDeadlinesAndTimeline(); 
             
@@ -3419,23 +3644,24 @@
                 { areaId: 'finalPositionUploadArea_R1', fileKey: 'finalPosition_R1', name: 'Final Position Paper (R1)' },
                 { areaId: 'amendmentProposalsUploadArea_R2', fileKey: 'amendmentProposals_R2', name: 'Amendment Proposals (R2)' },
                 { areaId: 'writtenStatementUploadArea_R3', fileKey: 'writtenStatement_R3', name: 'Final Written Statement (R3)' },
-                // Add dashboard upload area if one exists for Amendment Proposals
-                { areaId: 'amendmentProposalsUploadStatus_dashboard', fileKey: 'amendmentProposals_R2', name: 'Amendment Proposals (R2)' }
+                { areaId: 'amendmentProposalsUploadStatus_dashboard', fileKey: 'amendmentProposals_R2', name: 'Amendment Proposals (R2)' } // This one is just for status display
             ];
             areas.forEach(area => {
-                // Only initialize if the area ID exists. The dashboard version is just a status display.
+                // Only initialize full upload functionality for areas intended for uploads
                 if (document.getElementById(area.areaId) && area.areaId.includes('UploadArea')) {
                      initializeFileUploadArea(area.areaId, area.fileKey, area.name);
                 }
             });
-
-            updateDeliverableStatusesUIOnly(getSimulatedCESTTime(), [ 
-                { name: "Prelim. Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 15-2, 15, 0)), key: 'preliminaryPosition_R1' },
-                { name: "Final Position Paper", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 23, 17-2, 0, 0)), key: 'finalPosition_R1' },
-                { name: "Amendment Proposals", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 12-2, 0, 0)), key: 'amendmentProposals_R2' },
-                { name: "Written Statement", date: new Date(Date.UTC(SIMULATION_YEAR, SIMULATION_MONTH_JS, 24, 14-2, 0, 0)), key: 'writtenStatement_R3' }
-             ]);
+            // Separate call to update UI of all deliverable status display elements
+             const deadlinesConfig = [ 
+                { name: "Prelim. Position Paper", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'preliminaryPosition_R1').end), key: 'preliminaryPosition_R1' },
+                { name: "Final Position Paper", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'finalPosition_R1').end), key: 'finalPosition_R1' },
+                { name: "Amendment Proposals", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'amendmentProposals_R2').end), key: 'amendmentProposals_R2' },
+                { name: "Written Statement", date: getCESTDateTime(activityDefinitions.find(a => a.deliverableKey === 'writtenStatement_R3').end), key: 'writtenStatement_R3' }
+             ];
+            updateDeliverableStatuses(getSimulatedCESTTime(), deadlinesConfig);
         }
+
          function initializeFileUploadArea(areaId, fileKey, deliverableName) {
             const uploadAreaContainer = document.getElementById(areaId);
             if (!uploadAreaContainer) return;
@@ -3465,7 +3691,8 @@
                      ondragleave="dragLeaveHandler(event)">
                     <input type="file" id="${fileKey}-input" accept=".pdf,.doc,.docx,.txt" style="display: none;" 
                            onchange="handleFileSelect(event, '${fileKey}', '${areaId}', '${deliverableName}')">
-                    <svg class="file-upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:50px; height:50px; margin:0 auto 18px; color: #94a3b8;">
+                    <svg class="file-upload-icon" xmlns="http://www.w3.org/2000/svg"
+					 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.41 11.097H6.75z" />
                     </svg>
                     <h4>Upload ${deliverableName}</h4>
@@ -3528,7 +3755,7 @@
             reader.readAsDataURL(file);
         }
         function downloadUploadedFile(fileKey) {
-            const fileData = uploadedFiles[fileKey];
+            const fileData = uploadedFiles[fileKey] || JSON.parse(localStorage.getItem(fileKey));
             if (fileData && fileData.content) {
                 const link = document.createElement('a'); link.href = fileData.content; link.download = fileData.name;
                 document.body.appendChild(link); link.click(); document.body.removeChild(link);
@@ -3544,48 +3771,56 @@
             deliverableKeys.forEach(key => {
                 const deadlineInfo = deadlinesConfig.find(d => d.key === key);
                 if (deadlineInfo) {
-                    // For Round tabs, the status element is directly the span
-                    updateDeliverableStatusUIOnly(`${key}Status_R1`, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name); 
-                    // For Schedule tab, the ID is on the deliverable-section div
-                    updateDeliverableStatusUIOnly(`${key}UploadStatus_schedule`, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
-                    // For dashboard's amendment proposal status
-                    if (key === 'amendmentProposals_R2') {
+                    // Update status for R1 tab (e.g., preliminaryPositionStatus_R1)
+                    updateDeliverableStatusUIOnly(`${key}Status_R1`, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
+                    
+                    // Update status for Schedule tab (e.g., preliminaryPositionUploadStatus_schedule)
+                    const scheduleContainerId = `${key.replace('_R1', 'UploadStatus_schedule').replace('_R2', 'UploadStatus_schedule').replace('_R3', 'UploadStatus_schedule')}`;
+                     if (document.getElementById(scheduleContainerId)) {
+                         updateDeliverableStatusUIOnly(scheduleContainerId, key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
+                     }
+
+                    // Specific update for dashboard amendment proposals
+                    if (key === 'amendmentProposals_R2' && document.getElementById('amendmentProposalsUploadStatus_dashboard')) {
                         updateDeliverableStatusUIOnly('amendmentProposalsUploadStatus_dashboard', key, deadlineInfo.date, nowSimulatedCEST, deadlineInfo.name);
                     }
                 }
             });
         }
 
-        function updateDeliverableStatusUIOnly(statusElementIdOrContainerId, fileKey, deadline, now, deliverableName) {
-            let statusElContainer = document.getElementById(statusElementIdOrContainerId);
+        function updateDeliverableStatusUIOnly(statusElementOrContainerId, fileKey, deadline, now, deliverableName) {
+            let statusElContainer = document.getElementById(statusElementOrContainerId);
             let statusEl;
 
             if (!statusElContainer) return;
 
-            if (statusElContainer.classList.contains('deliverable-status')) { // Direct span ID (Round tabs)
+            if (statusElContainer.classList.contains('deliverable-status')) { 
                 statusEl = statusElContainer;
-            } else if (statusElContainer.classList.contains('deliverable-section')) { // Container div (Schedule, Dashboard)
+            } else if (statusElContainer.classList.contains('deliverable-section')) { 
                 statusEl = statusElContainer.querySelector('.deliverable-status');
-                if (!statusEl) { // If structure is missing, try to build it
+                if (!statusEl) { 
                     let header = statusElContainer.querySelector('.deliverable-header');
                     if (!header) {
                         header = document.createElement('div');
                         header.className = 'deliverable-header';
-                        statusElContainer.prepend(header); // Add header to the top of the section
+                        statusElContainer.prepend(header); 
                     }
                     let titleSpan = header.querySelector('.deliverable-title');
                     if(!titleSpan){
                         titleSpan = document.createElement('span');
                         titleSpan.className = 'deliverable-title';
-                        titleSpan.textContent = deliverableName;
+                        titleSpan.textContent = deliverableName; // Use the passed deliverable name
                         header.appendChild(titleSpan);
+                    } else {
+                        titleSpan.textContent = deliverableName; // Ensure title is correct
                     }
                     statusEl = document.createElement('span');
                     statusEl.className = 'deliverable-status';
                     header.appendChild(statusEl);
                 }
             } else {
-                return; 
+                // This might be a simple span (like in R1 tab)
+                statusEl = statusElContainer;
             }
             
             let deadlineCESTHour = deadline.getUTCHours() + 2;
@@ -3594,24 +3829,37 @@
 
             let statusText = `Pending - Deadline: ${deadlineString}`;
             let dotClass = "pending";
+            const fileExists = uploadedFiles[fileKey] || localStorage.getItem(fileKey);
 
-            if (uploadedFiles[fileKey]) {
-                statusText = `Submitted <small>(${new Date(uploadedFiles[fileKey].lastModified).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})})</small>`;
+
+            if (fileExists) {
+                 let submittedTime = 'N/A';
+                 if (uploadedFiles[fileKey] && uploadedFiles[fileKey].lastModified) {
+                    submittedTime = new Date(uploadedFiles[fileKey].lastModified).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+                 } else {
+                    try {
+                        const storedData = JSON.parse(localStorage.getItem(fileKey));
+                        if (storedData && storedData.lastModified) {
+                             submittedTime = new Date(storedData.lastModified).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+                        }
+                    } catch (e) { /* ignore */ }
+                 }
+                statusText = `Submitted <small>(${submittedTime})</small>`;
                 dotClass = "completed";
             } else if (now > deadline) {
                 statusText = `OVERDUE - Passed at ${deadlineString}`;
                 dotClass = "overdue";
             } else if ((deadline.getTime() - now.getTime()) < 30 * 60 * 1000 && (deadline.getTime() - now.getTime()) > 0) {
                 statusText = `URGENT: ${deadlineString}`;
-                dotClass = "pending"; // Could be 'urgent' if you add CSS for .status-dot.urgent
+                dotClass = "pending"; // Still pending, but could be styled more urgently if desired
             }
             statusEl.innerHTML = `<span class="status-dot ${dotClass}"></span> ${statusText}`;
         }
 
         function updateDashboardStats() {
             let r1DocsSubmittedCount = 0;
-            if (uploadedFiles.preliminaryPosition_R1) r1DocsSubmittedCount++;
-            if (uploadedFiles.finalPosition_R1) r1DocsSubmittedCount++;
+            if (uploadedFiles.preliminaryPosition_R1 || localStorage.getItem('preliminaryPosition_R1')) r1DocsSubmittedCount++;
+            if (uploadedFiles.finalPosition_R1 || localStorage.getItem('finalPosition_R1')) r1DocsSubmittedCount++;
             
             document.getElementById('docsSubmittedR1').textContent = `${r1DocsSubmittedCount}/2`;
             document.getElementById('docsSubmittedR1Detail').textContent = (r1DocsSubmittedCount === 2) ? "All R1 Docs Submitted ✓" : "R1 Docs Pending";
@@ -3621,7 +3869,8 @@
             const nowSimulated = getSimulatedCESTTime();
             
             if (round1NavBadge) { 
-                if (selectedDelegation && pendingR1 > 0 && (nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS && nowSimulated.getUTCDate() === 23) ) {
+                 const r1OverallActivity = activityDefinitions.find(act => act.id === 'sched-round1');
+                if (selectedDelegation && pendingR1 > 0 && activityStatuses['sched-round1'] === 'active') {
                     round1NavBadge.style.display = 'inline-block';
                     round1NavBadge.textContent = pendingR1;
                 } else {
@@ -3629,83 +3878,95 @@
                 }
             }
             
-            const currentSimulatedHourCEST = nowSimulated.getUTCHours() + 2;
+            // Overall Simulation Progress
+            const totalActivities = activityDefinitions.length;
+            const completedActivities = activityDefinitions.filter(act => activityStatuses[act.id] === 'completed').length;
+            document.getElementById('overallProgressValue').textContent = `${completedActivities} / ${totalActivities} Activities`;
+            const overallPercentage = totalActivities > 0 ? ((completedActivities / totalActivities) * 100).toFixed(0) : 0;
+            document.getElementById('overallProgressDetail').textContent = `Overall ${overallPercentage}% Complete`;
+
+
+            // Current Active Task
             const currentRoundActivityEl = document.getElementById('currentRoundActivity');
             const currentRoundActivityDetailEl = document.getElementById('currentRoundActivityDetail');
+            let activeActivityId = activityStatuses.currentActiveActivityId;
+            let activeActivityDef = activityDefinitions.find(act => act.id === activeActivityId);
 
-            if (nowSimulated.getUTCDate() === 24 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
-                if (currentSimulatedHourCEST >= 9 && currentSimulatedHourCEST < 12) {
-                    currentRoundActivityEl.textContent = "Round 2";
-                    currentRoundActivityDetailEl.textContent = "Strategic Negotiation & Drafting";
-                } else if (currentSimulatedHourCEST >= 13 && currentSimulatedHourCEST < 16) {
-                    currentRoundActivityEl.textContent = "Round 3";
-                    currentRoundActivityDetailEl.textContent = "Public Communication";
-                } else if (currentSimulatedHourCEST >= 16) {
-                     currentRoundActivityEl.textContent = "Post-Rounds";
-                    currentRoundActivityDetailEl.textContent = "Awaiting Closing";
-                } else {
-                    currentRoundActivityEl.textContent = "Pre-Round 2";
-                    currentRoundActivityDetailEl.textContent = "Awaiting R2 Start";
-                }
-            } else if (nowSimulated.getUTCDate() === 23 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
-                 currentRoundActivityEl.textContent = "Round 1";
-                 let r1ActiveDetail = "Information Management & Crisis";
-                 // Simplified detail for dashboard if R1
-                 const r1TimelineItemActive = document.querySelector('#dashboard .timeline-item.active h4');
-                 if (r1TimelineItemActive) r1ActiveDetail = r1TimelineItemActive.textContent;
-                 currentRoundActivityDetailEl.textContent = r1ActiveDetail;
-            } else {
-                currentRoundActivityEl.textContent = "Pre-Simulation";
-                currentRoundActivityDetailEl.textContent = "Awaiting Start";
+            if (activeActivityDef) {
+                currentRoundActivityEl.textContent = activeActivityDef.name;
+                currentRoundActivityDetailEl.textContent = `Round ${activeActivityDef.round} - Currently Active`;
+            } else if (completedActivities === totalActivities) {
+                 currentRoundActivityEl.textContent = "Simulation Complete";
+                 currentRoundActivityDetailEl.textContent = "All activities concluded.";
             }
-            
-            const dashboardR1Indicator = document.getElementById('dashboardRound1StatusIndicator');
-            if (dashboardR1Indicator) {
-                if (nowSimulated.getUTCDate() >= 24 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) { 
-                    dashboardR1Indicator.textContent = "Completed";
-                    dashboardR1Indicator.className = 'status-indicator completed';
-                } else if (nowSimulated.getUTCDate() === 23 && nowSimulated.getUTCFullYear() === SIMULATION_YEAR && nowSimulated.getUTCMonth() === SIMULATION_MONTH_JS) {
-                     dashboardR1Indicator.textContent = "In Progress / Concluded"; 
-                     dashboardR1Indicator.className = 'status-indicator active'; // Or 'completed' if past 17:00 CEST
-                     if(currentSimulatedHourCEST >= 17) {
-                        dashboardR1Indicator.textContent = "Concluded";
-                        dashboardR1Indicator.className = 'status-indicator completed';
-                     }
-                } else {
-                     dashboardR1Indicator.textContent = "Upcoming";
-                     dashboardR1Indicator.className = 'status-indicator upcoming';
-                }
+            else {
+                currentRoundActivityEl.textContent = "Awaiting Next Activity";
+                currentRoundActivityDetailEl.textContent = "Check schedule.";
             }
+            refreshAllActivityUIs(); // Make sure UI reflects latest activity statuses
         }
         
-        function updateActivityStatus(activityId, newStatus) {
-            activityStatuses[activityId] = newStatus;
-            localStorage.setItem('activityStatuses', JSON.stringify(activityStatuses));
-            
-            document.querySelectorAll(`.timeline-item[data-activity-id="${activityId}"]`).forEach(item => {
-                updateActivityStatusUI(item, newStatus);
-                const selectElement = item.querySelector('.activity-status-editor select');
-                if (selectElement && selectElement.value !== newStatus) {
-                    selectElement.value = newStatus;
+        function updateActivityStatus(activityId, newStatus, isManual = true) {
+            const originalActivityId = activityId; // Keep original for notification
+            // If it's a dashboard ID, get the actual schedule ID
+            const actualActivityId = dashboardToScheduleMap[activityId] || activityId;
+
+            activityStatuses[actualActivityId] = newStatus;
+            if (isManual) {
+                 localStorage.setItem('activityStatuses', JSON.stringify(activityStatuses));
+            }
+
+            // If this activity becoming active, update the global tracker
+             if (newStatus === 'active') {
+                activityStatuses.currentActiveActivityId = actualActivityId;
+            } else if (activityStatuses.currentActiveActivityId === actualActivityId && newStatus !== 'active') {
+                // If the currently tracked active task is no longer active, try to find the next one or clear it
+                let nextActiveFound = false;
+                for (const def of activityDefinitions) {
+                    if (activityStatuses[def.id] === 'active') {
+                        activityStatuses.currentActiveActivityId = def.id;
+                        nextActiveFound = true;
+                        break;
+                    }
                 }
-            });
-            showNotification('info', '🔄', `Status of activity "${activityId.replace(/-/g, ' ')}" updated to ${newStatus}.`);
+                if (!nextActiveFound) {
+                    delete activityStatuses.currentActiveActivityId;
+                }
+            }
+
+
+            refreshAllActivityUIs(); // Refresh all UIs to reflect this change and potential cascading effects
+
+            if (isManual) {
+                let readableName = originalActivityId.replace(/-/g, ' ').replace(/sched |dashboard /gi, '').trim();
+                const activityDef = activityDefinitions.find(act => act.id === actualActivityId);
+                if (activityDef) readableName = activityDef.name;
+                showNotification('info', '🔄', `Status of "${readableName}" updated to ${newStatus}.`);
+            }
             updateDashboardStats(); 
             checkDeadlinesAndTimeline(); 
         }
 
         function updateActivityStatusUI(timelineItem, status) {
-            timelineItem.classList.remove('upcoming', 'active', 'completed', 'manual-progress', 'manual-upcoming');
-            const statusIndicator = timelineItem.querySelector('.time-label .status-indicator');
-            let statusText = status.charAt(0).toUpperCase() + status.slice(1);
+            timelineItem.classList.remove('upcoming', 'active', 'completed', 'manual-progress', 'manual-upcoming'); // Clear all potential status classes
+            const statusIndicator = timelineItem.querySelector('.time-label .status-indicator'); // This is the badge-like indicator
+            let statusTextForBadge = status.charAt(0).toUpperCase() + status.slice(1);
 
-            if (status === 'active') { timelineItem.classList.add('active'); statusText="In Progress"; }
-            else if (status === 'completed') { timelineItem.classList.add('completed'); }
-            else if (status === 'upcoming') { timelineItem.classList.add('upcoming'); }
+            // Apply class to the timeline-item itself for the ::before dot styling
+            if (status === 'active') { 
+                timelineItem.classList.add('active'); 
+                statusTextForBadge = "In Progress";
+            } else if (status === 'completed') { 
+                timelineItem.classList.add('completed'); 
+            } else if (status === 'upcoming') { 
+                timelineItem.classList.add('upcoming'); 
+            } else { // Fallback for any other custom statuses if introduced
+                 timelineItem.classList.add('upcoming'); // Default dot
+            }
             
             if (statusIndicator) {
-                statusIndicator.textContent = statusText;
-                statusIndicator.className = `status-indicator ${status}`;
+                statusIndicator.textContent = statusTextForBadge;
+                statusIndicator.className = `status-indicator ${status}`; // Ensure badge class matches
             }
         }
 
@@ -3738,8 +3999,13 @@
         }
         function checkForUpdates() { 
              showNotification('info', '🔄', 'Checking for portal updates...');
+             // Re-initialize and refresh UI to simulate an update check
+             initializeActivityStates();
+             refreshAllActivityUIs();
+             updateDashboardStats();
+             checkDeadlinesAndTimeline();
             setTimeout(() => {
-                showNotification('success', '✅', 'Portal is up-to-date.');
+                showNotification('success', '✅', 'Portal status refreshed.');
             }, 1500);
         }
         function showSignalInstructions() { 
@@ -3761,40 +4027,57 @@
         }
 
         function exportSchedule() {
-            const nowSimulated = getSimulatedCESTTime(); // Use simulated year for event dates
-            const simYear = nowSimulated.getUTCFullYear();
+            const simYear = SIMULATION_YEAR; 
 
             let icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//COACH PRO Portal//Malta Dialogue Schedule//EN
 CALSCALE:GREGORIAN
+X-WR-CALNAME:Malta Dialogue Simulation Schedule
+X-WR-TIMEZONE:Europe/Zurich
+BEGIN:VTIMEZONE
+TZID:Europe/Zurich
+X-LIC-LOCATION:Europe/Zurich
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 `;
+            // Using activityDefinitions to generate ICS events
+            activityDefinitions.forEach(eventDef => {
+                const dtStartUTC = getCESTDateTime(eventDef.start); // Already a Date object in UTC equivalent
+                const dtEndUTC = getCESTDateTime(eventDef.end);     // Already a Date object in UTC equivalent
 
-            const scheduleEvents = [
-                { summary: "Inauguration Session (Webex)", dtstart: new Date(Date.UTC(simYear, 4, 23, 9-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 12-2, 0, 0)), location: "Webex", description: "Expert panels and keynote speeches. Open to public." },
-                { summary: "ROUND 1: Info Management & Positioning", dtstart: new Date(Date.UTC(simYear, 4, 23, 13-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), location: "Zoom", description: "Full Round 1 activities." },
-                { summary: "R1 - Official Opening", dtstart: new Date(Date.UTC(simYear, 4, 23, 14-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 14-2, 20, 0)), location: "Zoom Plenary" },
-                { summary: "R1 - Prelim. Position Paper Deadline", dtstart: new Date(Date.UTC(simYear, 4, 23, 15-2, 15, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 15-2, 15, 0)), location: "Google Drive", description: "Deadline for Preliminary Position Paper." },
-                { summary: "R1 - Final Position Paper Deadline", dtstart: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 23, 17-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Updated Position Paper." },
-                
-                { summary: "ROUND 2: Strategic Negotiation & Drafting", dtstart: new Date(Date.UTC(simYear, 4, 24, 9-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), location: "Zoom", description: "Full Round 2 activities." },
-                { summary: "R2 - Amendment Proposals Deadline", dtstart: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 12-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Amendment Proposals." },
+                let description = eventDef.name;
+                if (eventDef.deliverableKey) {
+                    description += ` (Deliverable: ${eventDef.deliverableKey.replace('_', ' ').replace('R1','(R1)').replace('R2','(R2)').replace('R3','(R3)')})`;
+                }
+                // Add platform links if available
+                let location = "Zoom/Webex/GDrive - Check Portal";
+                if (eventDef.id.includes("webex") || eventDef.name.toLowerCase().includes("webex")) location = "Webex";
+                else if (eventDef.id.includes("zoom") || eventDef.name.toLowerCase().includes("zoom")) location = "Zoom";
+                else if (eventDef.deliverableKey) location = "Google Drive (Submission)";
 
-                { summary: "ROUND 3: Public Communication", dtstart: new Date(Date.UTC(simYear, 4, 24, 13-0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 16-2, 0, 0)), location: "Zoom", description: "Full Round 3 activities." },
-                { summary: "R3 - Written Statement Deadline", dtstart: new Date(Date.UTC(simYear, 4, 24, 14-2, 0, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 14-2, 0, 0)), location: "Google Drive", description: "Deadline for Final Written Statement." },
-                
-                { summary: "Closing Ceremony and Awards (Webex)", dtstart: new Date(Date.UTC(simYear, 4, 24, 16-2, 30, 0)), dtend: new Date(Date.UTC(simYear, 4, 24, 17-2, 0, 0)), location: "Webex", description: "Delivery of excellence certificates and closing remarks." }
-            ];
 
-            scheduleEvents.forEach(event => {
                 icsContent += `BEGIN:VEVENT
-UID:${event.dtstart.toISOString()}-${event.summary.replace(/\s/g, '')}@coachpro.portal
+UID:${formatICSDate(dtStartUTC)}-${eventDef.id}@coachpro.portal
 DTSTAMP:${formatICSDate(new Date())}
-DTSTART:${formatICSDate(event.dtstart)}
-DTEND:${formatICSDate(event.dtend)}
-SUMMARY:${event.summary}
-LOCATION:${event.location || ''}
-DESCRIPTION:${event.description || ''}
+DTSTART:${formatICSDate(dtStartUTC)}
+DTEND:${formatICSDate(dtEndUTC)}
+SUMMARY:${eventDef.name}
+LOCATION:${location}
+DESCRIPTION:${description.replace(/\n/g, '\\n')}
 END:VEVENT
 `;
             });
@@ -3812,7 +4095,6 @@ END:VEVENT
         }
 
         function toggleNotificationPanel() { 
-            // This is a placeholder. A real implementation would show/hide a notification list panel.
             if(currentNotificationCount > 0) {
                  alert(`You have ${currentNotificationCount} active notification(s). Check the individual pop-ups.`);
             } else {
